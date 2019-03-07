@@ -6,9 +6,8 @@ extends GraphNode
 
 
 func _ready():
-	set_slot(0,true,1,Color(1,1,1,1),false,1,Color(1,0,1,1))
-	set_slot(1,true,1,Color(1,0,1,1),false,1,Color(1,0,1,1))
-	set_slot(2,true,1,Color(1,0,1,1), false,1,Color(1,0,1,1))
+	set_slot(0,true,TYPE_BOOL,Nodes.BOOL,false,1,Color(1,0,1,1))
+	set_slot(1,true,TYPE_VECTOR3,Nodes.VECTOR,false,1,Color(1,0,1,1))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -16,12 +15,12 @@ func _ready():
 "
 
 [node name="GraphNode" type="GraphNode"]
-margin_right = 32.0
-margin_bottom = 29.0
+margin_right = 75.0
+margin_bottom = 58.0
 title = "Walk"
 slot/0/left_enabled = true
 slot/0/left_type = 1
-slot/0/left_color = Color( 1, 0, 1, 1 )
+slot/0/left_color = Color( 1, 1, 1, 1 )
 slot/0/right_enabled = false
 slot/0/right_type = 1
 slot/0/right_color = Color( 1, 0, 1, 1 )
@@ -31,12 +30,6 @@ slot/1/left_color = Color( 1, 0, 1, 1 )
 slot/1/right_enabled = false
 slot/1/right_type = 1
 slot/1/right_color = Color( 1, 0, 1, 1 )
-slot/2/left_enabled = false
-slot/2/left_type = 0
-slot/2/left_color = Color( 1, 1, 1, 1 )
-slot/2/right_enabled = false
-slot/2/right_type = 0
-slot/2/right_color = Color( 1, 1, 1, 1 )
 script = SubResource( 1 )
 
 [node name="Label" type="Label" parent="."]
@@ -47,19 +40,11 @@ margin_bottom = 38.0
 hint_tooltip = "Trigger connection"
 text = "Trigger"
 
-[node name="Label2" type="Label" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_left = 16.0
 margin_top = 38.0
 margin_right = 59.0
 margin_bottom = 52.0
-hint_tooltip = "Position in 3d space"
-text = "From"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_left = 16.0
-margin_top = 53.0
-margin_right = 59.0
-margin_bottom = 67.0
 
 [node name="Label2" type="Label" parent="VBoxContainer"]
 margin_right = 43.0

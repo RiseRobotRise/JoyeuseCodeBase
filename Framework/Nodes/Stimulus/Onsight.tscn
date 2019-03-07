@@ -7,7 +7,7 @@ extends GraphNode
 func _ready():
 	set_slot(0,false,7,Color(1,1,0.5,1),true,TYPE_BOOL,Nodes.BOOL)
 	set_slot(1,false,7,Color(1,1,0.5,1),true,TYPE_VECTOR3,Nodes.VECTOR)
-	set_slot(2,false,7,Color(1,1,0.5,1),true,TYPE_VECTOR3,Nodes.VECTOR)
+	set_slot(2,false,7,Color(1,1,0.5,1),true,TYPE_INT,Nodes.INT)
 	"
 
 [node name="GraphNode" type="GraphNode"]

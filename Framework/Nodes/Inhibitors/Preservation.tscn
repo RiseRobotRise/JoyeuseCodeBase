@@ -5,7 +5,7 @@ script/source = "tool
 extends GraphNode
 
 func _ready():
-	set_slot(0,true,3,Color(1,1,1,1),false, TYPE_REAL, Nodes.FLOAT)
+	set_slot(0,true,TYPE_REAL,Nodes.FLOAT,false, TYPE_REAL, Nodes.FLOAT)
 	set_slot(1,false,1,Color(1,1,1,1),true, TYPE_BOOL, Nodes.BOOL)
 	set_slot(2,false,1,Color(1,1,1,1),true, TYPE_BOOL, Nodes.BOOL)"
 
