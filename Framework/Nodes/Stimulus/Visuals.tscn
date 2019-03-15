@@ -1,0 +1,21 @@
+[gd_scene format=2]
+
+[node name="GraphNode" type="GraphNode"]
+margin_right = 32.0
+margin_bottom = 29.0
+title = "Visuals"
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color( 1, 1, 1, 1 )
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color( 1, 1, 1, 1 )
+
+[node name="MenuButton" type="MenuButton" parent="."]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 61.0
+margin_bottom = 44.0
+text = "Type"
+items = [ "Enemy", null, 0, false, false, 0, 0, null, "", false, "Ally", null, 0, false, false, 1, 0, null, "", false, "Objective", null, 0, false, false, 2, 0, null, "", false, "Marker", null, 0, false, false, 3, 0, null, "", false ]
+

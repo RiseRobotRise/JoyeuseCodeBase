@@ -2,24 +2,18 @@ extends Tabs
 
 var type : int
 var indx  : int
-var actions = [preload("res://Nodes/Actions/Walk.tscn")]
-var stimulus = [
-	preload("res://Nodes/Stimulus/Damaged.tscn"),
-	preload("res://Nodes/Stimulus/Onsight.tscn")]
-var inhibitors = [
-	preload("res://Nodes/Inhibitors/Decision.tscn"), 
-	preload("res://Nodes/Inhibitors/Preservation.tscn")
-	]
+var idx : int = 0
+
 var customs
-var store = [stimulus,inhibitors,actions,customs]
+var store = [Nodes.stimulus,Nodes.inhibitors,Nodes.actions, customs]
 
 func _ready():
 	var Stimulus = $VSplitContainer/Panel/HBoxContainer/Stimulus.get_popup()
-	var Inhibits = $VSplitContainer/Panel/HBoxContainer/Custom.get_popup()
+	var Customs = $VSplitContainer/Panel/HBoxContainer/Custom.get_popup()
 	var Actions = $VSplitContainer/Panel/HBoxContainer/Actions.get_popup()
 	var Behave = $VSplitContainer/Panel/HBoxContainer/Inhibitions.get_popup()
 	Stimulus.connect("index_pressed",self,"_on_Stimulus_selected")
-	Inhibits.connect("index_pressed",self,"_on_Inhibitors_selected")
+	Customs.connect("index_pressed",self,"_on_Inhibitors_selected")
 	Actions.connect("index_pressed",self,"_on_Actions_selected")
 	Behave.connect("index_pressed",self, "_on_Inhibitions_selected")
 
@@ -31,7 +25,7 @@ func _on_Stimulus_selected(index):
 	type = 0
 	indx = index
 	update_labels()
-func _on_Inhibitors_selected(index):
+func _on_Customs_selected(index):
 	type = 3
 	indx = index
 	update_labels()
@@ -50,7 +44,10 @@ func update_labels():
 	Placeholder.queue_free()
 
 func _on_Add_node_pressed():
-	$VSplitContainer/HSplitContainer/GraphEdit.add_child(store[type][indx].instance())
+	var instanced = store[type][indx].instance()
+	instanced.name = instanced.title + str(idx)
+	$VSplitContainer/HSplitContainer/GraphEdit.add_child(instanced)
+	idx+=1
 
 func _on_GraphEdit_connection_request(from, from_slot, to, to_slot):
 	if from != to:
