@@ -7,7 +7,9 @@ var actions = [
 	
 var stimulus = [
 	preload("res://Nodes/Stimulus/Damaged.tscn"),
-	preload("res://Nodes/Stimulus/Onsight.tscn")
+	preload("res://Nodes/Stimulus/Onsight.tscn"),
+	preload("res://Nodes/Stimulus/Hear.tscn"),
+	preload("res://Nodes/Stimulus/Visuals.tscn")
 	]
 	
 var inhibitors = [
@@ -19,3 +21,4 @@ const VECTOR = Color(0.5,0.2,0.2,1)
 const INT = Color(0.8,0.3,1,1)
 const BOOL = Color(1,1,1,1)
 const FLOAT = Color(0,1,0,1)
+const ARRAY = Color(0.7,0.2,0.0,1.0)

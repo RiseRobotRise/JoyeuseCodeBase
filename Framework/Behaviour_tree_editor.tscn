@@ -184,5 +184,13 @@ margin_bottom = 522.0
 scroll_offset = Vector2( -110, -30 )
 script = ExtResource( 2 )
 
+[node name="MainMenu" type="PopupMenu" parent="VSplitContainer/HSplitContainer/GraphEdit"]
+margin_left = 433.528
+margin_top = 153.245
+margin_right = 515.528
+margin_bottom = 241.245
+items = [ "Stimulus", null, 0, false, false, 0, 0, null, "", false, "Inhibitors", null, 0, false, false, 1, 0, null, "", false, "Actions", null, 0, false, false, 2, 0, null, "", false, "Custom", null, 0, false, false, 3, 0, null, "", false ]
+
 [connection signal="pressed" from="VSplitContainer/HSplitContainer/VSplitContainer/VBoxContainer/Button" to="." method="_on_Add_node_pressed"]
+[connection signal="pressed" from="VSplitContainer/HSplitContainer/VSplitContainer/VBoxContainer/Button3" to="VSplitContainer/HSplitContainer/GraphEdit" method="_on_Button3_pressed"]
 [connection signal="connection_request" from="VSplitContainer/HSplitContainer/GraphEdit" to="." method="_on_GraphEdit_connection_request"]
