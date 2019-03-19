@@ -36,4 +36,11 @@ func _on_Button3_pressed():
 	print(get_connection_list())
 	pass # Replace with function body.
 
+func is_slot_occupied(to_port, to):
+	for connection in get_connection_list():
+		var from_port = connection.get("from_port")
+		var from = connection.get("from")
+		if is_node_connected(from, from_port, to, to_port ):
+			return true
+
 	

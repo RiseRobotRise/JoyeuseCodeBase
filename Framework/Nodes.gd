@@ -1,8 +1,10 @@
 extends Node
 
 var actions = [
-	preload("res://Nodes/Actions/Walk.tscn"), 
-	preload("res://Nodes/Actions/Shoot.tscn")
+	preload("res://Nodes/Actions/Go_to.tscn"), 
+	preload("res://Nodes/Actions/Shoot.tscn"),
+	preload("res://Nodes/Actions/Flee.tscn"),
+	preload("res://Nodes/Actions/Play_sound.tscn")
 	]
 	
 var stimulus = [
@@ -16,7 +18,11 @@ var inhibitors = [
 	preload("res://Nodes/Inhibitors/Decision.tscn"), 
 	preload("res://Nodes/Inhibitors/Preservation.tscn")
 	]
-	
+var misc = [ 
+	preload("res://Nodes/Misc/Math.tscn"),
+	preload("res://Nodes/Misc/Parallel.tscn")
+	]
+
 const VECTOR = Color(0.5,0.2,0.2,1)
 const INT = Color(0.8,0.3,1,1)
 const BOOL = Color(1,1,1,1)

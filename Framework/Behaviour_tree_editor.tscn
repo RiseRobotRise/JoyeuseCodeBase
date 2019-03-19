@@ -53,7 +53,7 @@ margin_left = 101.0
 margin_right = 169.0
 margin_bottom = 20.0
 text = "Stimulus"
-items = [ "Got_shot", null, 0, false, false, 0, 0, null, "", false, "Enemy_on_sight", null, 0, false, false, 1, 0, null, "", false, "RADIO_IN", null, 0, false, false, 2, 0, null, "", false, "Knowledge", null, 0, false, false, 3, 0, null, "", false ]
+items = [ "Got Shot", null, 0, false, false, 0, 0, null, "", false, "Enemy on Sight", null, 0, false, false, 1, 0, null, "", false, "Hear", null, 0, false, false, 2, 0, null, "", false, "Visuals", null, 0, false, false, 3, 0, null, "", false ]
 
 [node name="VSeparator2" type="VSeparator" parent="VSplitContainer/Panel/HBoxContainer"]
 margin_left = 173.0
@@ -65,7 +65,7 @@ margin_left = 181.0
 margin_right = 262.0
 margin_bottom = 20.0
 text = "Inhibitions"
-items = [ "Compare", null, 0, false, false, 0, 0, null, "", false, "Check_Desire", null, 0, false, false, 1, 0, null, "", false ]
+items = [ "Decision", null, 0, false, false, 0, 0, null, "", false, "Self-preservation", null, 0, false, false, 1, 0, null, "", false ]
 
 [node name="VSeparator3" type="VSeparator" parent="VSplitContainer/Panel/HBoxContainer"]
 margin_left = 266.0
@@ -77,22 +77,34 @@ margin_left = 274.0
 margin_right = 334.0
 margin_bottom = 20.0
 text = "Actions"
-items = [ "Walk", null, 0, false, false, 0, 0, null, "", false, "Flee", null, 0, false, false, 1, 0, null, "", false, "Retreat", null, 0, false, false, 2, 0, null, "", false, "Attack", null, 0, false, false, 3, 0, null, "", false, "Shoot", null, 0, false, false, 4, 0, null, "", false, "Run", null, 0, false, false, 5, 0, null, "", false, "Patrol", null, 0, false, false, 6, 0, null, "", false ]
+items = [ "Go to", null, 0, false, false, 0, 0, null, "", false, "Shoot", null, 0, false, false, 1, 0, null, "", false, "Flee", null, 0, false, false, 2, 0, null, "", false, "Play Sound", null, 0, false, false, 3, 0, null, "", false, "Shoot", null, 0, false, false, 4, 0, null, "", false, "Run", null, 0, false, false, 5, 0, null, "", false, "Patrol", null, 0, false, false, 6, 0, null, "", false ]
 
 [node name="VSeparator4" type="VSeparator" parent="VSplitContainer/Panel/HBoxContainer"]
 margin_left = 338.0
 margin_right = 342.0
 margin_bottom = 20.0
 
-[node name="Custom" type="MenuButton" parent="VSplitContainer/Panel/HBoxContainer"]
+[node name="Misc" type="MenuButton" parent="VSplitContainer/Panel/HBoxContainer"]
 margin_left = 346.0
-margin_right = 407.0
+margin_right = 388.0
+margin_bottom = 20.0
+text = "Misc"
+items = [ "Math", null, 0, false, false, 0, 0, null, "", false, "Parallel Triggering", null, 0, false, false, 1, 0, null, "", false ]
+
+[node name="VSeparator5" type="VSeparator" parent="VSplitContainer/Panel/HBoxContainer"]
+margin_left = 392.0
+margin_right = 396.0
+margin_bottom = 20.0
+
+[node name="Custom" type="MenuButton" parent="VSplitContainer/Panel/HBoxContainer"]
+margin_left = 400.0
+margin_right = 461.0
 margin_bottom = 20.0
 text = "Custom"
 
-[node name="VSeparator5" type="VSeparator" parent="VSplitContainer/Panel/HBoxContainer"]
-margin_left = 411.0
-margin_right = 415.0
+[node name="VSeparator7" type="VSeparator" parent="VSplitContainer/Panel/HBoxContainer"]
+margin_left = 465.0
+margin_right = 469.0
 margin_bottom = 20.0
 
 [node name="HSplitContainer" type="HSplitContainer" parent="VSplitContainer"]
@@ -181,6 +193,7 @@ margin_bottom = 4.0
 margin_left = 262.0
 margin_right = 1016.0
 margin_bottom = 522.0
+right_disconnects = true
 scroll_offset = Vector2( -110, -30 )
 script = ExtResource( 2 )
 
@@ -191,6 +204,35 @@ margin_right = 515.528
 margin_bottom = 241.245
 items = [ "Stimulus", null, 0, false, false, 0, 0, null, "", false, "Inhibitors", null, 0, false, false, 1, 0, null, "", false, "Actions", null, 0, false, false, 2, 0, null, "", false, "Custom", null, 0, false, false, 3, 0, null, "", false ]
 
+[node name="Stimulus" type="PopupMenu" parent="VSplitContainer/HSplitContainer/GraphEdit/MainMenu"]
+margin_left = 78.524
+margin_top = 1.38777
+margin_right = 160.524
+margin_bottom = 89.3878
+items = [ "Elemento 0", null, 0, false, false, -1, 0, null, "", false ]
+
+[node name="Inhibitors" type="PopupMenu" parent="VSplitContainer/HSplitContainer/GraphEdit/MainMenu"]
+margin_left = 78.524
+margin_top = 21.3878
+margin_right = 160.524
+margin_bottom = 109.388
+items = [ "Stimulus", null, 0, false, false, 0, 0, null, "", false, "Inhibitors", null, 0, false, false, 1, 0, null, "", false, "Actions", null, 0, false, false, 2, 0, null, "", false, "Custom", null, 0, false, false, 3, 0, null, "", false ]
+
+[node name="Actions" type="PopupMenu" parent="VSplitContainer/HSplitContainer/GraphEdit/MainMenu"]
+margin_left = 78.524
+margin_top = 41.3878
+margin_right = 160.524
+margin_bottom = 129.388
+items = [ "Stimulus", null, 0, false, false, 0, 0, null, "", false, "Inhibitors", null, 0, false, false, 1, 0, null, "", false, "Actions", null, 0, false, false, 2, 0, null, "", false, "Custom", null, 0, false, false, 3, 0, null, "", false ]
+
+[node name="Custom" type="PopupMenu" parent="VSplitContainer/HSplitContainer/GraphEdit/MainMenu"]
+margin_left = 78.524
+margin_top = 61.3878
+margin_right = 160.524
+margin_bottom = 149.388
+items = [ "Stimulus", null, 0, false, false, 0, 0, null, "", false, "Inhibitors", null, 0, false, false, 1, 0, null, "", false, "Actions", null, 0, false, false, 2, 0, null, "", false, "Custom", null, 0, false, false, 3, 0, null, "", false ]
+
 [connection signal="pressed" from="VSplitContainer/HSplitContainer/VSplitContainer/VBoxContainer/Button" to="." method="_on_Add_node_pressed"]
 [connection signal="pressed" from="VSplitContainer/HSplitContainer/VSplitContainer/VBoxContainer/Button3" to="VSplitContainer/HSplitContainer/GraphEdit" method="_on_Button3_pressed"]
 [connection signal="connection_request" from="VSplitContainer/HSplitContainer/GraphEdit" to="." method="_on_GraphEdit_connection_request"]
+[connection signal="disconnection_request" from="VSplitContainer/HSplitContainer/GraphEdit" to="." method="_on_GraphEdit_disconnection_request"]
