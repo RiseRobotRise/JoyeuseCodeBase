@@ -11,7 +11,8 @@ var stimulus = [
 	preload("res://Nodes/Stimulus/Damaged.tscn"),
 	preload("res://Nodes/Stimulus/Onsight.tscn"),
 	preload("res://Nodes/Stimulus/Hear.tscn"),
-	preload("res://Nodes/Stimulus/Visuals.tscn")
+	preload("res://Nodes/Stimulus/Visuals.tscn"),
+	preload("res://Nodes/Stimulus/Smell.tscn")
 	]
 	
 var inhibitors = [
@@ -28,3 +29,4 @@ const INT = Color(0.8,0.3,1,1)
 const BOOL = Color(1,1,1,1)
 const FLOAT = Color(0,1,0,1)
 const ARRAY = Color(0.7,0.2,0.0,1.0)
+const NIL = Color(0,0,0,1)

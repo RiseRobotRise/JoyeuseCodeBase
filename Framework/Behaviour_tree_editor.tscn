@@ -53,7 +53,7 @@ margin_left = 101.0
 margin_right = 169.0
 margin_bottom = 20.0
 text = "Stimulus"
-items = [ "Got Shot", null, 0, false, false, 0, 0, null, "", false, "Enemy on Sight", null, 0, false, false, 1, 0, null, "", false, "Hear", null, 0, false, false, 2, 0, null, "", false, "Visuals", null, 0, false, false, 3, 0, null, "", false ]
+items = [ "Got Shot", null, 0, false, false, 0, 0, null, "", false, "Enemy on Sight", null, 0, false, false, 1, 0, null, "", false, "Hear", null, 0, false, false, 2, 0, null, "", false, "Visuals", null, 0, false, false, 3, 0, null, "", false, "Smell", null, 0, false, false, 4, 0, null, "", false ]
 
 [node name="VSeparator2" type="VSeparator" parent="VSplitContainer/Panel/HBoxContainer"]
 margin_left = 173.0

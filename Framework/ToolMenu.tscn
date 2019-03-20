@@ -1,7 +1,6 @@
 [gd_scene format=2]
 
 [node name="MainMenu" type="PopupMenu"]
-visible = true
 margin_left = 434.0
 margin_top = 153.0
 margin_right = 516.0
@@ -23,7 +22,6 @@ margin_bottom = 73.0
 items = [ "Decide", null, 0, false, false, 0, 0, null, "", false, "Self-preserve", null, 0, false, false, 1, 0, null, "", false ]
 
 [node name="Actions" type="PopupMenu" parent="."]
-visible = true
 margin_left = 78.524
 margin_top = 41.3878
 margin_right = 160.524
@@ -31,7 +29,6 @@ margin_bottom = 129.388
 items = [ "Stimulus", null, 0, false, false, 0, 0, null, "", false, "Inhibitors", null, 0, false, false, 1, 0, null, "", false, "Actions", null, 0, false, false, 2, 0, null, "", false, "Custom", null, 0, false, false, 3, 0, null, "", false ]
 
 [node name="Custom" type="PopupMenu" parent="."]
-visible = true
 margin_left = 78.524
 margin_top = 61.3878
 margin_right = 160.524
