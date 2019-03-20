@@ -1,0 +1,658 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Scripts/Main_Menu.gd" type="Script" id=1]
+[ext_resource path="res://Other F.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Textures/Nametag Test.png" type="Texture" id=3]
+[ext_resource path="res://Textures/icon.png" type="Texture" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 60
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 60
+font_data = ExtResource( 2 )
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Button
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+
+
+func _on_Server_button_down():
+	if get_parent().get_node(\"LineEdit\").text != null or get_parent().get_node(\"LineEdit\").text != \"\":
+		Network.name_update(get_parent().get_node(\"LineEdit\").text)
+	else:
+		pass
+	Network._host_game()
+	#get_parent().hide()
+	pass # Replace with function body.
+"
+
+[sub_resource type="DynamicFont" id=4]
+size = 60
+font_data = ExtResource( 2 )
+
+[sub_resource type="GDScript" id=5]
+script/source = "extends Button
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+
+
+func _on_Client_button_down():
+	if get_parent().get_node(\"LineEdit\").text != null or get_parent().get_node(\"LineEdit\").text != \"\":
+		Network.name_update(get_parent().get_node(\"LineEdit\").text)
+	else:
+		pass
+	Network._join_game()
+	#get_parent().hide()
+	pass # Replace with function body.
+"
+
+[sub_resource type="DynamicFont" id=6]
+size = 60
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 50
+font_data = ExtResource( 2 )
+
+[node name="Main_Menu" type="Node2D"]
+z_index = 1
+script = ExtResource( 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 61.0
+margin_top = 1534.0
+margin_right = 937.0
+margin_bottom = 1587.0
+custom_fonts/font = SubResource( 1 )
+text = "HOST OR JOIN THE SERVER:"
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 61.0
+margin_top = 1852.0
+margin_right = 937.0
+margin_bottom = 1905.0
+custom_fonts/font = SubResource( 1 )
+text = "ENTER YOUR USERNAME:"
+
+[node name="Server" type="Button" parent="."]
+margin_left = 56.0
+margin_top = 1601.0
+margin_right = 1427.0
+margin_bottom = 1669.0
+custom_fonts/font = SubResource( 2 )
+text = "Host Server"
+script = SubResource( 3 )
+
+[node name="Client" type="Button" parent="."]
+margin_left = 59.0
+margin_top = 1684.0
+margin_right = 1427.0
+margin_bottom = 1752.0
+custom_fonts/font = SubResource( 4 )
+text = "Join Server"
+script = SubResource( 5 )
+
+[node name="LineEdit" type="LineEdit" parent="."]
+margin_left = 50.0
+margin_top = 1923.0
+margin_right = 1428.0
+margin_bottom = 2024.0
+custom_fonts/font = SubResource( 6 )
+
+[node name="PlayerList" type="Node2D" parent="." groups=[
+"Playerlist",
+]]
+position = Vector2( 3408, 156 )
+
+[node name="Label" type="Node2D" parent="PlayerList"]
+editor/display_folded = true
+position = Vector2( -692, 0 )
+
+[node name="Plate" type="Sprite" parent="PlayerList/Label"]
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="PlayerList/Label"]
+position = Vector2( -273, 0 )
+texture = ExtResource( 4 )
+
+[node name="Clan_Tag" type="Label" parent="PlayerList/Label"]
+margin_left = -186.0
+margin_top = -54.0
+margin_right = 272.0
+margin_bottom = -1.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "[UESC MARATHON]"
+
+[node name="Name_Tag" type="Label" parent="PlayerList/Label"]
+margin_left = -186.0
+margin_top = 19.0
+margin_right = 243.0
+margin_bottom = 72.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "Corruptinator"
+
+[node name="Label2" type="Node2D" parent="PlayerList"]
+editor/display_folded = true
+position = Vector2( -692, 150 )
+
+[node name="Plate" type="Sprite" parent="PlayerList/Label2"]
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="PlayerList/Label2"]
+position = Vector2( -273, 0 )
+texture = ExtResource( 4 )
+
+[node name="Clan_Tag" type="Label" parent="PlayerList/Label2"]
+margin_left = -186.0
+margin_top = -54.0
+margin_right = 272.0
+margin_bottom = -1.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "[UESC MARATHON]"
+
+[node name="Name_Tag" type="Label" parent="PlayerList/Label2"]
+margin_left = -186.0
+margin_top = 19.0
+margin_right = 243.0
+margin_bottom = 72.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "Corruptinator"
+
+[node name="Label3" type="Node2D" parent="PlayerList"]
+editor/display_folded = true
+position = Vector2( -692, 300 )
+
+[node name="Plate" type="Sprite" parent="PlayerList/Label3"]
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="PlayerList/Label3"]
+position = Vector2( -273, 0 )
+texture = ExtResource( 4 )
+
+[node name="Clan_Tag" type="Label" parent="PlayerList/Label3"]
+margin_left = -186.0
+margin_top = -54.0
+margin_right = 272.0
+margin_bottom = -1.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "[UESC MARATHON]"
+
+[node name="Name_Tag" type="Label" parent="PlayerList/Label3"]
+margin_left = -186.0
+margin_top = 19.0
+margin_right = 243.0
+margin_bottom = 72.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "Corruptinator"
+
+[node name="Label4" type="Node2D" parent="PlayerList"]
+editor/display_folded = true
+position = Vector2( -692, 450 )
+
+[node name="Plate" type="Sprite" parent="PlayerList/Label4"]
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="PlayerList/Label4"]
+position = Vector2( -273, 0 )
+texture = ExtResource( 4 )
+
+[node name="Clan_Tag" type="Label" parent="PlayerList/Label4"]
+margin_left = -186.0
+margin_top = -54.0
+margin_right = 272.0
+margin_bottom = -1.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "[UESC MARATHON]"
+
+[node name="Name_Tag" type="Label" parent="PlayerList/Label4"]
+margin_left = -186.0
+margin_top = 19.0
+margin_right = 243.0
+margin_bottom = 72.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "Corruptinator"
+
+[node name="Label5" type="Node2D" parent="PlayerList"]
+editor/display_folded = true
+position = Vector2( -692, 600 )
+
+[node name="Plate" type="Sprite" parent="PlayerList/Label5"]
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="PlayerList/Label5"]
+position = Vector2( -273, 0 )
+texture = ExtResource( 4 )
+
+[node name="Clan_Tag" type="Label" parent="PlayerList/Label5"]
+margin_left = -186.0
+margin_top = -54.0
+margin_right = 272.0
+margin_bottom = -1.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "[UESC MARATHON]"
+
+[node name="Name_Tag" type="Label" parent="PlayerList/Label5"]
+margin_left = -186.0
+margin_top = 19.0
+margin_right = 243.0
+margin_bottom = 72.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "Corruptinator"
+
+[node name="Label6" type="Node2D" parent="PlayerList"]
+editor/display_folded = true
+position = Vector2( -692, 751 )
+
+[node name="Plate" type="Sprite" parent="PlayerList/Label6"]
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="PlayerList/Label6"]
+position = Vector2( -273, 0 )
+texture = ExtResource( 4 )
+
+[node name="Clan_Tag" type="Label" parent="PlayerList/Label6"]
+margin_left = -186.0
+margin_top = -54.0
+margin_right = 272.0
+margin_bottom = -1.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "[UESC MARATHON]"
+
+[node name="Name_Tag" type="Label" parent="PlayerList/Label6"]
+margin_left = -186.0
+margin_top = 19.0
+margin_right = 243.0
+margin_bottom = 72.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "Corruptinator"
+
+[node name="Label7" type="Node2D" parent="PlayerList"]
+editor/display_folded = true
+position = Vector2( -692, 902 )
+
+[node name="Plate" type="Sprite" parent="PlayerList/Label7"]
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="PlayerList/Label7"]
+position = Vector2( -273, 0 )
+texture = ExtResource( 4 )
+
+[node name="Clan_Tag" type="Label" parent="PlayerList/Label7"]
+margin_left = -186.0
+margin_top = -54.0
+margin_right = 272.0
+margin_bottom = -1.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "[UESC MARATHON]"
+
+[node name="Name_Tag" type="Label" parent="PlayerList/Label7"]
+margin_left = -186.0
+margin_top = 19.0
+margin_right = 243.0
+margin_bottom = 72.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "Corruptinator"
+
+[node name="Label8" type="Node2D" parent="PlayerList"]
+editor/display_folded = true
+position = Vector2( -692, 1052 )
+
+[node name="Plate" type="Sprite" parent="PlayerList/Label8"]
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="PlayerList/Label8"]
+position = Vector2( -273, 0 )
+texture = ExtResource( 4 )
+
+[node name="Clan_Tag" type="Label" parent="PlayerList/Label8"]
+margin_left = -186.0
+margin_top = -54.0
+margin_right = 272.0
+margin_bottom = -1.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "[UESC MARATHON]"
+
+[node name="Name_Tag" type="Label" parent="PlayerList/Label8"]
+margin_left = -186.0
+margin_top = 19.0
+margin_right = 243.0
+margin_bottom = 72.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "Corruptinator"
+
+[node name="Label9" type="Node2D" parent="PlayerList"]
+position = Vector2( 8, 0 )
+
+[node name="Plate" type="Sprite" parent="PlayerList/Label9"]
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="PlayerList/Label9"]
+position = Vector2( -273, 0 )
+texture = ExtResource( 4 )
+
+[node name="Clan_Tag" type="Label" parent="PlayerList/Label9"]
+margin_left = -186.0
+margin_top = -54.0
+margin_right = 272.0
+margin_bottom = -1.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "[UESC MARATHON]"
+
+[node name="Name_Tag" type="Label" parent="PlayerList/Label9"]
+margin_left = -186.0
+margin_top = 19.0
+margin_right = 243.0
+margin_bottom = 72.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "Corruptinator"
+
+[node name="Label10" type="Node2D" parent="PlayerList"]
+editor/display_folded = true
+position = Vector2( 8, 150 )
+
+[node name="Plate" type="Sprite" parent="PlayerList/Label10"]
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="PlayerList/Label10"]
+position = Vector2( -273, 0 )
+texture = ExtResource( 4 )
+
+[node name="Clan_Tag" type="Label" parent="PlayerList/Label10"]
+margin_left = -186.0
+margin_top = -54.0
+margin_right = 272.0
+margin_bottom = -1.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "[UESC MARATHON]"
+
+[node name="Name_Tag" type="Label" parent="PlayerList/Label10"]
+margin_left = -186.0
+margin_top = 19.0
+margin_right = 243.0
+margin_bottom = 72.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "Corruptinator"
+
+[node name="Label11" type="Node2D" parent="PlayerList"]
+editor/display_folded = true
+position = Vector2( 8, 300 )
+
+[node name="Plate" type="Sprite" parent="PlayerList/Label11"]
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="PlayerList/Label11"]
+position = Vector2( -273, 0 )
+texture = ExtResource( 4 )
+
+[node name="Clan_Tag" type="Label" parent="PlayerList/Label11"]
+margin_left = -186.0
+margin_top = -54.0
+margin_right = 272.0
+margin_bottom = -1.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "[UESC MARATHON]"
+
+[node name="Name_Tag" type="Label" parent="PlayerList/Label11"]
+margin_left = -186.0
+margin_top = 19.0
+margin_right = 243.0
+margin_bottom = 72.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "Corruptinator"
+
+[node name="Label12" type="Node2D" parent="PlayerList"]
+editor/display_folded = true
+position = Vector2( 8, 450 )
+
+[node name="Plate" type="Sprite" parent="PlayerList/Label12"]
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="PlayerList/Label12"]
+position = Vector2( -273, 0 )
+texture = ExtResource( 4 )
+
+[node name="Clan_Tag" type="Label" parent="PlayerList/Label12"]
+margin_left = -186.0
+margin_top = -54.0
+margin_right = 272.0
+margin_bottom = -1.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "[UESC MARATHON]"
+
+[node name="Name_Tag" type="Label" parent="PlayerList/Label12"]
+margin_left = -186.0
+margin_top = 19.0
+margin_right = 243.0
+margin_bottom = 72.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "Corruptinator"
+
+[node name="Label13" type="Node2D" parent="PlayerList"]
+editor/display_folded = true
+position = Vector2( 8, 600 )
+
+[node name="Plate" type="Sprite" parent="PlayerList/Label13"]
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="PlayerList/Label13"]
+position = Vector2( -273, 0 )
+texture = ExtResource( 4 )
+
+[node name="Clan_Tag" type="Label" parent="PlayerList/Label13"]
+margin_left = -186.0
+margin_top = -54.0
+margin_right = 272.0
+margin_bottom = -1.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "[UESC MARATHON]"
+
+[node name="Name_Tag" type="Label" parent="PlayerList/Label13"]
+margin_left = -186.0
+margin_top = 19.0
+margin_right = 243.0
+margin_bottom = 72.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "Corruptinator"
+
+[node name="Label14" type="Node2D" parent="PlayerList"]
+editor/display_folded = true
+position = Vector2( 8, 751 )
+
+[node name="Plate" type="Sprite" parent="PlayerList/Label14"]
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="PlayerList/Label14"]
+position = Vector2( -273, 0 )
+texture = ExtResource( 4 )
+
+[node name="Clan_Tag" type="Label" parent="PlayerList/Label14"]
+margin_left = -186.0
+margin_top = -54.0
+margin_right = 272.0
+margin_bottom = -1.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "[UESC MARATHON]"
+
+[node name="Name_Tag" type="Label" parent="PlayerList/Label14"]
+margin_left = -186.0
+margin_top = 19.0
+margin_right = 243.0
+margin_bottom = 72.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "Corruptinator"
+
+[node name="Label16" type="Node2D" parent="PlayerList"]
+editor/display_folded = true
+position = Vector2( 8, 1052 )
+
+[node name="Plate" type="Sprite" parent="PlayerList/Label16"]
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="PlayerList/Label16"]
+position = Vector2( -273, 0 )
+texture = ExtResource( 4 )
+
+[node name="Clan_Tag" type="Label" parent="PlayerList/Label16"]
+margin_left = -186.0
+margin_top = -54.0
+margin_right = 272.0
+margin_bottom = -1.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "[UESC MARATHON]"
+
+[node name="Name_Tag" type="Label" parent="PlayerList/Label16"]
+margin_left = -186.0
+margin_top = 19.0
+margin_right = 243.0
+margin_bottom = 72.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "Corruptinator"
+
+[node name="Label15" type="Node2D" parent="PlayerList"]
+editor/display_folded = true
+position = Vector2( 8, 902 )
+
+[node name="Plate" type="Sprite" parent="PlayerList/Label15"]
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="PlayerList/Label15"]
+position = Vector2( -273, 0 )
+texture = ExtResource( 4 )
+
+[node name="Clan_Tag" type="Label" parent="PlayerList/Label15"]
+margin_left = -186.0
+margin_top = -54.0
+margin_right = 272.0
+margin_bottom = -1.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "[UESC MARATHON]"
+
+[node name="Name_Tag" type="Label" parent="PlayerList/Label15"]
+margin_left = -186.0
+margin_top = 19.0
+margin_right = 243.0
+margin_bottom = 72.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color_shadow = Color( 0.431373, 0.431373, 0.431373, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "Corruptinator"
+
+[connection signal="button_down" from="Server" to="Server" method="_on_Server_button_down"]
+[connection signal="button_down" from="Client" to="Client" method="_on_Client_button_down"]
