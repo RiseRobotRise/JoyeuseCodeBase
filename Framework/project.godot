@@ -8,9 +8,14 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "KinematicBody",
+"class": "MovableKinematic",
+"language": "GDScript",
+"path": "res://Kinematic_Movable.gd"
+} ]
 _global_script_class_icons={
-
+"MovableKinematic": ""
 }
 
 [application]
@@ -22,6 +27,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Nodes="*res://Nodes.gd"
+RAD="*res://Helpers.gd"
 
 [input]
 

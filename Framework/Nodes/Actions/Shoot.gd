@@ -1,5 +1,9 @@
 tool
 extends GraphNode
+var func_name = "shoot"
+#var content = [
+#	trigger,
+#	to]
 
 func _ready():
 	set_slot(0,true,TYPE_BOOL,Nodes.BOOL,false,TYPE_BOOL,Nodes.BOOL)

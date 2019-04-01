@@ -11,7 +11,7 @@ export(int) var indifference = 10
 export(float) var smellarea = 5
 export(float) var heararea = 10
 export(float) var health = 100
-export(float) var speedfactor = 0.4
+
 
 
 #time for timers
@@ -19,17 +19,7 @@ export(int) var timewaiting = 2
 
 
 #Movement Values
-export(bool) var flies = false
-export(bool) var fixed_up = true
-export(float) var weight = 1
-export(float) var max_speed = 10
-export(int) var turn_speed = 40
-export(float) var accel = 19.0
-export(float) var deaccel = 14.0
-export(bool) var keep_jump_inertia = true
-export(bool) var air_idle_deaccel = false
-export(float) var JumpHeight = 7.0
-export(float) var grav = 9.8
+
 
 #Globals
 var initialized = false
@@ -45,11 +35,10 @@ var has_target = false
 
 var position =Vector3(0,0,0)
 var randposition =Vector3(0,0,0)
-var linear_velocity = Vector3()
-var gravity = Vector3(0,-grav,0)
-var sharp_turn_threshold = 140
+
+
 var jump_attempt = false
-var jumping = false
+
 var globaldelta = 0.0
 var CHAR_SCALE = Vector3(1, 1, 1)
 var is_moving = false

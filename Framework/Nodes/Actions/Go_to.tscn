@@ -3,7 +3,10 @@
 [sub_resource type="GDScript" id=1]
 script/source = "tool
 extends GraphNode
-
+var func_name = \"move_to\"
+var content = [
+	\"trigger\",
+	\"to\"]
 
 func _ready():
 	set_slot(0,true,TYPE_BOOL,Nodes.BOOL,false,1,Color(1,0,1,1))

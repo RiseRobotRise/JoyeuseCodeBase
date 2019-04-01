@@ -27,7 +27,15 @@ func _input(event):
 func compile(Connections):
 	#Check data types, translate into signals and code. 
 	for elements in Connections:
-		pass
+		var from_port = elements.get("from_port")
+		var from = elements.get("from")
+		var to_port = elements.get("to_port")
+		var to = elements.get("to")
+		var to_node = get_node(to)
+		var from_node = get_node(from)
+		to_node.content[to_port]
+		from_node.content[from_port]
+		var function = "call_deferred("
 	pass
 func _on_node_selected(node):
 	Currently_selected = node
