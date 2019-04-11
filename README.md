@@ -19,12 +19,12 @@ The users are given certain parameters to make sure the model they selected is o
 This level editor is archieved through a series of different methods, the main editor will allow the users to prototype their levels using CSG shapes and use Grid Maps if they desire to, providing a layered approach. 
 
 
-#Prefabs, nodes and addons
+# Prefabs, nodes and addons
 
-##Workstations
+## Workstations
 Workstations (Or objectives) serve as a reference point for AI, so it looks for it, be it whatever you need it to be, from resources, food, water, terminals, reactors, etc. Anything that can serve for a Character to look for will be archievable with workstations. 
 
-##KinematicMovable 
+## KinematicMovable 
 Inherits from KinematicBody, allows easier implementation of characters through simplified functions that allow gravity, acceleration, deacceleration and other parameters to be changed from code. 
 
 
