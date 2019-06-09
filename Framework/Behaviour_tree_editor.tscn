@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Behaviour_tree_editor.gd" type="Script" id=1]
-[ext_resource path="res://Graph_compiler.gd" type="Script" id=2]
+[ext_resource path="res://BehaviorParameters.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Graph_compiler.gd" type="Script" id=3]
 
 [node name="Behaviour" type="Tabs"]
 anchor_right = 1.0
@@ -113,16 +114,16 @@ margin_right = 1016.0
 margin_bottom = 564.0
 
 [node name="VSplitContainer" type="VSplitContainer" parent="VSplitContainer/HSplitContainer"]
-margin_right = 250.0
+margin_right = 223.0
 margin_bottom = 522.0
 dragger_visibility = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VSplitContainer/HSplitContainer/VSplitContainer"]
-margin_right = 250.0
-margin_bottom = 80.0
+margin_right = 223.0
+margin_bottom = 522.0
 
 [node name="selection" type="HBoxContainer" parent="VSplitContainer/HSplitContainer/VSplitContainer/VBoxContainer"]
-margin_right = 250.0
+margin_right = 223.0
 margin_bottom = 14.0
 
 [node name="title" type="Label" parent="VSplitContainer/HSplitContainer/VSplitContainer/VBoxContainer/selection"]
@@ -138,7 +139,7 @@ text = "NODE_NAME"
 
 [node name="type" type="HBoxContainer" parent="VSplitContainer/HSplitContainer/VSplitContainer/VBoxContainer"]
 margin_top = 18.0
-margin_right = 250.0
+margin_right = 223.0
 margin_bottom = 32.0
 
 [node name="title" type="Label" parent="VSplitContainer/HSplitContainer/VSplitContainer/VBoxContainer/type"]
@@ -154,48 +155,28 @@ text = "NODE_TYPE"
 
 [node name="Button" type="Button" parent="VSplitContainer/HSplitContainer/VSplitContainer/VBoxContainer"]
 margin_top = 36.0
-margin_right = 250.0
+margin_right = 223.0
 margin_bottom = 56.0
 text = "Add to Tree"
 
 [node name="Button3" type="Button" parent="VSplitContainer/HSplitContainer/VSplitContainer/VBoxContainer"]
 margin_top = 60.0
-margin_right = 250.0
+margin_right = 223.0
 margin_bottom = 80.0
 text = "Compile"
 
-[node name="Panel2" type="Panel" parent="VSplitContainer/HSplitContainer/VSplitContainer"]
-margin_top = 92.0
-margin_right = 250.0
-margin_bottom = 522.0
-rect_min_size = Vector2( 250, 0 )
-
-[node name="VSplitContainer" type="VSplitContainer" parent="VSplitContainer/HSplitContainer/VSplitContainer/Panel2"]
-margin_right = 40.0
-margin_bottom = 40.0
-dragger_visibility = 1
-
-[node name="Label" type="Label" parent="VSplitContainer/HSplitContainer/VSplitContainer/Panel2/VSplitContainer"]
-margin_right = 65.0
-margin_bottom = 14.0
-text = "Last used:"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VSplitContainer/HSplitContainer/VSplitContainer/Panel2/VSplitContainer"]
-margin_top = 26.0
-margin_right = 65.0
-margin_bottom = 40.0
-
-[node name="HSeparator" type="HSeparator" parent="VSplitContainer/HSplitContainer/VSplitContainer/Panel2/VSplitContainer/VBoxContainer"]
-margin_right = 65.0
-margin_bottom = 4.0
+[node name="HSplitContainer" parent="VSplitContainer/HSplitContainer/VSplitContainer/VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 84.0
+margin_right = 223.0
+margin_bottom = 440.0
 
 [node name="GraphEdit" type="GraphEdit" parent="VSplitContainer/HSplitContainer"]
-margin_left = 262.0
+margin_left = 235.0
 margin_right = 1016.0
 margin_bottom = 522.0
 right_disconnects = true
 scroll_offset = Vector2( -110, -30 )
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 
 [node name="MainMenu" type="PopupMenu" parent="VSplitContainer/HSplitContainer/GraphEdit"]
 margin_left = 433.528
@@ -231,7 +212,6 @@ margin_top = 61.3878
 margin_right = 160.524
 margin_bottom = 149.388
 items = [ "Stimulus", null, 0, false, false, 0, 0, null, "", false, "Inhibitors", null, 0, false, false, 1, 0, null, "", false, "Actions", null, 0, false, false, 2, 0, null, "", false, "Custom", null, 0, false, false, 3, 0, null, "", false ]
-
 [connection signal="pressed" from="VSplitContainer/HSplitContainer/VSplitContainer/VBoxContainer/Button" to="." method="_on_Add_node_pressed"]
 [connection signal="pressed" from="VSplitContainer/HSplitContainer/VSplitContainer/VBoxContainer/Button3" to="VSplitContainer/HSplitContainer/GraphEdit" method="_on_Button3_pressed"]
 [connection signal="connection_request" from="VSplitContainer/HSplitContainer/GraphEdit" to="." method="_on_GraphEdit_connection_request"]

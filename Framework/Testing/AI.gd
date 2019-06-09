@@ -1,4 +1,5 @@
-extends MovableKinematic
+class_name AI_Character
+extends Character
 
 
 onready var WORLD = get_node("/root/world")
@@ -6,6 +7,9 @@ var current_point : Vector3 = Vector3(0,0,0)
 var point_number :int = 0
 var AI_PATH : Array = []
 var has_destination = false
+
+#### Signals ####
+signal got_shot(why)
 
 ###############Basic Movement Functions####################
 func update_path(to):
@@ -64,11 +68,9 @@ func _ready():
 	
 func _process(delta):
 	if has_destination:
-		#print("Has desitnation")
 		var vector = (current_point-translation)
 		
 		if (vector).length() > 1:
-			#print("Entered movement conditional")
 			vector = current_point-translation
 			
 			spatial_move_to(vector, delta)
@@ -79,6 +81,10 @@ func _process(delta):
 				print("translation is" + str(translation))
 		
 	else:
-		#print("Does not have destination")
 		spatial_move_to(Vector3(), delta)
 	
+
+func _on_Eyes_sight(objects, points, normals):
+	for object in objects:
+		if object is AI_Character or object is Player:
+			var Objective = RAD._get_object_info(object)

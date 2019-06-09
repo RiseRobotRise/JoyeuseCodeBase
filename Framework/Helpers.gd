@@ -41,3 +41,18 @@ func adjust_facing(p_facing, p_target, p_step, p_adjust_rate, current_gn):
 	ang = (ang - a)*s
 
 	return (n*cos(ang) + t*sin(ang))*p_facing.length()
+	
+
+func _get_object_info(object:Node):
+	var propetries = {}
+	var type
+	if object.has_method("get_global_transform"):
+		if object is StaticBody:
+			return
+		else:
+			propetries = {
+				"position" : object.translation,
+				"type" : object.get_type(),
+				"health" : object.health(),
+				"team" : object.team
+				 }

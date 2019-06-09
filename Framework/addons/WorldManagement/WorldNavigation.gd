@@ -47,10 +47,13 @@ func _input(event):
 func find_shortest_path(from: Vector3, to : Vector3):
 	var absoulut = get_absolute_path(from, to)
 	var navmesh = get_navmesh_path(from, to)
-	if min(absoulut.size(),navmesh.size()) == absoulut.size():
+	if min(absoulut.size(), navmesh.size()) == absoulut.size():
 		return absoulut
 	else:
-		return navmesh 
+		if navmesh.size()>1:
+			return navmesh 
+		else:
+			return absoulut
 
 
 func get_navmesh_path(from: Vector3, to: Vector3):
@@ -96,7 +99,7 @@ func get_absolute_path(from:Vector3, to:Vector3):
 			
 	#Finally, we return the full path to the given position. 
 	return astar_path
-	
+
 func calculate_astar():
 	var AstarPath = $Path.get_curve()
 	for  x in AstarPath.get_point_count(): #Get all points in the Curve 3D

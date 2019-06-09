@@ -1,6 +1,7 @@
-class_name MovableKinematic
+class_name Character
 extends KinematicBody
-
+var team = 0
+var health = 100
 var jumping = false
 export(bool) var flies = false
 export(bool) var fixed_up = true
