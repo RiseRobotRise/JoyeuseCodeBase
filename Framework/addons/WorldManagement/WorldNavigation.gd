@@ -1,3 +1,4 @@
+class_name World_Navigator, "res://icons/icon.png"
 extends Navigation
 var astar : AStar = AStar.new()
 

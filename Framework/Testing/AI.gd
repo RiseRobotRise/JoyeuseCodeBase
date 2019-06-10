@@ -1,4 +1,4 @@
-class_name AI_Character
+class_name AI_Character, "res://icons/IA_icon.png"
 extends Character
 
 
@@ -9,7 +9,7 @@ var AI_PATH : Array = []
 var has_destination = false
 
 #### Signals ####
-signal got_shot(why)
+signal got_shot(damage, type)
 
 ###############Basic Movement Functions####################
 func update_path(to):

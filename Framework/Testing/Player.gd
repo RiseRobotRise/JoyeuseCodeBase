@@ -1,5 +1,5 @@
-class_name Player
-extends MovableKinematic
+class_name Player, "res://icons/player.png"
+extends Character
 var current_state = 0 
 enum {
 	IDLE = 1,
