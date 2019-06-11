@@ -10,6 +10,7 @@ var has_destination = false
 
 #### Signals ####
 signal got_shot(damage, type)
+signal heard_something(where)
 
 ###############Basic Movement Functions####################
 func update_path(to):
@@ -64,6 +65,7 @@ func decide_fuzzy(motiv1,motiv2,motiv3, signal1, signal2, signal3):
 
 
 func _ready():
+	get_parent()._register_AI_Actor(self)
 	pass
 	
 func _process(delta):
@@ -84,7 +86,12 @@ func _process(delta):
 		spatial_move_to(Vector3(), delta)
 	
 
+func dead():
+	get_parent()._unregister_AI_Actor(self)
+	if bleeds:
+		get_parent().emit_signal("smell_emitted",translation,blood_smell_intensity)
+
 func _on_Eyes_sight(objects, points, normals):
 	for object in objects:
-		if object is AI_Character or object is Player:
+		if object is Character:
 			var Objective = RAD._get_object_info(object)

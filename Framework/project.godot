@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Testing/Player.gd"
 }, {
+"base": "Spatial",
+"class": "Sound_Smell_Manager",
+"language": "GDScript",
+"path": "res://Basics/Sound_Smell_system.gd"
+}, {
 "base": "Navigation",
 "class": "World_Navigator",
 "language": "GDScript",
@@ -33,6 +38,7 @@ _global_script_class_icons={
 "AI_Character": "res://icons/IA_icon.png",
 "Character": "",
 "Player": "res://icons/player.png",
+"Sound_Smell_Manager": "",
 "World_Navigator": "res://icons/icon.png"
 }
 

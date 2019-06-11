@@ -1,8 +1,21 @@
 class_name Character
 extends KinematicBody
+
+#### Character variables ####
+
 var team = 0
 var health = 100
 var jumping = false
+var hearing_capability = 1
+var smelling_capablity = 1
+var bleeds = true
+var bleeding_smell_intensity = 10
+var step_sound_intensity = 0 # This is calculated from physics values
+
+
+
+#### Movement and physics variables ####
+ 
 export(bool) var flies = false
 export(bool) var fixed_up = true
 export(float) var weight = 1
@@ -21,6 +34,8 @@ var up = Vector3()
 export(float) var speedfactor = 0.8
 var sharp_turn_threshold = 140
 
+func _physics_process(delta):
+	step_sound_intensity = weight*(gravity/9.8) * linear_velocity.length()
 
 func spatial_move_to(vector,delta):
 	
