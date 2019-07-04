@@ -12,27 +12,37 @@ _global_script_classes=[ {
 "base": "Character",
 "class": "AI_Character",
 "language": "GDScript",
-"path": "res://Basics/AI.gd"
+"path": "res://Basics/Characters/AI.gd"
 }, {
 "base": "KinematicBody",
 "class": "Character",
 "language": "GDScript",
-"path": "res://Basics/Character.gd"
+"path": "res://Basics/Characters/Character.gd"
+}, {
+"base": "Position3D",
+"class": "NavigationWaypoint",
+"language": "GDScript",
+"path": "res://Basics/Navigation/Navigation_Waypoint.gd"
+}, {
+"base": "Path",
+"class": "Navigation_Path",
+"language": "GDScript",
+"path": "res://Basics/Navigation/Navmesh_Path.gd"
 }, {
 "base": "Character",
 "class": "Player",
 "language": "GDScript",
-"path": "res://Basics/Player.gd"
+"path": "res://Basics/Characters/Player.gd"
 }, {
 "base": "Spatial",
 "class": "Sound_Smell_Manager",
 "language": "GDScript",
-"path": "res://Basics/Sound_Smell_system.gd"
+"path": "res://Basics/General_systems/Sound_Smell_system.gd"
 }, {
-"base": "Area",
+"base": "KinematicBody",
 "class": "Workstation",
 "language": "GDScript",
-"path": "res://Basics/Workstation.gd"
+"path": "res://Basics/Objectives/Workstation.gd"
 }, {
 "base": "Navigation",
 "class": "World_Navigator",
@@ -42,21 +52,22 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "AI_Character": "",
 "Character": "",
-"Player": "",
+"NavigationWaypoint": "",
+"Navigation_Path": "",
+"Player": "res://icons/player.png",
 "Sound_Smell_Manager": "res://icons/SH_SYSTEM.png",
-"Workstation": "",
+"Workstation": "res://icons/workstation.png",
 "World_Navigator": "res://icons/icon.png"
 }
 
 [application]
 
 config/name="Joyeuse"
-run/main_scene="res://AI_Editor.tscn"
+run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-Nodes="*res://Nodes.gd"
 RAD="*res://Helpers.gd"
 
 [input]

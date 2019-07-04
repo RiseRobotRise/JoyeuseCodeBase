@@ -61,3 +61,6 @@ func _get_object_info(object:Node):
 				"health" : object.health,
 				"team" : object.team
 				 }
+			return propetries.values()
+func debug_print(what):
+	print(what)

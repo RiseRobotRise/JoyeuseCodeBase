@@ -7,12 +7,17 @@ var current_point : Vector3 = Vector3(0,0,0)
 var point_number :int = 0
 var AI_PATH : Array = []
 var has_destination = false
+var has_target = false
+
+#### Properties ####
+export(float) var attack_min_range = 10
+export(float) var attack_max_range = 50
 
 #### Signals ####
-signal saw(type, where)
+signal saw_object(object_info)
 signal got_shot(damage, type)
-signal heard_something(where)
-signal smell_something(where)
+signal heard_something(position)
+signal smell_something(position)
 
 ###############Basic Movement Functions####################
 func update_path(to):
@@ -44,6 +49,7 @@ func move(to):
 ##############Behavioral Functions##########################
 
 func walk(to):
+	
 	pass
 	
 func flee(from):
@@ -89,13 +95,13 @@ func decide_fuzzy(motiv1,motiv2,motiv3, signal1, signal2, signal3):
 
 func _ready():
 	get_parent()._register_AI_Actor(self)
-	pass
-	
+
+
 func _process(delta):
 	if has_destination:
 		var vector = (current_point-translation)
 		
-		if (vector).length() > 1:
+		if (vector).length() > 2:
 			vector = current_point-translation
 			
 			spatial_move_to(vector, delta)
@@ -119,11 +125,8 @@ func nothing(var1 = null, var2 = null, var4= null, var5 = null, var6=null):
 
 func _on_Eyes_sight(objects, points, normals):
 	for object in objects:
-		if object is Character:
-			var Objective = RAD._get_object_info(object)
-			print("SAW A CHARACTER!!! WHOOO!!!")
-			emit_signal("saw", "Character", object)
-		if object is Workstation:
-			var Objective = RAD._get_object_info(object)
-			print("WORKSTATION")
-			emit_signal("saw", "Objective", object)
+		if object is Character or object is Workstation:
+			var Objective_info = RAD._get_object_info(object)
+			RAD.debug_print("Saw an objective")
+			emit_signal("saw_object", Objective_info)
+

@@ -1,10 +1,14 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://addons/WorldManagement/WorldNavigation.gd" type="Script" id=1]
-[ext_resource path="res://addons/WorldManagement/MeshTracer.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Basics/Sound_Smell_system.gd" type="Script" id=3]
-[ext_resource path="res://Basics/AI_TEST.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Basics/Player.gd" type="Script" id=5]
+[ext_resource path="res://Basics/Characters/AI.gd" type="Script" id=2]
+[ext_resource path="res://Basics/General_systems/Sound_Smell_system.gd" type="Script" id=3]
+[ext_resource path="res://Basics/Characters/Eyes.gd" type="Script" id=4]
+[ext_resource path="res://Basics/Characters/Player.gd" type="Script" id=5]
+[ext_resource path="res://Basics/Characters/Character.gd" type="Script" id=6]
+[ext_resource path="res://Basics/AI_TEST.tscn" type="PackedScene" id=7]
+[ext_resource path="res://addons/WorldManagement/MeshTracer.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Testing/cambase.tscn" type="PackedScene" id=9]
 
 [sub_resource type="SphereMesh" id=1]
 
@@ -44,10 +48,27 @@ sun_latitude = 7.2
 background_mode = 2
 background_sky = SubResource( 11 )
 
-[sub_resource type="BoxShape" id=13]
+[sub_resource type="CapsuleShape" id=13]
+radius = 0.679838
+height = 1.87215
+
+[sub_resource type="CapsuleMesh" id=14]
+
+[sub_resource type="SpatialMaterial" id=15]
+albedo_color = Color( 0, 0.180392, 1, 1 )
+
+[sub_resource type="SphereMesh" id=16]
+radius = 0.25
+height = 0.5
+
+[sub_resource type="SpatialMaterial" id=17]
+flags_unshaded = true
+albedo_color = Color( 0.666667, 0.780392, 0, 1 )
+
+[sub_resource type="BoxShape" id=18]
 extents = Vector3( 1, 3.45485, 2.43955 )
 
-[sub_resource type="CubeMesh" id=14]
+[sub_resource type="CubeMesh" id=19]
 
 [node name="world" type="Navigation"]
 script = ExtResource( 1 )
@@ -115,10 +136,7 @@ shape = SubResource( 5 )
 [node name="Path" type="Path" parent="."]
 curve = SubResource( 6 )
 
-[node name="cambase" type="Spatial" parent="."]
-
-[node name="Camera" type="Camera" parent="cambase"]
-transform = Transform( -0.997337, 3.71537e-09, 0.0729351, 0.0363292, 0.867118, 0.496776, -0.0632434, 0.498103, -0.864809, 0, 9.74089, -30.7822 )
+[node name="cambase" parent="." instance=ExtResource( 9 )]
 
 [node name="draw" type="ImmediateGeometry" parent="."]
 
@@ -269,7 +287,7 @@ material/0 = SubResource( 9 )
 [node name="CollisionShape" type="CollisionShape" parent="MeshInstance13/StaticBody"]
 shape = SubResource( 10 )
 
-[node name="Spatial" parent="." instance=ExtResource( 2 )]
+[node name="Spatial" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 19.1914, 0.799701, 4.70566 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -278,11 +296,48 @@ environment = SubResource( 12 )
 [node name="Sound_Smell_Manager" type="Spatial" parent="."]
 script = ExtResource( 3 )
 
-[node name="KinematicBody" parent="Sound_Smell_Manager" instance=ExtResource( 4 )]
+[node name="KinematicBody" parent="Sound_Smell_Manager" instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.1497, 1.33161, 11.9211 )
 
-[node name="KinematicBody2" parent="Sound_Smell_Manager" instance=ExtResource( 4 )]
+[node name="KinematicBody2" type="KinematicBody" parent="Sound_Smell_Manager"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.1497, 1.33161, -10.3227 )
+collision_mask = 3
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Sound_Smell_Manager/KinematicBody2"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.945411, 0 )
+shape = SubResource( 13 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Sound_Smell_Manager/KinematicBody2"]
+transform = Transform( 0.674556, 0, 0, 0, -4.59801e-08, 1.0519, 0, -0.674556, -2.94858e-08, 0, 0.996896, 0 )
+mesh = SubResource( 14 )
+material/0 = SubResource( 15 )
+
+[node name="Eyes" type="Spatial" parent="Sound_Smell_Manager/KinematicBody2"]
+transform = Transform( -1.2358e-06, 0, 1, 0, 1, 0, -1, 0, -1.2358e-06, -1.05526, 2.01, 0 )
+script = ExtResource( 4 )
+
+[node name="RayCast" type="RayCast" parent="Sound_Smell_Manager/KinematicBody2/Eyes"]
+enabled = true
+cast_to = Vector3( 0, 0, -5 )
+collision_mask = 2
+
+[node name="RayCast2" type="RayCast" parent="Sound_Smell_Manager/KinematicBody2/Eyes"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0529401, 0, -1.19209e-07 )
+enabled = true
+cast_to = Vector3( -2, 0, -4.5 )
+
+[node name="RayCast3" type="RayCast" parent="Sound_Smell_Manager/KinematicBody2/Eyes"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0664887, 0, 1.19209e-07 )
+enabled = true
+cast_to = Vector3( 2, 0, -4.5 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="Sound_Smell_Manager/KinematicBody2/Eyes/RayCast3"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.00155115, 0.0153136, -5.05121 )
+mesh = SubResource( 16 )
+material/0 = SubResource( 17 )
+
+[node name="Mouth" type="AudioStreamPlayer3D" parent="Sound_Smell_Manager/KinematicBody2"]
 
 [node name="Player" type="KinematicBody" parent="Sound_Smell_Manager"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.38519, 0 )
@@ -291,8 +346,12 @@ collision_mask = 3
 script = ExtResource( 5 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Sound_Smell_Manager/Player"]
-shape = SubResource( 13 )
+shape = SubResource( 18 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Sound_Smell_Manager/Player"]
-mesh = SubResource( 14 )
+mesh = SubResource( 19 )
 material/0 = null
+
+[node name="Character" type="KinematicBody" parent="."]
+script = ExtResource( 6 )
+[connection signal="sight" from="Sound_Smell_Manager/KinematicBody2/Eyes" to="Sound_Smell_Manager/KinematicBody2" method="_on_Eyes_sight"]

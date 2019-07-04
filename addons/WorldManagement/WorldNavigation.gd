@@ -7,6 +7,31 @@ var astar : AStar = AStar.new()
 var camrot= 0.0
 var camrot2 = 0.0
 var m = SpatialMaterial.new()
+
+func calculate_nav_mesh():
+	var vertices = PoolVector3Array()
+	for node in get_children():
+		if node is Position3D:
+			vertices.push_back(node.translaion)
+		if node is Navigation_Path:
+			vertices = node.get_curve().get_baked_points()
+	var mesh = ArrayMesh.new()
+	var arrays = []
+	if vertices.size() >= 0:
+		print("Enter mesh generation")
+		arrays.resize(ArrayMesh.ARRAY_MAX)
+		arrays[ArrayMesh.ARRAY_VERTEX] = vertices
+		mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+		var NavMesh = NavigationMesh.new()
+		var MeshVis = MeshInstance.new()
+		MeshVis.mesh = mesh
+		NavMesh.create_from_mesh(mesh)
+		var NavMeshInstance = NavigationMeshInstance.new()
+		NavMeshInstance.navmesh = NavMesh
+		add_child(NavMeshInstance)
+		add_child(MeshVis)
+	
+
 func _ready():
 	if not has_node("AI_SH_SYSTEM"):
 		var newnode = Spatial.new()
@@ -20,6 +45,7 @@ func _ready():
 	m.flags_unshaded = true
 	m.flags_use_point_size = true
 	m.albedo_color = Color(1.0, 1.0, 1.0, 1.0)
+	calculate_nav_mesh()
 
 func _input(event):
 #	if event extends InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
@@ -90,7 +116,7 @@ func get_absolute_path(from:Vector3, to:Vector3):
 	
 	if (from - first_point).length() > 0: 
 		#If the first point is too far from the kinematic, calculates a Navmesh Path
-		var Initial_path : Array = get_navmesh_path(from, astar.get_point_position(astar.get_closest_point(first_point)))
+		var Initial_path : Array = get_navmesh_path(from, first_point)
 		Initial_path.invert()
 		#Then we add the points to the front of the array 
 		for points in Initial_path:
@@ -109,9 +135,9 @@ func get_absolute_path(from:Vector3, to:Vector3):
 	return astar_path
 
 func calculate_astar():
-	var AstarPath = $Path.get_curve()
-	for  x in AstarPath.get_point_count(): #Get all points in the Curve 3D
-		var Point = AstarPath.get_point_position(x) #Get their positions
+	var AstarPath = $Path.get_curve().get_baked_points()
+	for  x in AstarPath.size(): #Get all points in the Curve 3D
+		var Point = AstarPath[x] #Get their positions
 		astar.add_point(x, Point) #Add them to the A* calculation
 		if x != 0:
 			astar.connect_points(x,x-1) #If they are not out of index, connect them

@@ -35,7 +35,13 @@ var gravity = Vector3(0,-grav,0)
 var up = Vector3()
 export(float) var speedfactor = 0.8
 var sharp_turn_threshold = 140
-
+### ENUM ####
+enum {
+	OBJECTIVE_POSITION = 0,
+	OBJECTIVE_TYPE = 1,
+	OBJECTIVE_HEALTH = 2,
+	OBJECTIVE_TEAM = 3
+	}
 func _physics_process(delta):
 	step_sound_intensity = weight*(gravity/9.8) * linear_velocity.length()
 

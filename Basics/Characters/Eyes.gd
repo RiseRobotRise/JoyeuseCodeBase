@@ -1,9 +1,6 @@
 extends Spatial
 signal sight(objects,points,normals)
 
-
-
-
 func _get_collision_info():
 	var objects = []
 	var points = []
