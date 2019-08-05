@@ -58,8 +58,12 @@ func flee(from):
 func shoot(to):
 	pass
 
-func decide_dual(motivation):
-	pass
+func decide_dual(motivation, signal1, signal2):
+	if motivation < 0.5:
+		emit_signal(signal1)
+	if motivation > 0.5:
+		emit_signal(signal2)
+
 
 func play_sound(name:String, intensity):
 	var stream = load(name)
@@ -88,7 +92,6 @@ func decide_fuzzy(motiv1,motiv2,motiv3, signal1, signal2, signal3):
 		emit_signal(signal2)
 	if motiv1 == max(max(motiv1,motiv2),motiv3):
 		emit_signal(signal1)
-	pass
 
 ##################Compiled behavior############################
 

@@ -13,6 +13,8 @@ var smelling_capablity = 1
 var bleeds = true
 var bleeding_smell_intensity = 10
 var step_sound_intensity = 0 # This is calculated from physics values
+var gun_list : Array = []
+var current_gun
 
 
 

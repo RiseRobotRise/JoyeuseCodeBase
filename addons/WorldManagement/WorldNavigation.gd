@@ -12,24 +12,32 @@ func calculate_nav_mesh():
 	var vertices = PoolVector3Array()
 	for node in get_children():
 		if node is Position3D:
-			vertices.push_back(node.translaion)
+			vertices.push_back(node.translation)
 		if node is Navigation_Path:
-			vertices = node.get_curve().get_baked_points()
+			for point in range(0, node.get_curve().get_point_count()):
+				vertices.push_back(node.get_curve().get_point_position(point))
+			vertices[0]=(node.get_curve().get_point_position(0))
+			vertices.push_back(node.get_curve().get_point_position(0))
+			#vertices = node.get_curve().get_baked_points()
 	var mesh = ArrayMesh.new()
 	var arrays = []
 	if vertices.size() >= 0:
 		print("Enter mesh generation")
-		arrays.resize(ArrayMesh.ARRAY_MAX)
+		arrays.resize(vertices.size())
 		arrays[ArrayMesh.ARRAY_VERTEX] = vertices
-		mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+		mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLE_FAN, arrays)
+		mesh.generate_triangle_mesh()
 		var NavMesh = NavigationMesh.new()
 		var MeshVis = MeshInstance.new()
 		MeshVis.mesh = mesh
 		NavMesh.create_from_mesh(mesh)
+		NavMesh.set_vertices(vertices)
 		var NavMeshInstance = NavigationMeshInstance.new()
 		NavMeshInstance.navmesh = NavMesh
 		add_child(NavMeshInstance)
 		add_child(MeshVis)
+		print(NavMeshInstance.navmesh)
+		print(MeshVis.mesh)
 	
 
 func _ready():
@@ -126,7 +134,7 @@ func get_absolute_path(from:Vector3, to:Vector3):
 	
 	if (to - last_point).length() > 0: 
 		#If the path is away from the destination, make a Navmesh path to the destination 
-		var Final_path : Array = get_navmesh_path(last_point, astar.get_point_position(astar.get_closest_point(to)))
+		var Final_path : Array = get_navmesh_path(last_point, to)
 		#Add the points at the end of the array
 		for point in Final_path:
 			astar_path.append(point)
@@ -141,5 +149,4 @@ func calculate_astar():
 		astar.add_point(x, Point) #Add them to the A* calculation
 		if x != 0:
 			astar.connect_points(x,x-1) #If they are not out of index, connect them
-	print(astar.get_points())
 	astar.connect_points(0,astar.get_points()[-1])
