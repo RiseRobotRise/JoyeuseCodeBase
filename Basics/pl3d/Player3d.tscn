@@ -1,0 +1,176 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://Basics/pl3d/Player3d.gd" type="Script" id=1]
+[ext_resource path="res://Basics/pl3d/TopDownCamera.gd" type="Script" id=2]
+[ext_resource path="res://Basics/Guns/fusion_pistol.gd" type="Script" id=3]
+[ext_resource path="res://Basics/pl3d/FPSCamera.gd" type="Script" id=4]
+[ext_resource path="res://Basics/pl3d/3RDPersCamera.gd" type="Script" id=5]
+[ext_resource path="res://Basics/pl3d/3RDPersonCamera.gd" type="Script" id=6]
+[ext_resource path="res://Basics/pl3d/label.gd" type="Script" id=7]
+[ext_resource path="res://assets/ui/Player_GUI.tscn" type="PackedScene" id=8]
+[ext_resource path="res://assets/green-crosshair-png-4.png" type="Texture" id=9]
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.39852
+height = 1.2
+
+[sub_resource type="CapsuleMesh" id=2]
+radius = 0.348
+
+[sub_resource type="SpatialMaterial" id=3]
+albedo_color = Color( 0.773438, 0.126892, 0.126892, 1 )
+roughness = 0.0
+
+[sub_resource type="SphereMesh" id=4]
+
+[sub_resource type="SpatialMaterial" id=5]
+roughness = 0.0
+
+[sub_resource type="SphereShape" id=6]
+radius = 0.245702
+
+[sub_resource type="GDScript" id=7]
+script/source = "extends Area
+
+func _ready():
+	var target = get_tree().get_root().get_node(\"HUD/Health|Radar/Radar\")
+	connect(\"body_entered\", target, \"_on_body_entered\")
+	connect(\"body_exited\" , target, \"_on_body_exit\")
+	pass
+"
+
+[sub_resource type="SphereShape" id=8]
+radius = 20.0
+
+[node name="Player" type="KinematicBody" groups=[
+"Player",
+]]
+script = ExtResource( 1 )
+view_sensitivity = 0.3
+
+[node name="Collision" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.000270128, 0.991905, -8.33273e-05 )
+shape = SubResource( 1 )
+
+[node name="Yaw" type="Spatial" parent="."]
+editor/display_folded = true
+visible = false
+
+[node name="MeshInstance" type="MeshInstance" parent="Yaw"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.05647, 0 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="Yaw"]
+transform = Transform( 0.246564, 0, 0, 0, -0.0585672, -0.239508, 0, 0.239508, -0.0585672, 0, 1.59028, -1.27401 )
+mesh = SubResource( 4 )
+material/0 = SubResource( 5 )
+
+[node name="TopDownCamera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 14.246, 0 )
+current = true
+script = ExtResource( 2 )
+
+[node name="target" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.26883, 0 )
+
+[node name="CameraOrigin" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.489479, 2.14343, 1.44329 )
+
+[node name="Pivot" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.58644, 0 )
+
+[node name="weapon_point" type="Position3D" parent="Pivot"]
+transform = Transform( 1, 0, 0, 0, 0.999999, 0.00161846, 0, -0.00161846, 0.999999, 0, -0.391506, -0.342788 )
+script = ExtResource( 3 )
+
+[node name="FPSCamera" type="Camera" parent="Pivot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0436552, -0.265905 )
+current = true
+fov = 90.0
+script = ExtResource( 4 )
+
+[node name="SpotLight" type="SpotLight" parent="Pivot/FPSCamera"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0102543, 0.265905 )
+
+[node name="3RDPersCamera" type="Camera" parent="Pivot"]
+transform = Transform( 0.997858, -0.0247958, 0.0605398, 0.0132274, 0.982746, 0.184489, -0.0640698, -0.183292, 0.980968, 0.497637, 0.54344, 1.31724 )
+fov = 90.0
+script = ExtResource( 5 )
+
+[node name="CameraCollision" type="KinematicBody" parent="Pivot"]
+transform = Transform( 0.999903, -1.86265e-09, -0.0139474, -0.00282001, 0.979347, -0.202169, 0.0136593, 0.202189, 0.979251, -0.00137392, 0.472392, 1.50019 )
+input_ray_pickable = false
+script = ExtResource( 6 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Pivot/CameraCollision"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.476892, 0.0157118, -0.0391517 )
+shape = SubResource( 6 )
+
+[node name="label" type="Label" parent="."]
+margin_right = 46.0
+margin_bottom = 14.0
+rect_scale = Vector2( 3, 3 )
+text = "Default"
+align = 1
+script = ExtResource( 7 )
+
+[node name="TextPoint" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.07561, 0 )
+
+[node name="HUD" parent="." instance=ExtResource( 8 )]
+
+[node name="Inventory" type="ColorRect" parent="HUD"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 84.0
+margin_top = 145.0
+margin_right = 584.0
+margin_bottom = 310.0
+color = Color( 0.00854492, 0.15625, 0, 0.491726 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/Inventory"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="current_weapon" type="Label" parent="HUD/Inventory/VBoxContainer"]
+margin_right = 103.0
+margin_bottom = 14.0
+text = "Current Weapon"
+
+[node name="in_magazine" type="Label" parent="HUD/Inventory/VBoxContainer"]
+margin_top = 18.0
+margin_right = 103.0
+margin_bottom = 32.0
+text = "Current Weapon"
+
+[node name="ammo" type="Label" parent="HUD/Inventory/VBoxContainer"]
+margin_top = 36.0
+margin_right = 103.0
+margin_bottom = 50.0
+text = "Current Weapon"
+
+[node name="TextureRect" type="TextureRect" parent="HUD"]
+modulate = Color( 1, 1, 1, 0.353608 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -13.0
+margin_top = -12.0
+margin_right = 12.0
+margin_bottom = 11.0
+texture = ExtResource( 9 )
+expand = true
+
+[node name="Area" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+input_ray_pickable = false
+script = SubResource( 7 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+shape = SubResource( 8 )
+
+[editable path="HUD"]

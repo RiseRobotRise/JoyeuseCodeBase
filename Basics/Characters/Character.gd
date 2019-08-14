@@ -15,7 +15,8 @@ var bleeding_smell_intensity = 10
 var step_sound_intensity = 0 # This is calculated from physics values
 var gun_list : Array = []
 var current_gun
-
+var weapon_point
+var hspeed = 0.0
 
 
 #### Movement and physics variables ####
@@ -31,12 +32,18 @@ export(bool) var keep_jump_inertia = true
 export(bool) var air_idle_deaccel = false
 export(float) var JumpHeight = 7.0
 var jump_attempt = false
+var shoot_attempt = false
 export(float) var grav = 9.8
+
 var linear_velocity = Vector3()
 var gravity = Vector3(0,-grav,0)
 var up = Vector3()
 export(float) var speedfactor = 0.8
 var sharp_turn_threshold = 140
+#### Network vars ####
+var slave_linear_vel
+var slave_translation
+var slave_transform
 ### ENUM ####
 enum {
 	OBJECTIVE_POSITION = 0,
@@ -59,7 +66,7 @@ func spatial_move_to(vector,delta):
 	var vertical_velocity = up.dot(linear_velocity) # Vertical velocity
 	var horizontal_velocity = linear_velocity - up*vertical_velocity # Horizontal velocity
 	var hdir = horizontal_velocity.normalized() # Horizontal direction
-	var hspeed = horizontal_velocity.length()*speedfactor
+	hspeed = horizontal_velocity.length()*speedfactor
 
 	#look_at(vector, Vector3(0,1,0)) #Change to something that turns to the player or something they have to see
 
@@ -98,8 +105,8 @@ func spatial_move_to(vector,delta):
 		if (hspeed>0):
 			facing_mesh = RAD.adjust_facing(facing_mesh, target_dir, delta, 1.0/hspeed*turn_speed, up)
 		var m3 = Basis(-facing_mesh, up, -facing_mesh.cross(up).normalized()).scaled(scale)
-
-		set_transform(Transform(m3, mesh_xform.origin))
+		var ModelTransform = Transform(m3, mesh_xform.origin)
+		set_transform(ModelTransform)
 
 		if (not jumping and jump_attempt):
 			vertical_velocity = JumpHeight
