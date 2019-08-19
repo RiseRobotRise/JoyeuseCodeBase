@@ -3,6 +3,8 @@
 [ext_resource path="res://Basics/Guns/squib.gd" type="Script" id=1]
 
 
+
+
 [sub_resource type="SphereMesh" id=1]
 
 custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )

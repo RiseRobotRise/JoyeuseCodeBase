@@ -1,20 +1,22 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://addons/WorldManagement/WorldNavigation.gd" type="Script" id=1]
 [ext_resource path="res://Basics/General_systems/Sound_Smell_system.gd" type="Script" id=2]
 [ext_resource path="res://Basics/AI_TEST.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Basics/Player_prefab/Player.tscn" type="PackedScene" id=4]
-[ext_resource path="res://MiscRes/Example_textures/diffus.tga" type="Texture" id=5]
-[ext_resource path="res://Basics/Navigation/Navmesh_Path.gd" type="Script" id=6]
-[ext_resource path="res://Testing/cambase.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Basics/Navigation/Navigation_Waypoint.gd" type="Script" id=8]
-
+[ext_resource path="res://assets/AI/Default_fighter.gd" type="Script" id=4]
+[ext_resource path="res://Basics/Player_prefab/Player.tscn" type="PackedScene" id=5]
+[ext_resource path="res://MiscRes/Example_textures/diffus.tga" type="Texture" id=6]
+[ext_resource path="res://Basics/Navigation/Navmesh_Path.gd" type="Script" id=7]
+[ext_resource path="res://Testing/cambase.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Basics/Navigation/Navigation_Waypoint.gd" type="Script" id=9]
+[ext_resource path="res://assets/weapons/fp_cell.tscn" type="PackedScene" id=10]
+[ext_resource path="res://assets/weapons/magnum_object.tscn" type="PackedScene" id=11]
 
 [sub_resource type="CubeMesh" id=1]
 
 [sub_resource type="SpatialMaterial" id=2]
 albedo_color = Color( 0.709804, 0.737255, 0.443137, 1 )
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="BoxShape" id=3]
 
@@ -43,7 +45,11 @@ script = ExtResource( 2 )
 [node name="KinematicBody" parent="Sound_Smell_Manager" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.37367, 0 )
 
-[node name="Player2" parent="Sound_Smell_Manager" instance=ExtResource( 4 )]
+[node name="KinematicBody2" parent="Sound_Smell_Manager" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.37367, -4.92026 )
+script = ExtResource( 4 )
+
+[node name="Player2" parent="Sound_Smell_Manager" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.44799, 0.236558, 0 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
@@ -130,17 +136,29 @@ curve = SubResource( 4 )
 
 [node name="Navmesh_Path" type="Path" parent="."]
 curve = SubResource( 5 )
-script = ExtResource( 6 )
+script = ExtResource( 7 )
 
-[node name="cambase" parent="." instance=ExtResource( 7 )]
+[node name="cambase" parent="." instance=ExtResource( 8 )]
 visible = false
 
 [node name="draw" type="ImmediateGeometry" parent="."]
 
 [node name="Position3D" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 19.1713, 3.55622, 0 )
-script = ExtResource( 8 )
+script = ExtResource( 9 )
 
 [node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="."]
 transform = Transform( 20, 0, 0, 0, 0.1, 0, 0, 0, 19.84, 0, 0, 0 )
 navmesh = SubResource( 6 )
+
+[node name="fp_cell" parent="." instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.78543, 1.97372, 6.22825 )
+
+[node name="fp_cell2" parent="." instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8.32019, 0.583976, 6.08876 )
+
+[node name="magnum_object" parent="." instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.21095, 1.55814, -2.48031 )
+
+[node name="magnum_object2" parent="." instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.36403, 1.55814, -4.19194 )

@@ -1,12 +1,13 @@
 # This script determines the behaviours of the fusion pistol weapon (not the item laying on the ground)
 extends Weapon
-export(PackedScene) var Fusion_Bolt = preload("res://Basics/Guns/fusion_bolt.tscn")
-export(PackedScene) var Charged_Fusion_Bolt = preload("res://Basics/Guns/charged_fusion_bolt.tscn")
+export(PackedScene) var Fusion_Bolt = preload("res://assets/weapons/fusion_bolt.tscn")
+export(PackedScene) var Charged_Fusion_Bolt = preload("res://assets/weapons/charged_fusion_bolt.tscn")
 var charged = false
 var charging = false
 func _process(delta):
-	print(charged, charging)
-		
+	#print(charged, charging)
+	pass
+
 func _ready():
 	identity = "Zeus Class Fusion Pistol"
 	in_magazine = 100
@@ -28,7 +29,7 @@ func primary_fire():
 				get_node("/root").add_child(bolt)
 				# toggle can shoot (to avoid spawning a bolt per cycle)
 				can_shoot=false
-				
+
 				# trigger the cool down timer.
 				$Timer.start()
 
@@ -43,14 +44,14 @@ func secondary_release():
 			if ammo_check_primary(25):
 				# load a bolt as an instance
 				var bolt = Charged_Fusion_Bolt.instance()
-				
+
 				# add the bolt to the aperture of the fusion pistol
 				bolt.set_global_transform($aperture.get_global_transform())
 				get_node("/root").add_child(bolt)
-				
+
 				# toggle can shoot (to avoid spawning a bolt per cycle)
 				can_shoot=false
-				
+
 				# trigger the cool down timer.
 				$Timer.start()
 				charged = false
@@ -59,9 +60,9 @@ func secondary_release():
 		charging = false
 		charged = false
 		$charge.stop()
-		
 
-	
+
+
 # when the cooldown timer has elapsed
 func _on_Timer_timeout():
 	# reset the canshoot variable.

@@ -14,11 +14,13 @@ export(PackedScene) var Gun
 
 func _ready():
 	set_process_input(true)
+	weapon_point = $weapons
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	type = "Player"
 	team = 1
+	maxhealth = 300
 	current_state = IDLE
-	pass # Replace with function body.
+	$weapons/fusion_pistol.setup(self)
 
 #func _init(_type, _team, _gun):
 #	type = _type
@@ -34,6 +36,7 @@ func primary_fire():
 		if held_weapon[0].has_method("primary_fire"):
 			#print("click!")
 			held_weapon[0].primary_fire()
+
 
 func _physics_process(delta):
 	var dir = Vector3()
@@ -80,7 +83,10 @@ func _physics_process(delta):
 		
 	jump_attempt = Input.is_action_pressed("jump")
 	shoot_attempt = Input.is_action_pressed("shoot")
-	spatial_move_to(dir, delta)
+
+	
+	spatial_move_to(dir, delta, false)
+	
 #	$Model.transform = ModelTransform
 func secondary_fire():
 	#print("attempting to fire!")

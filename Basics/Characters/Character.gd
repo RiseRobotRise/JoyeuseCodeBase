@@ -7,6 +7,9 @@ class_name Character
 var type = "Character"
 var team = 0
 var health = 100
+var shield = 0
+var maxhealth = 100
+var maxshield = 100
 var jumping = false
 var hearing_capability = 1
 var smelling_capablity = 1
@@ -18,6 +21,11 @@ var current_gun
 var weapon_point
 var hspeed = 0.0
 
+
+##Weapons and Object Handling
+var inventory = [] # inventory array to store the objects we are currently holding
+var arsenal = [] # inventory array to store the weapons we are currently holding
+var arsenal_links = []
 
 #### Movement and physics variables ####
  
@@ -51,10 +59,18 @@ enum {
 	OBJECTIVE_HEALTH = 2,
 	OBJECTIVE_TEAM = 3
 	}
+
+class Inventory:
+	var weapons = []
+	var ammo = []
+	var misc = []
+	
+func _ready():
+	inventory = Inventory.new()
 func _physics_process(delta):
 	step_sound_intensity = weight*(gravity/9.8) * linear_velocity.length()
 
-func spatial_move_to(vector,delta):
+func spatial_move_to(vector,delta,locked=true):
 	
 	if not flies:
 		linear_velocity += gravity*delta/weight
@@ -72,7 +88,7 @@ func spatial_move_to(vector,delta):
 
 	var target_dir = (vector - up*vector.dot(up)).normalized()
 
-	if (is_on_floor()): #Only lets the character change it's facing direction when it's on the floor.
+	if (is_on_floor() or not locked): #Only lets the character change it's facing direction when it's on the floor.
 		var sharp_turn = hspeed > 0.1 and rad2deg(acos(target_dir.dot(hdir))) > sharp_turn_threshold
 
 		if (vector.length() > 0.1 and !sharp_turn):
@@ -136,3 +152,15 @@ func spatial_move_to(vector,delta):
 		var movement_dir = linear_velocity
 
 	linear_velocity = move_and_slide(linear_velocity,-gravity.normalized())
+
+func hit(damage):
+	health -= damage
+	
+func add_health(mnt, FillsShield):
+	if not FillsShield:
+		health += mnt
+	if FillsShield:
+		if health < maxhealth:
+			health += mnt
+		elif shield < maxshield:
+			shield += mnt

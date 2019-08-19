@@ -32,16 +32,10 @@ var wielder
 export var dual_wieldable = false
 var dual_wielding = false
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
+
 func setup(wieldee):
 	wielder = wieldee
-	
-func _ready():
-	# Called when the node is added to the scene for the first time.
-	# Initialization here
-	pass
+
 
 func primary_fire():
 	pass
@@ -54,22 +48,23 @@ func secondary_release():
 
 # Reloads the weapon from the wielders inventory when called.
 func reload_primary():
-	
+	if wielder.inventory.ammo.size()<primary_ammo_id:
+		return
 	# retrieves the number of reloads the player has for this weapon in their inventory
-	var ammo = wielder.inventory[primary_ammo_id]
+	var ammo = wielder.inventory.ammo[primary_ammo_id]
 	
 	if ammo > 0:
 		# reload the weapons magazine
 		in_magazine = primary_magazine_size
 		# remove 1 reload from the players infentory
-		wielder.inventory[primary_ammo_id] -= 1
+		wielder.inventory.ammo[primary_ammo_id] -= 1
 
 func reload_secondary():
-	var ammo = wielder.inventory[secondary_ammo_id]
+	var ammo = wielder.inventory.ammo[secondary_ammo_id]
 	
 	if ammo > 0:
 		in_secondary_magazine = secondary_magazine_size
-		wielder.inventory[secondary_ammo_id] -= 1
+		wielder.inventory.ammo[secondary_ammo_id] -= 1
 
 
 func ammo_check_primary(size = 1):

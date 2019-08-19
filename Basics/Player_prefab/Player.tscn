@@ -1,9 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Basics/Player_prefab/Player.gd" type="Script" id=1]
 [ext_resource path="res://Basics/Characters/Player.gd" type="Script" id=2]
-[ext_resource path="res://Basics/pl3d/FPSCamera.gd" type="Script" id=3]
-
+[ext_resource path="res://assets/weapons/fusion_pistol.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Basics/pl3d/FPSCamera.gd" type="Script" id=4]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.372914
@@ -39,10 +39,16 @@ mesh = SubResource( 3 )
 material/0 = null
 
 [node name="CamPos" type="Position3D" parent="Player"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.595993, 1.12215, -0.0111439 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.122, 0 )
+
+[node name="weapons" type="Position3D" parent="Player"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.266434, 0.597619, 0 )
+
+[node name="fusion_pistol" parent="Player/weapons" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.295859, 0 )
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.595993, 2.10576, -0.042468 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
 current = true
-near = 0.01
-script = ExtResource( 3 )
+near = 0.1
+script = ExtResource( 4 )

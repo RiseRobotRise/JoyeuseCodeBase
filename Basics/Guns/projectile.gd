@@ -11,7 +11,7 @@ var pos
 # determines the type of effect the weapon exerts on impact
 enum projectile_types {explosive, energy, flame}
 export(bool) var use_physics
-export(bool) var splash_gamage = false
+export(bool) var splash_damage = false
 export(float) var shot_sound_intensity = 1.2
 export(float) var hit_sound_intensity = 1.2
 export (projectile_types) var type
@@ -89,7 +89,7 @@ func _on_Area_body_entered(body):
 
 
 		if body.has_method("hit"):
-			body.hit()
+			body.hit(damage)
 			queue_free()
 
 

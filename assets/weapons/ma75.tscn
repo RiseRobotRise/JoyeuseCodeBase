@@ -1,10 +1,13 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Basics/Guns/ma75.gd" type="Script" id=1]
-[ext_resource path="res://Basics/Guns/grenade.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/weapons/ma75.gd" type="Script" id=1]
+[ext_resource path="res://assets/weapons/grenade.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Basics/Guns/squib.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/Material_001.material" type="Material" id=4]
 [ext_resource path="res://assets/ma75/ma75.tres" type="Material" id=5]
+
+
+
 
 
 [sub_resource type="ArrayMesh" id=1]

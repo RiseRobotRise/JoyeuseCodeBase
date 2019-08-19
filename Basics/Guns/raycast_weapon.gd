@@ -1,4 +1,5 @@
-extends "res://BaseGD/Guns/weapon.gd"
+extends Weapon
+class_name RaycastWeapon
 
 # class member variables go here, for example:
 # var a = 2
