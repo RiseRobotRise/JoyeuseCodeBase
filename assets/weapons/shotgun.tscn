@@ -1,8 +1,9 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://BaseGD/Guns/shotgun.gd" type="Script" id=1]
-[ext_resource path="res://BaseGD/Guns/squib.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/weapons/shotgun.gd" type="Script" id=1]
+[ext_resource path="res://Basics/Guns/squib.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Material.material" type="Material" id=3]
+
 
 [sub_resource type="ArrayMesh" id=1]
 

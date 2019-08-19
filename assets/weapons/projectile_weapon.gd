@@ -1,6 +1,6 @@
 # this script extends the weapon class, it adds support for projectiles
 
-extends "res://BaseGD/Guns/weapon.gd"
+extends Weapon
 
 # class member variables go here, for example:
 # var a = 2

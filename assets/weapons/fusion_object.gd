@@ -4,7 +4,7 @@ extends Spatial
 # stores the kind of item it is (to be displayed perhaps?)
 var id = 2
 
-var item_object = load("res://BaseGD/Guns/fusion_pistol.tscn")
+var item_object = load("res://assets/weapons/fusion_pistol.tscn")
 
 # if something collides with the area
 func _on_Area_body_entered(body):

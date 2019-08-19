@@ -1,4 +1,4 @@
-extends "res://BaseGD/Guns/weapon.gd"
+extends Weapon
 
 export var spread = 2
 
