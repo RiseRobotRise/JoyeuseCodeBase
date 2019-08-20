@@ -10,7 +10,6 @@
 [ext_resource path="res://assets/ui/Player_GUI.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/green-crosshair-png-4.png" type="Texture" id=9]
 
-
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.39852
 height = 1.2
@@ -47,7 +46,28 @@ radius = 20.0
 "Player",
 ]]
 script = ExtResource( 1 )
+health = null
+turn_speed = null
+keep_jump_inertia = null
+air_idle_deaccel = null
+fixed_up = null
+accel = null
+deaccel = null
+sharp_turn_threshold = null
+JumpHeight = null
+Team = null
+AllowChangeCamera = null
+FPSCamera = null
+thRDPersCamera = null
+fixpos = null
+RPGCamera = null
+TopDownCamera = null
+WALKSPEED = null
+RUNSPEED = null
+active = null
 view_sensitivity = 0.3
+weight = null
+grav = null
 
 [node name="Collision" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.000270128, 0.991905, -8.33273e-05 )
@@ -120,6 +140,7 @@ script = ExtResource( 7 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.07561, 0 )
 
 [node name="HUD" parent="." instance=ExtResource( 8 )]
+radarpath = NodePath("")
 
 [node name="Inventory" type="ColorRect" parent="HUD"]
 anchor_left = 1.0
