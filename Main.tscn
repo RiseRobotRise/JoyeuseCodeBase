@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://addons/WorldManagement/WorldNavigation.gd" type="Script" id=1]
 [ext_resource path="res://Basics/General_systems/Sound_Smell_system.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Testing/cambase.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Basics/Navigation/Navigation_Waypoint.gd" type="Script" id=9]
 [ext_resource path="res://assets/weapons/fp_cell.tscn" type="PackedScene" id=10]
+[ext_resource path="res://assets/weapons/magnum_object.tscn" type="PackedScene" id=11]
 
 [sub_resource type="CubeMesh" id=1]
 
@@ -152,3 +153,6 @@ navmesh = SubResource( 6 )
 
 [node name="fp_cell" parent="." instance=ExtResource( 10 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.17624, 0.286391, 1.19248 )
+
+[node name="magnum_object" parent="." instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.64831, 1.55814, 1.09706 )

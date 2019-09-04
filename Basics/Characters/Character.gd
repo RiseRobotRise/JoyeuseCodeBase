@@ -4,18 +4,18 @@ class_name Character
 
 #### Character variables ####
 
-var type = "Character"
-var team = 0
-var health = 100
-var shield = 0
-var maxhealth = 100
-var maxshield = 100
-var jumping = false
-var hearing_capability = 1
-var smelling_capablity = 1
-var bleeds = true
-var bleeding_smell_intensity = 10
-var step_sound_intensity = 0 # This is calculated from physics values
+var type : String = "Character"
+var team : int = 0
+var health : int = 100
+var shield : int = 0
+var maxhealth : int = 100
+var maxshield : int = 100
+var jumping : bool = false
+var hearing_capability : int = 1
+var smelling_capablity : int = 1
+var bleeds : bool = true
+var bleeding_smell_intensity : int = 10
+var step_sound_intensity : float = 0 # This is calculated from physics values
 var gun_list : Array = []
 var current_gun
 var weapon_point
@@ -24,8 +24,7 @@ var hspeed = 0.0
 
 ##Weapons and Object Handling
 var inventory : Inventory # inventory array to store the objects we are currently holding
-var arsenal = [] # inventory array to store the weapons we are currently holding
-var arsenal_links = []
+var arsenal_links : Array = [0,0,0,0,0,0,0,0,0,0]
 
 #### Movement and physics variables ####
  
@@ -39,8 +38,8 @@ export(float) var deaccel = 14.0
 export(bool) var keep_jump_inertia = true
 export(bool) var air_idle_deaccel = false
 export(float) var JumpHeight = 7.0
-var jump_attempt = false
-var shoot_attempt = false
+var jump_attempt : bool = false
+var shoot_attempt : bool = false
 export(float) var grav = 9.8
 
 var linear_velocity = Vector3()
@@ -49,9 +48,9 @@ var up = Vector3()
 export(float) var speedfactor = 0.8
 var sharp_turn_threshold = 140
 #### Network vars ####
-var slave_linear_vel
-var slave_translation
-var slave_transform
+var slave_linear_vel : Vector3
+var slave_translation : Vector3
+var slave_transform : Transform
 ### ENUM ####
 enum {
 	OBJECTIVE_POSITION = 0,
@@ -61,13 +60,13 @@ enum {
 	}
 
 class Inventory:
-	var weapons = []
-	var ammo = []
+	var weapons = [0,0,0,0,0,0,0,0,0,0]
+	var ammo = [0,0,0,0,0,0,0,0,0,0]
 	var misc = []
 	func add_ammo(id, amount):
-		pass
+		ammo[id]+=amount
 	func add_weapon(id, amount):
-		pass
+		weapons[id] = 1
 	func reload_weapon(id):
 		pass
 	func use_item(id, uses):
@@ -77,7 +76,7 @@ class Inventory:
 func _ready():
 	inventory = Inventory.new()
 func _physics_process(delta):
-	step_sound_intensity = weight*(gravity/9.8) * linear_velocity.length()
+	step_sound_intensity = (weight*(gravity/9.8) * linear_velocity).length()
 
 func spatial_move_to(vector,delta,locked=true):
 	
@@ -174,18 +173,18 @@ func add_health(mnt, FillsShield):
 		elif shield < maxshield:
 			shield += mnt
 			
-func pick_up(object, kind = "default", id = 0):
+func pick_up(object, kind = "default", id = 0, dual_pickable=false):
 
 	if kind == "ammo":
-		inventory.ammo[object] +=1
+		inventory.add_ammo(object, 1)
 		return true
 	elif kind == "weapon":
 		# does the player have this item yet? 
 		# checks the player arsenal to see if it is already there.
-		if arsenal[id] == 0: #no
+		if inventory.weapons[id] == 0: #no
 
 			# increment this item inventory id
-			arsenal[id] += 1
+			inventory.weapons[id] += 1
 
 			# add object to holding node
 			var pickup = object.instance()
@@ -194,10 +193,10 @@ func pick_up(object, kind = "default", id = 0):
 			pickup.setup(self)
 			arsenal_links[id] = pickup
 			
-			$Pivot/weapon_point.add_child(pickup)
+			weapon_point.add_child(pickup)
 			return true
 		else:
-			var pickup = object.instance()
-			if pickup.dual_wieldable:
+			if dual_pickable:
+				var pickup = object.instance() 
 				arsenal_links[id].dual_wield()
 			return false
