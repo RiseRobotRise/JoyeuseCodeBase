@@ -382,14 +382,14 @@ func secondary_release():
 func pick_up(object, kind = "default", id = 0):
 
 
-	if kind == "ammo":
-		inventory[object] +=1
-		return true
-	elif kind == "weapon":
+	match kind:
+		"ammo":
+			inventory.add_ammo(id, 1)
+			return true
+		"weapon":
 		# does the player have this item yet? 
 		# checks the player arsenal to see if it is already there.
 		if arsenal[id] == 0: #no
-
 			# increment this item inventory id
 			arsenal[id] += 1
 

@@ -4,20 +4,27 @@ class_name Character
 
 #### Character variables ####
 
-var type = "Character"
-var team = 0
-var health = 100
-var jumping = false
-var hearing_capability = 1
-var smelling_capablity = 1
-var bleeds = true
-var bleeding_smell_intensity = 10
-var step_sound_intensity = 0 # This is calculated from physics values
+var type : String = "Character"
+var team : int = 0
+var health : int = 100
+var shield : int = 0
+var maxhealth : int = 100
+var maxshield : int = 100
+var jumping : bool = false
+var hearing_capability : int = 1
+var smelling_capablity : int = 1
+var bleeds : bool = true
+var bleeding_smell_intensity : int = 10
+var step_sound_intensity : float = 0 # This is calculated from physics values
 var gun_list : Array = []
 var current_gun
 var weapon_point
 var hspeed = 0.0
 
+
+##Weapons and Object Handling
+var inventory : Inventory # inventory array to store the objects we are currently holding
+var arsenal_links : Array = [0,0,0,0,0,0,0,0,0,0]
 
 #### Movement and physics variables ####
  
@@ -31,8 +38,8 @@ export(float) var deaccel = 14.0
 export(bool) var keep_jump_inertia = true
 export(bool) var air_idle_deaccel = false
 export(float) var JumpHeight = 7.0
-var jump_attempt = false
-var shoot_attempt = false
+var jump_attempt : bool = false
+var shoot_attempt : bool = false
 export(float) var grav = 9.8
 
 var linear_velocity = Vector3()
@@ -41,9 +48,9 @@ var up = Vector3()
 export(float) var speedfactor = 0.8
 var sharp_turn_threshold = 140
 #### Network vars ####
-var slave_linear_vel
-var slave_translation
-var slave_transform
+var slave_linear_vel : Vector3
+var slave_translation : Vector3
+var slave_transform : Transform
 ### ENUM ####
 enum {
 	OBJECTIVE_POSITION = 0,
@@ -51,10 +58,27 @@ enum {
 	OBJECTIVE_HEALTH = 2,
 	OBJECTIVE_TEAM = 3
 	}
-func _physics_process(delta):
-	step_sound_intensity = weight*(gravity/9.8) * linear_velocity.length()
 
-func spatial_move_to(vector,delta):
+class Inventory:
+	var weapons = [0,0,0,0,0,0,0,0,0,0]
+	var ammo = [0,0,0,0,0,0,0,0,0,0]
+	var misc = []
+	func add_ammo(id, amount):
+		ammo[id]+=amount
+	func add_weapon(id, amount):
+		weapons[id] = 1
+	func reload_weapon(id):
+		pass
+	func use_item(id, uses):
+		pass
+		
+
+func _ready():
+	inventory = Inventory.new()
+func _physics_process(delta):
+	step_sound_intensity = (weight*(gravity/9.8) * linear_velocity).length()
+
+func spatial_move_to(vector,delta,locked=true):
 	
 	if not flies:
 		linear_velocity += gravity*delta/weight
@@ -72,7 +96,7 @@ func spatial_move_to(vector,delta):
 
 	var target_dir = (vector - up*vector.dot(up)).normalized()
 
-	if (is_on_floor()): #Only lets the character change it's facing direction when it's on the floor.
+	if (is_on_floor() or not locked): #Only lets the character change it's facing direction when it's on the floor.
 		var sharp_turn = hspeed > 0.1 and rad2deg(acos(target_dir.dot(hdir))) > sharp_turn_threshold
 
 		if (vector.length() > 0.1 and !sharp_turn):
@@ -136,3 +160,43 @@ func spatial_move_to(vector,delta):
 		var movement_dir = linear_velocity
 
 	linear_velocity = move_and_slide(linear_velocity,-gravity.normalized())
+
+func hit(damage):
+	health -= damage
+	
+func add_health(mnt, FillsShield):
+	if not FillsShield:
+		health += mnt
+	if FillsShield:
+		if health < maxhealth:
+			health += mnt
+		elif shield < maxshield:
+			shield += mnt
+			
+func pick_up(object, kind = "default", id = 0, dual_pickable=false):
+
+	if kind == "ammo":
+		inventory.add_ammo(object, 1)
+		return true
+	elif kind == "weapon":
+		# does the player have this item yet? 
+		# checks the player arsenal to see if it is already there.
+		if inventory.weapons[id] == 0: #no
+
+			# increment this item inventory id
+			inventory.weapons[id] += 1
+
+			# add object to holding node
+			var pickup = object.instance()
+
+			# tell the weapon who we are (to account for who hit who, etc).
+			pickup.setup(self)
+			arsenal_links[id] = pickup
+			
+			weapon_point.add_child(pickup)
+			return true
+		else:
+			if dual_pickable:
+				var pickup = object.instance() 
+				arsenal_links[id].dual_wield()
+			return false

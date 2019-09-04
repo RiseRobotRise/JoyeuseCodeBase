@@ -50,7 +50,6 @@ func adjust_facing(p_facing, p_target, p_step, p_adjust_rate, current_gn):
 
 func _get_object_info(object:Node):
 	var propetries = {}
-	var type
 	if object.has_method("get_global_transform"):
 		if object is StaticBody:
 			return
