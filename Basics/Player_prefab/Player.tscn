@@ -1,9 +1,8 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Basics/Player_prefab/Player.gd" type="Script" id=1]
-[ext_resource path="res://Basics/Characters/Player.gd" type="Script" id=2]
-[ext_resource path="res://Basics/pl3d/FPSCamera.gd" type="Script" id=3]
-
+[ext_resource path="res://Joyeuse/Basics/Player_prefab/Player.gd" type="Script" id=1]
+[ext_resource path="res://Joyeuse/Basics/Characters/Player.gd" type="Script" id=2]
+[ext_resource path="res://Joyeuse/Basics/pl3d/FPSCamera.gd" type="Script" id=3]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.372914
@@ -29,11 +28,11 @@ script = ExtResource( 2 )
 speedfactor = 1.0
 
 [node name="CollisionShape" type="CollisionShape" parent="Player"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0, 0 )
 shape = SubResource( 1 )
 
 [node name="Model" type="MeshInstance" parent="Player"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.0123878, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, -0.0123878, 0 )
 material_override = SubResource( 2 )
 mesh = SubResource( 3 )
 material/0 = null
