@@ -1,5 +1,5 @@
 extends Spatial
-class_name Sound_Smell_Manager, "res://icons/SH_SYSTEM.png"
+class_name Sound_Smell_Manager, "../../icons/SH_SYSTEM.png"
 
 var Active_AI_Actors = []
 signal smell_emitted(where, intensity)

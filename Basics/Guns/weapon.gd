@@ -17,6 +17,7 @@ var identity = "default weapon"
 var description = "Default description, none has provided yet."
 
 # stores various parameters for the weapon
+var sound_intensity = 1
 var id = 0 # unique weapon id, 0 for default
 var primary_ammo_id = 0 # kind of ammo for primary fire
 var secondary_ammo_id = 0 # kind of ammo for secondary fire

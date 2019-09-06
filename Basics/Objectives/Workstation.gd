@@ -1,5 +1,5 @@
 extends KinematicBody
-class_name Workstation, "res://icons/workstation.png"
+class_name Workstation, "../../icons/workstation.png"
 
 export(float) var health = 100
 export(float) var progress_p_sec = 1 

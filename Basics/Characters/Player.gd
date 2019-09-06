@@ -1,5 +1,5 @@
 extends Character
-class_name Player, "res://icons/player.png"
+class_name Player, "../../icons/player.png"
 
 var current_state = 0 
 enum {

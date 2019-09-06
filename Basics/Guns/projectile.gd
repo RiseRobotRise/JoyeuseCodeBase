@@ -21,9 +21,9 @@ export(float) var speed = 25
 # sets whether the weapon constantly exerts thrust (like a rocket propelled weapon) or not.
 export var propelled = false
 
-export(PackedScene) var explosion = preload("res://Basics/Guns/explosion.tscn")
+export(PackedScene) var explosion = preload("../../Basics/Guns/explosion.tscn")
 
-export(PackedScene) var splash = preload("res://Basics/Guns/explosion.tscn")
+export(PackedScene) var splash = preload("../..//Basics/Guns/explosion.tscn")
 
 export var damage = 10
 
