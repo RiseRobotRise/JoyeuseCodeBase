@@ -1,6 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Basics/Guns/squib.gd" type="Script" id=1]
+[ext_resource path="../../Basics/Guns/squib.gd" type="Script" id=1]
+
 
 
 

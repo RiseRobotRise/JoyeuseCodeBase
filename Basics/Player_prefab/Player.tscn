@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Basics/Player_prefab/Player.gd" type="Script" id=1]
-[ext_resource path="res://Basics/Characters/Player.gd" type="Script" id=2]
-[ext_resource path="res://assets/weapons/fusion_pistol.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Basics/pl3d/FPSCamera.gd" type="Script" id=4]
+[ext_resource path="res://Joyeuse/Basics/Player_prefab/Player.gd" type="Script" id=1]
+[ext_resource path="res://Joyeuse/Basics/Characters/Player.gd" type="Script" id=2]
+[ext_resource path="res://weapons/fusion_pistol.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Joyeuse/Basics/pl3d/FPSCamera.gd" type="Script" id=4]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.372914
@@ -42,7 +42,7 @@ material/0 = null
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.122, 0 )
 
 [node name="weapons" type="Position3D" parent="Player"]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.266434, 0.597619, 0 )
+transform = Transform( -4.37114e-008, 0, 1, 0, 1, 0, -1, 0, -4.37114e-008, -0.266434, 0.597619, 0 )
 
 [node name="fusion_pistol" parent="Player/weapons" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.295859, 0 )
