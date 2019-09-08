@@ -3,6 +3,8 @@ class_name Character
 
 
 #### Character variables ####
+# warning-ignore:unused_class_variable
+# warning-ignore:unused_variable
 
 var type : String = "Character"
 var team : int = 0
@@ -70,7 +72,11 @@ class Inventory:
 	func reload_weapon(id):
 		pass
 	func use_item(id, uses):
-		pass
+		if misc.size() > id:
+			misc[id] -=1
+		if misc[id] < 0:
+			misc[id] = 0
+		pass 
 		
 
 func _ready():
@@ -157,6 +163,7 @@ func spatial_move_to(vector,delta,locked=true):
 		linear_velocity = horizontal_velocity
 
 	if (is_on_floor()):
+
 		var movement_dir = linear_velocity
 
 	linear_velocity = move_and_slide(linear_velocity,-gravity.normalized())
@@ -165,13 +172,15 @@ func hit(damage):
 	health -= damage
 	
 func add_health(mnt, FillsShield):
-	if not FillsShield:
+	if not FillsShield and health < maxhealth:
 		health += mnt
 	if FillsShield:
 		if health < maxhealth:
 			health += mnt
 		elif shield < maxshield:
 			shield += mnt
+	shield = clamp(shield, 0, maxshield)
+	health = clamp(health, 0, maxhealth)		
 			
 func pick_up(object, kind = "default", id = 0, dual_pickable=false):
 

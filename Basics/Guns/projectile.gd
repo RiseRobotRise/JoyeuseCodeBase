@@ -64,7 +64,7 @@ func _ready():
 func _on_Area_body_entered(body):
 
 	# if its a character or object (wall, etc)
-	if body is StaticBody or body is RigidBody or body is KinematicBody:
+	if body is StaticBody or body is RigidBody or body is KinematicBody or body is GridMap:
 				# so long as the object is NOT the bolt itself (since the bolt is a rigid body)
 		if body == wielder:
 			pass

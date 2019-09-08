@@ -2,7 +2,7 @@ extends Spatial
 class_name Sound_Smell_Manager, "../../icons/SH_SYSTEM.png"
 
 var Active_AI_Actors = []
-signal smell_emitted(where, intensity)
+signal smell_emitted(where, intensity, soundfile)
 signal sound_emitted(where, intensity)
 
 
@@ -49,8 +49,16 @@ func get_aprox_pos(position, intensity, property, signal_name):
 			AI_Actor.emit_signal(signal_name, pos_aprox)
 			
 
-func _on_sound_emitted(position, intensity):
+func _on_sound_emitted(position, intensity, soundfile = null):
 	get_aprox_pos(position, intensity, "hearing_capability", "heard_something")
+	if soundfile != null:
+		var Sound = AudioStreamPlayer3D.new()
+		Sound.stream = load(soundfile)
+		Sound.translation = position
+		add_child(Sound)
+		Sound.play()
+		yield(Sound, "finished")
+		Sound.queue_free()
 	
 func _on_smell_emitted(position, intensity):
 	get_aprox_pos(position, intensity, "smelling_capability", "smell_something")
