@@ -86,36 +86,55 @@ func _physics_process(delta):
 
 
 func last_weapon(attempts = 0):
-	if attempts <= inventory.weaposn.size():
+	if inventory.weapons[current_gun] != -1:
+		inventory.weapons[current_gun] = 0
+	if attempts < inventory.weapons.size():
 		if current_gun == 0:
-			current_gun = inventory.weapons.size()
+			current_gun = inventory.weapons.size()-1
 		else:
 			current_gun -= 1
 			
 		if inventory.weapons[current_gun] == -1:
-				var t = last_weapon(attempts+1)
-				if t == -1:
-					return
+			var t = last_weapon(attempts+1)
+			if t == -1:
+				return
 		else:
 			inventory.weapons[current_gun] = 1
 			holding()
 	else:
 		return -1
 	
-
+func update_inventory():
+	for gun in weapon_point.get_children():
+		gun.setup(self)
+		register_gun(gun)
+	next_weapon()
+	holding()
+	
 func next_weapon(attempts = 0):
-	if attempts <= inventory.weaposn.size():
+	if inventory.weapons[current_gun] != -1:
+		print("Current gun, index: ", current_gun, " exists, setting it to 0")
+		inventory.weapons[current_gun] = 0
+	print("attempt to get next gun")
+	if attempts < inventory.weapons.size():
+		print("attempts available")
 		if current_gun == inventory.weapons.size():
+			print("returning to the front of the array at attempt :", attempts)
 			current_gun = 0
 		else:
+			print("going to the next id in the array")
 			current_gun += 1
 			
 		if inventory.weapons[current_gun] == -1:
-				var t = last_weapon(attempts+1)
-				if t == -1:
-					return
+			print("this one isn't available yet")
+			var t = last_weapon(attempts+1)
+			if t == -1:
+				print("No gun was found")
+				return
 		else:
+			print("Found an available gun")
 			inventory.weapons[current_gun] = 1
 			holding()
 	else:
+		print("Attempts have run out")
 		return -1
