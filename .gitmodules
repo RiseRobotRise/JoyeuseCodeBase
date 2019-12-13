@@ -1,0 +1,3 @@
+[submodule "scatter"]
+	path = scatter
+	url = https://github.com/HungryProton/scatter.git
