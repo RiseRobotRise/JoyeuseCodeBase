@@ -389,24 +389,24 @@ func pick_up(object, kind = "default", id = 0):
 		"weapon":
 		# does the player have this item yet? 
 		# checks the player arsenal to see if it is already there.
-		if arsenal[id] == 0: #no
-			# increment this item inventory id
-			arsenal[id] += 1
+			if arsenal[id] == 0: #no
+				# increment this item inventory id
+				arsenal[id] += 1
 
 			# add object to holding node
-			var pickup = object.instance()
+				var pickup = object.instance()
 
 			# tell the weapon who we are (to account for who hit who, etc).
-			pickup.setup(self)
-			arsenal_links[id] = pickup
+				pickup.setup(self)
+				arsenal_links[id] = pickup
 			
-			$Pivot/weapon_point.add_child(pickup)
-			return true
-		else:
-			var pickup = object.instance()
-			if pickup.dual_wieldable:
-				arsenal_links[id].dual_wield()
-			return false
+				$Pivot/weapon_point.add_child(pickup)
+				return true
+			else:
+				var pickup = object.instance()
+				if pickup.dual_wieldable:
+					arsenal_links[id].dual_wield()
+				return false
 
 
 func last_weapon():

@@ -2,7 +2,7 @@
 # it is extended by each weapon to facilitate their specific functions
 # for example: the fusion pistol is a projectile weapon that has overload events, the pistol can be dual wielded.
 
-extends Node
+extends Spatial
 class_name Weapon
 
 # sets the readiness of the weapon to fire
@@ -36,6 +36,7 @@ var dual_wielding = false
 
 func setup(wieldee):
 	wielder = wieldee
+
 
 
 func primary_fire():
@@ -89,7 +90,4 @@ func ammo_check_secondary(size = 1):
 func dual_wield():
 	
 	pass
-#func _process(delta):
-#	# Called every frame. Delta is time since last frame.
-#	# Update game logic here.
-#	pass
+

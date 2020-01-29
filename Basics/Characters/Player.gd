@@ -20,7 +20,7 @@ func _ready():
 	team = 1
 	maxhealth = 300
 	current_state = IDLE
-	$weapons/fusion_pistol.setup(self)
+	update_inventory()
 
 #func _init(_type, _team, _gun):
 #	type = _type
@@ -29,13 +29,7 @@ func _ready():
 	
 
 
-func primary_fire():
-	#print("attempting to fire!")
-	var held_weapon = weapon_point.get_children()
-	if held_weapon.size() > 0:
-		if held_weapon[0].has_method("primary_fire"):
-			#print("click!")
-			held_weapon[0].primary_fire()
+
 
 
 func _physics_process(delta):
@@ -46,7 +40,7 @@ func _physics_process(delta):
 		get_parent().Camera_Node.make_current()
 		
 		if Input.is_action_pressed("shoot"):
-			primary_fire()
+			primary_fire() 
 			
 		if Input.is_action_pressed("shoot_secondary"):
 			secondary_fire()
@@ -54,7 +48,7 @@ func _physics_process(delta):
 		if Input.is_action_just_released("shoot_secondary"):
 			secondary_release()
 		
-		if Input.is_action_just_pressed("last_weapon"):
+		if Input.is_action_just_pressed("prev_weapon"):
 			last_weapon()
 		
 		if Input.is_action_just_pressed("next_weapon"):
@@ -88,30 +82,62 @@ func _physics_process(delta):
 	spatial_move_to(dir, delta, false)
 	
 #	$Model.transform = ModelTransform
-func secondary_fire():
-	#print("attempting to fire!")
-	var held_weapon = weapon_point.get_children()
-	if held_weapon.size() > 0:
-		if held_weapon[0].has_method("primary_fire"):
-			#print("click!")
-			held_weapon[0].secondary_fire()
 
-func secondary_release():
-	#print("attempting to fire!")
-	var held_weapon = weapon_point.get_children()
-	if held_weapon.size() > 0:
-		if held_weapon[0].has_method("secondary_release"):
-			#print("click!")
-			held_weapon[0].secondary_release()
-			
-func last_weapon():
-	#var held = is_held()
-	#var size = is_held().size()
-	#$Pivot/weapon_point.move_child(held[size-1], 0)
-	pass
+
+
+
 	
-func next_weapon():
-	#var held = is_held()
-	#var size = is_held().size()
-#	$Pivot/weapon_point.move_child(held[0], size)
-	pass
+func update_inventory():
+	for gun in weapon_point.get_children():
+		gun.setup(self)
+		register_gun(gun)
+	next_weapon()
+	holding()
+	
+func next_weapon(attempts = 0):
+	if inventory.weapons[current_gun] != -1:
+		print("Current gun, index: ", current_gun, " exists, setting it to 0")
+		inventory.weapons[current_gun] = 0
+	print("attempt to get next gun")
+	if attempts < inventory.weapons.size():
+		print("attempts available")
+		if current_gun == inventory.weapons.size()-1:
+			print("returning to the front of the array at attempt :", attempts)
+			current_gun = 0
+		else:
+			print("going to the next id in the array")
+			current_gun += 1
+			
+		if inventory.weapons[current_gun] == -1:
+			print("this one isn't available yet")
+			var t = next_weapon(attempts+1)
+			if t == -1:
+				print("No gun was found")
+				return
+		else:
+			print("Found an available gun")
+			inventory.weapons[current_gun] = 1
+			holding()
+	else:
+		print("Attempts have run out")
+		return -1
+		
+		
+func last_weapon(attempts = 0):
+	if inventory.weapons[current_gun] != -1:
+		inventory.weapons[current_gun] = 0
+	if attempts < inventory.weapons.size():
+		if current_gun == 0:
+			current_gun = inventory.weapons.size()-1
+		else:
+			current_gun -= 1
+			
+		if inventory.weapons[current_gun] == -1:
+			var t = last_weapon(attempts+1)
+			if t == -1:
+				return
+		else:
+			inventory.weapons[current_gun] = 1
+			holding()
+	else:
+		return -1

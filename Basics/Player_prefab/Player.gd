@@ -5,6 +5,7 @@ var Player_Node
 var Camera_Node
 
 func _ready():
+	
 	Cam = $Camera.translation
 	Player_Node = $Player
 	Camera_Node = $Camera

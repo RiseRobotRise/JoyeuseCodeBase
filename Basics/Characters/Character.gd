@@ -19,14 +19,15 @@ var bleeds : bool = true
 var bleeding_smell_intensity : int = 10
 var step_sound_intensity : float = 0 # This is calculated from physics values
 var gun_list : Array = []
-var current_gun
+var current_gun = 0
+var active_gun : Object
 var weapon_point
 var hspeed = 0.0
 
 
 ##Weapons and Object Handling
 var inventory : Inventory # inventory array to store the objects we are currently holding
-var arsenal_links : Array = [0,0,0,0,0,0,0,0,0,0]
+var arsenal_links : Array = [null,null,null,null,null,null,null,null,null,null]
 
 #### Movement and physics variables ####
  
@@ -62,7 +63,7 @@ enum {
 	}
 
 class Inventory:
-	var weapons = [0,0,0,0,0,0,0,0,0,0]
+	var weapons = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
 	var ammo = [0,0,0,0,0,0,0,0,0,0]
 	var misc = []
 	func add_ammo(id, amount):
@@ -83,7 +84,9 @@ func _ready():
 	inventory = Inventory.new()
 func _physics_process(delta):
 	step_sound_intensity = (weight*(gravity/9.8) * linear_velocity).length()
-
+func apply_impulse(position, direction):
+	linear_velocity += direction
+	pass
 func spatial_move_to(vector,delta,locked=true):
 	
 	if not flies:
@@ -101,6 +104,8 @@ func spatial_move_to(vector,delta,locked=true):
 	#look_at(vector, Vector3(0,1,0)) #Change to something that turns to the player or something they have to see
 
 	var target_dir = (vector - up*vector.dot(up)).normalized()
+	if vector.length() <= 0:
+		target_dir = (linear_velocity - up*vector.dot(up)).normalized()
 
 	if (is_on_floor() or not locked): #Only lets the character change it's facing direction when it's on the floor.
 		var sharp_turn = hspeed > 0.1 and rad2deg(acos(target_dir.dot(hdir))) > sharp_turn_threshold
@@ -138,7 +143,7 @@ func spatial_move_to(vector,delta,locked=true):
 		var ModelTransform = Transform(m3, mesh_xform.origin)
 		set_transform(ModelTransform)
 
-		if (not jumping and jump_attempt):
+		if (not jumping and jump_attempt) and is_on_floor():
 			vertical_velocity = JumpHeight
 			jumping = true
 			#get_node("sound_jump").play()
@@ -149,7 +154,7 @@ func spatial_move_to(vector,delta,locked=true):
 				horizontal_velocity = horizontal_velocity.normalized()*max_speed
 		else:
 			if (air_idle_deaccel):
-				hspeed = hspeed - (deaccel*0.2)*delta
+				hspeed -= (deaccel*0.2)*delta
 				if (hspeed < 0):
 					hspeed = 0
 
@@ -166,7 +171,7 @@ func spatial_move_to(vector,delta,locked=true):
 
 		var movement_dir = linear_velocity
 
-	linear_velocity = move_and_slide(linear_velocity,-gravity.normalized())
+	linear_velocity = move_and_slide(linear_velocity, up)
 
 func hit(damage):
 	health -= damage
@@ -180,17 +185,44 @@ func add_health(mnt, FillsShield):
 		elif shield < maxshield:
 			shield += mnt
 	shield = clamp(shield, 0, maxshield)
-	health = clamp(health, 0, maxhealth)		
+	health = clamp(health, 0, maxhealth)
+	
+	
+func holding():
+	for i in range(inventory.weapons.size()):
+		if inventory.weapons[i] == 0:
+			arsenal_links[i].set_visible(false)
+		if inventory.weapons[i] == 1:
+			arsenal_links[i].set_visible(true)
+			active_gun = arsenal_links[i]
+		if inventory.weapons[i] == 2:
+			pass #Handle dual handling here
 			
-func pick_up(object, kind = "default", id = 0, dual_pickable=false):
+			
+func register_gun(node):
+	if node is Weapon:
+		if arsenal_links.size() <= node.id:
+			arsenal_links.resize(node.id)
+		arsenal_links[node.id] = node
+		if node.id >= inventory.weapons.size():
+			inventory.weapons.resize(node.id)
+		inventory.weapons[node.id] = 0
+		
+	
 
+func pick_up(object, kind = "default", id = 0, dual_pickable=false):
+	
 	if kind == "ammo":
+		if id >= inventory.ammo.size():
+			inventory.ammo.resize(id)
 		inventory.add_ammo(object, 1)
 		return true
 	elif kind == "weapon":
+		if id >= inventory.weapons.size():
+			inventory.weapons.resize(id)
 		# does the player have this item yet? 
 		# checks the player arsenal to see if it is already there.
-		if inventory.weapons[id] == 0: #no
+		if inventory.weapons[id] == -1: #no
 
 			# increment this item inventory id
 			inventory.weapons[id] += 1
@@ -200,12 +232,34 @@ func pick_up(object, kind = "default", id = 0, dual_pickable=false):
 
 			# tell the weapon who we are (to account for who hit who, etc).
 			pickup.setup(self)
+			print(pickup)
 			arsenal_links[id] = pickup
 			
 			weapon_point.add_child(pickup)
+			pickup.set_visible(false)
 			return true
 		else:
-			if dual_pickable:
+			if dual_pickable and inventory.weapons[id] == 0:
 				var pickup = object.instance() 
 				arsenal_links[id].dual_wield()
 			return false
+			
+func secondary_fire():
+	if active_gun != null:
+		if active_gun.has_method("secondary_fire"):
+			active_gun.secondary_fire()
+
+func secondary_release():
+	if active_gun != null:
+		if active_gun.has_method("secondary_release"):
+			active_gun.secondary_release()
+
+func primary_fire():
+	if active_gun != null:
+		if active_gun.has_method("primary_fire"):
+			active_gun.primary_fire()
+
+func primary_release():
+	if active_gun != null:
+		if active_gun.has_method("primary_release"):
+			active_gun.primary_release()
