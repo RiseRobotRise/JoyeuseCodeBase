@@ -1,10 +1,17 @@
 extends KinematicBody
 class_name Character
 
+enum {
+	OBJECTIVE_POSITION = 0,
+	OBJECTIVE_TYPE = 1,
+	OBJECTIVE_HEALTH = 2,
+	OBJECTIVE_TEAM = 3
+	}
+
 
 #### Character variables ####
-# warning-ignore:unused_class_variable
-# warning-ignore:unused_variable
+# warning-ignore-all:unused_class_variable
+# warning-ignore-all:unused_variable
 
 var type : String = "Character"
 var team : int = 0
@@ -18,16 +25,16 @@ var smelling_capablity : int = 1
 var bleeds : bool = true
 var bleeding_smell_intensity : int = 10
 var step_sound_intensity : float = 0 # This is calculated from physics values
-var gun_list : Array = []
-var current_gun = 0
-var active_gun : Object
-var weapon_point
-var hspeed = 0.0
+var object_list : Array = []
+var current_object = 0
+var active_object : Object
+var weapon_point : Node
+var hspeed : float = 0.0
 
 
 ##Weapons and Object Handling
-var inventory : Inventory # inventory array to store the objects we are currently holding
-var arsenal_links : Array = [null,null,null,null,null,null,null,null,null,null]
+var inventory : Inventory # inventory to store the objects we are currently holding
+
 
 #### Movement and physics variables ####
  
@@ -51,42 +58,42 @@ var up = Vector3()
 export(float) var speedfactor = 0.8
 var sharp_turn_threshold = 140
 #### Network vars ####
-var slave_linear_vel : Vector3
-var slave_translation : Vector3
-var slave_transform : Transform
-### ENUM ####
-enum {
-	OBJECTIVE_POSITION = 0,
-	OBJECTIVE_TYPE = 1,
-	OBJECTIVE_HEALTH = 2,
-	OBJECTIVE_TEAM = 3
-	}
+puppet var puppet_linear_vel : Vector3
+puppet var puppet_translation : Vector3
+puppet var puppet_transform : Transform
 
-class Inventory:
-	var weapons = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
-	var ammo = [0,0,0,0,0,0,0,0,0,0]
-	var misc = []
-	func add_ammo(id, amount):
-		ammo[id]+=amount
-	func add_weapon(id, amount):
-		weapons[id] = 1
-	func reload_weapon(id):
-		pass
-	func use_item(id, uses):
-		if misc.size() > id:
-			misc[id] -=1
-		if misc[id] < 0:
-			misc[id] = 0
-		pass 
-		
+func adjust_facing(p_facing, p_target, p_step, p_adjust_rate, current_gn):
+	var n = p_target # Normal
+	var t = n.cross(current_gn).normalized()
+
+	var x = n.dot(p_facing)
+	var y = t.dot(p_facing)
+
+	var ang = atan2(y,x)
+
+	if (abs(ang) < 0.001): # Too small
+		return p_facing
+
+	var s = sign(ang)
+	ang = ang*s
+	var turn = ang*p_adjust_rate*p_step
+	var a
+	if (ang < turn):
+		a = ang
+	else:
+		a = turn
+	ang = (ang - a)*s
+	return (n*cos(ang) + t*sin(ang))*p_facing.length()
 
 func _ready():
 	inventory = Inventory.new()
+
 func _physics_process(delta):
 	step_sound_intensity = (weight*(gravity/9.8) * linear_velocity).length()
+	
 func apply_impulse(position, direction):
 	linear_velocity += direction
-	pass
+
 func spatial_move_to(vector,delta,locked=true):
 	
 	if not flies:
@@ -116,33 +123,25 @@ func spatial_move_to(vector,delta,locked=true):
 				#if (linear_vel > brake_velocity_limit and linear_dir.dot(ctarget_dir) < -cos(Math::deg2rad(brake_angular_limit)))
 				#	brake = true
 				#else
-				hdir = RAD.adjust_facing(hdir, target_dir, delta, 1.0/hspeed*turn_speed, up)
-				
-
+				hdir = adjust_facing(hdir, target_dir, delta, 1.0/hspeed*turn_speed, up)
 			else:
 				hdir = target_dir
-
-
 			if (hspeed < max_speed):
 				hspeed += accel*delta
 		else:
 			hspeed -= deaccel*delta
 			if (hspeed < 0):
 				hspeed = 0
-
 		horizontal_velocity = hdir*hspeed
-
-
 		var mesh_xform = get_transform()
 		var facing_mesh = -mesh_xform.basis[0].normalized()
 		facing_mesh = (facing_mesh - up*facing_mesh.dot(up)).normalized()
 
 		if (hspeed>0):
-			facing_mesh = RAD.adjust_facing(facing_mesh, target_dir, delta, 1.0/hspeed*turn_speed, up)
+			facing_mesh = adjust_facing(facing_mesh, target_dir, delta, 1.0/hspeed*turn_speed, up)
 		var m3 = Basis(-facing_mesh, up, -facing_mesh.cross(up).normalized()).scaled(scale)
 		var ModelTransform = Transform(m3, mesh_xform.origin)
 		set_transform(ModelTransform)
-
 		if (not jumping and jump_attempt) and is_on_floor():
 			vertical_velocity = JumpHeight
 			jumping = true
@@ -157,20 +156,15 @@ func spatial_move_to(vector,delta,locked=true):
 				hspeed -= (deaccel*0.2)*delta
 				if (hspeed < 0):
 					hspeed = 0
-
 				horizontal_velocity = hdir*hspeed
-
 	if (jumping and vertical_velocity < 0):
 		jumping = false
 	if not flies:
 		linear_velocity = horizontal_velocity + up*vertical_velocity
 	else:
 		linear_velocity = horizontal_velocity
-
 	if (is_on_floor()):
-
 		var movement_dir = linear_velocity
-
 	linear_velocity = move_and_slide(linear_velocity, up)
 
 func hit(damage):
@@ -188,30 +182,17 @@ func add_health(mnt, FillsShield):
 	health = clamp(health, 0, maxhealth)
 	
 	
-func holding():
+func update_visibility():
 	for i in range(inventory.weapons.size()):
 		if inventory.weapons[i] == 0:
-			arsenal_links[i].set_visible(false)
+			inventory.arsenal_links[i].set_visible(false)
 		if inventory.weapons[i] == 1:
-			arsenal_links[i].set_visible(true)
-			active_gun = arsenal_links[i]
+			inventory.arsenal_links[i].set_visible(true)
+			active_object = inventory.arsenal_links[i]
 		if inventory.weapons[i] == 2:
 			pass #Handle dual handling here
-			
-			
-func register_gun(node):
-	if node is Weapon:
-		if arsenal_links.size() <= node.id:
-			arsenal_links.resize(node.id)
-		arsenal_links[node.id] = node
-		if node.id >= inventory.weapons.size():
-			inventory.weapons.resize(node.id)
-		inventory.weapons[node.id] = 0
-		
-	
 
 func pick_up(object, kind = "default", id = 0, dual_pickable=false):
-	
 	if kind == "ammo":
 		if id >= inventory.ammo.size():
 			inventory.ammo.resize(id)
@@ -223,17 +204,15 @@ func pick_up(object, kind = "default", id = 0, dual_pickable=false):
 		# does the player have this item yet? 
 		# checks the player arsenal to see if it is already there.
 		if inventory.weapons[id] == -1: #no
-
 			# increment this item inventory id
 			inventory.weapons[id] += 1
-
-			# add object to holding node
+			# add object to update_visibility node
 			var pickup = object.instance()
 
 			# tell the weapon who we are (to account for who hit who, etc).
 			pickup.setup(self)
 			print(pickup)
-			arsenal_links[id] = pickup
+			inventory.arsenal_links[id] = pickup
 			
 			weapon_point.add_child(pickup)
 			pickup.set_visible(false)
@@ -241,25 +220,25 @@ func pick_up(object, kind = "default", id = 0, dual_pickable=false):
 		else:
 			if dual_pickable and inventory.weapons[id] == 0:
 				var pickup = object.instance() 
-				arsenal_links[id].dual_wield()
+				inventory.arsenal_links[id].dual_wield()
 			return false
 			
-func secondary_fire():
-	if active_gun != null:
-		if active_gun.has_method("secondary_fire"):
-			active_gun.secondary_fire()
+func secondary_use():
+	if active_object != null:
+		if active_object.has_method("secondary_use"):
+			active_object.secondary_use()
 
 func secondary_release():
-	if active_gun != null:
-		if active_gun.has_method("secondary_release"):
-			active_gun.secondary_release()
+	if active_object != null:
+		if active_object.has_method("secondary_release"):
+			active_object.secondary_release()
 
-func primary_fire():
-	if active_gun != null:
-		if active_gun.has_method("primary_fire"):
-			active_gun.primary_fire()
+func primary_use():
+	if active_object != null:
+		if active_object.has_method("primary_use"):
+			active_object.primary_use()
 
 func primary_release():
-	if active_gun != null:
-		if active_gun.has_method("primary_release"):
-			active_gun.primary_release()
+	if active_object != null:
+		if active_object.has_method("primary_release"):
+			active_object.primary_release()

@@ -2,12 +2,12 @@ extends Character
 class_name AI_Character
 
 
-onready var WORLD = get_node("/root/world")
+onready var world : Node = get_node("/root/world")
 var current_point : Vector3 = Vector3(0,0,0)
 var point_number :int = 0
 var AI_PATH : Array = []
-var has_destination = false
-var has_target = false
+var has_destination : bool = false
+var has_target : bool = false
 
 #### Properties ####
 export(float) var attack_min_range = 10
@@ -22,7 +22,7 @@ signal smell_something(position)
 ###############Basic Movement Functions####################
 func update_path(to):
 	has_destination =false
-	AI_PATH = WORLD.find_shortest_path(translation, to)
+	AI_PATH = world.find_shortest_path(translation, to)
 	current_point = AI_PATH[0]
 	point_number = 0
 	has_destination = true
