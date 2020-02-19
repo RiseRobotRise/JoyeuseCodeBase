@@ -3,31 +3,28 @@ extends RigidBody
 class_name Projectile
 
 
-# variables for position
-var pos
-
 # following variables initiate information about the projectile itself.
 
 # determines the type of effect the weapon exerts on impact
 enum projectile_types {explosive, energy, flame}
-export(bool) var use_physics
-export(bool) var splash_damage = false
-export(float) var shot_sound_intensity = 1.2
-export(float) var hit_sound_intensity = 1.2
-export (projectile_types) var type
+export(bool) var use_physics : bool
+export(bool) var splash_damage : bool = false
+export(float) var shot_sound_intensity : float = 1.2
+export(float) var hit_sound_intensity : float = 1.2
+export (projectile_types) var type : int
 # determines initial speed of weapon
-export(float) var speed = 25
+export(float) var speed  : float = 25
 
 # sets whether the weapon constantly exerts thrust (like a rocket propelled weapon) or not.
-export var propelled = false
+export var propelled : bool = false
 
-export(PackedScene) var explosion = preload("../../Basics/Guns/explosion.tscn")
+export(PackedScene) var explosion : PackedScene = preload("../../Basics/Guns/explosion.tscn")
 
-export(PackedScene) var splash = preload("../..//Basics/Guns/explosion.tscn")
+export(PackedScene) var splash : PackedScene = preload("../..//Basics/Guns/explosion.tscn")
 
-export var damage = 10
+export var damage : float = 10
 
-var wielder
+var wielder : JOYCharacter
 
 
 func setup(wieldee):
@@ -58,11 +55,8 @@ func _ready():
 	
 	propel()
 
-	
-
 # when the hitbox collides with something:
 func _on_Area_body_entered(body):
-
 	# if its a character or object (wall, etc)
 	if body is StaticBody or body is RigidBody or body is KinematicBody or body is GridMap:
 				# so long as the object is NOT the bolt itself (since the bolt is a rigid body)
@@ -86,13 +80,9 @@ func _on_Area_body_entered(body):
 			# have some effect (right now it just queues free.
 			queue_free()
 
-
-
 		if body.has_method("hit"):
 			body.hit(damage)
 			queue_free()
-
-
 
 
 func _on_killtimer_timeout():

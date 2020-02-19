@@ -1,4 +1,4 @@
-extends Character
+extends JOYCharacter
 class_name AI_Character
 
 
@@ -128,7 +128,7 @@ func nothing(var1 = null, var2 = null, var4= null, var5 = null, var6=null):
 
 func _on_Eyes_sight(objects, points, normals):
 	for object in objects:
-		if object is Character or object is Workstation:
+		if object is JOYCharacter or object is JOYWorkstation:
 			var Objective_info = RAD._get_object_info(object)
 			RAD.debug_print("Saw an objective")
 			emit_signal("saw_object", Objective_info)

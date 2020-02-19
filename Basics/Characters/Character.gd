@@ -1,5 +1,5 @@
 extends KinematicBody
-class_name Character
+class_name JOYCharacter
 
 enum {
 	OBJECTIVE_POSITION = 0,
@@ -57,10 +57,13 @@ var gravity = Vector3(0,-grav,0)
 var up = Vector3()
 export(float) var speedfactor = 0.8
 var sharp_turn_threshold = 140
-#### Network vars ####
+
+
+#### Network vars #####################
 puppet var puppet_linear_vel : Vector3
 puppet var puppet_translation : Vector3
 puppet var puppet_transform : Transform
+#######################################
 
 func adjust_facing(p_facing, p_target, p_step, p_adjust_rate, current_gn):
 	var n = p_target # Normal
