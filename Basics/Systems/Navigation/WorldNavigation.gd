@@ -1,5 +1,5 @@
 extends Navigation
-class_name World_Navigator, "../../icons/icon.png"
+class_name World_Navigator, "../../../icons/icon.png"
 
 var astar : AStar = AStar.new()
 
@@ -56,16 +56,16 @@ func _ready():
 	#calculate_nav_mesh()
 
 func _input(event):
-#	if event extends InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
 #	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
-#		var from = get_node("cambase/Camera").project_ray_origin(event.position)
-#		var to = from + get_node("cambase/Camera").project_ray_normal(event.position)*100
-#		var p = get_closest_point_to_segment(from, to)
-#		
-#		var PATH = get_node("Sound_Smell_Manager/KinematicBody").update_path(p)
-#		get_node("Sound_Smell_Manager/KinematicBody").has_destination = true
+	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
+		var from = get_node("cambase/Camera").project_ray_origin(event.position)
+		var to = from + get_node("cambase/Camera").project_ray_normal(event.position)*100
+		var p = get_closest_point_to_segment(from, to)
 		
-	
+		var PATH = get_node("SoundSmellManager/AI_Character").update_path(p)
+		get_node("SoundSmellManager/AI_Character").has_destination = true
+
+
 #		var im = get_node("draw")
 #		im.set_material_override(m)
 #		im.clear()
@@ -77,13 +77,13 @@ func _input(event):
 #		for x in PATH:
 #			im.add_vertex(x)
 #		im.end()
-	pass
-#	if event is InputEventMouseMotion:
-#		if event.button_mask&(BUTTON_MASK_MIDDLE+BUTTON_MASK_RIGHT):
-#			camrot += event.relative.x * 0.005
-#			camrot2 += event.relative.y * 0.005
-#			get_node("cambase").set_rotation(Vector3(camrot2, camrot, 0))
-#			print("camrot ", camrot)
+#	pass
+	if event is InputEventMouseMotion:
+		if event.button_mask&(BUTTON_MASK_MIDDLE+BUTTON_MASK_RIGHT):
+			camrot += event.relative.x * 0.005
+			camrot2 += event.relative.y * 0.005
+			get_node("cambase").set_rotation(Vector3(camrot2, camrot, 0))
+			print("camrot ", camrot)
 			
 
 func find_shortest_path(from: Vector3, to : Vector3):
@@ -111,14 +111,17 @@ func get_astar_path(from: Vector3, to: Vector3):
 func get_absolute_path(from:Vector3, to:Vector3):
 	#First we calculate the Astar path
 	var astar_path : Array = get_astar_path(from, to)
+	if astar_path.size() < 1:
+		astar_path = get_navmesh_path(from, to)
 	print("First Astar point is" + str(astar_path[0]))
 	print("Last Astar point is" + str(astar_path[astar_path.size()-1]))
 	print("origin is" + str(from))
 	print("destination is" + str(to))
 	var first_point = astar_path[0]
 	#We get the first point of the path
-	var last_point = (astar_path.invert()) #The astar path is backwards
-	last_point = astar_path[0]
+	(astar_path.invert()) 
+	var last_point = astar_path[0] #The astar path is backwards
+
 	#astar_path.invert()
 	#We get the last point of the path
 	

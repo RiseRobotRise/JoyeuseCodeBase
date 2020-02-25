@@ -1,14 +1,31 @@
 extends JOYCharacter
-class_name AI_Character
+###################
+## AI STEERING ##
+var agent : GSAISteeringAgent
+var behaviors = {
+	"flee" : GSAIBlend.new(agent),
+	#flee includes: 
+	# Evade
+	# Flee
+	# Separation
+	"pursue" : GSAIBlend.new(agent),
+	#pursue includes:
+	# Cohesion
+	# Pursue
+	"keep_range" : GSAIBlend.new(agent)
+	# includes:
+	# stay at certain distance
+}
 
-
-onready var world : Node = get_node("/root/world")
+###################
 var current_point : Vector3 = Vector3(0,0,0)
 var point_number :int = 0
 var AI_PATH : Array = []
 var has_destination : bool = false
 var has_target : bool = false
 
+onready var world : Node = get_node("root/world")
+onready var SSM : SoundSmellManager
 #### Properties ####
 export(float) var attack_min_range = 10
 export(float) var attack_max_range = 50
@@ -21,6 +38,7 @@ signal smell_something(position)
 
 ###############Basic Movement Functions####################
 func update_path(to):
+	world = get_node("/root/world")
 	has_destination =false
 	AI_PATH = world.find_shortest_path(translation, to)
 	current_point = AI_PATH[0]
@@ -29,8 +47,38 @@ func update_path(to):
 	print(AI_PATH)
 	return AI_PATH
 	
-func _enter_tree():
-	type = "AI_Character"
+func setup_world():
+	if get_parent() is SoundSmellManager:
+		SSM = get_parent()
+	elif get_parent().get_parent() is SoundSmellManager:
+		SSM = get_parent().get_parent()
+	else:
+		return 
+func _ready():
+	setup_world()
+	for node in get_children():
+		if node is JOYCharacter:
+			node.type = "AI_Character"
+func _physics_process(delta):
+	move_in_path(delta)
+func move_in_path(delta):
+	if has_destination:
+		var vector = (current_point-translation)
+		
+		if (vector).length() > 2:
+			vector = current_point-translation
+			
+			spatial_move_to(vector, delta)
+		else: 
+			if point_number < AI_PATH.size()-1:
+				point_number += 1
+				current_point = AI_PATH[point_number]
+		
+	else:
+		spatial_move_to(Vector3(), delta)
+
+
+	
 func update_direction(path_points: Array):
 	var i : int = 0
 	var point = path_points[i]
@@ -64,13 +112,11 @@ func decide_dual(motivation, signal1, signal2):
 	if motivation > 0.5:
 		emit_signal(signal2)
 
-
 func play_sound(name:String, intensity):
 	var stream = load(name)
 	if is_valid_sound(stream):
-		$Mouth.stream = stream
-		$Mouth.play()
-		get_parent().emit_signal("sound_emitted",translation,intensity)
+		add_child(AutoSound3D.new(stream, Vector3(0,0,0)))
+		world.emit_signal("sound_emitted",translation,intensity)
 
 func is_valid_sound(res):
 	var valid_types = [
@@ -93,31 +139,6 @@ func decide_fuzzy(motiv1,motiv2,motiv3, signal1, signal2, signal3):
 	if motiv1 == max(max(motiv1,motiv2),motiv3):
 		emit_signal(signal1)
 
-##################Compiled behavior############################
-
-
-func _ready():
-	get_parent()._register_AI_Actor(self)
-
-
-func _process(delta):
-	if has_destination:
-		var vector = (current_point-translation)
-		
-		if (vector).length() > 2:
-			vector = current_point-translation
-			
-			spatial_move_to(vector, delta)
-		else: 
-			if point_number < AI_PATH.size()-1:
-				point_number += 1
-				current_point = AI_PATH[point_number]
-				print("translation is" + str(translation))
-		
-	else:
-		spatial_move_to(Vector3(), delta)
-	
-
 func dead():
 	get_parent()._unregister_AI_Actor(self)
 	if bleeds:
@@ -129,7 +150,10 @@ func nothing(var1 = null, var2 = null, var4= null, var5 = null, var6=null):
 func _on_Eyes_sight(objects, points, normals):
 	for object in objects:
 		if object is JOYCharacter or object is JOYWorkstation:
-			var Objective_info = RAD._get_object_info(object)
-			RAD.debug_print("Saw an objective")
+			var Objective_info = Decoder.get_object_info(object)
+			print_debug("Saw an objective")
 			emit_signal("saw_object", Objective_info)
 
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass

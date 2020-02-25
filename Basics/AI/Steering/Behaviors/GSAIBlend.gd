@@ -23,7 +23,6 @@ func add(behavior: GSAISteeringBehavior, weight: float) -> void:
 	behavior.agent = agent
 	_behaviors.append({behavior = behavior, weight = weight})
 
-
 # Returns the behavior at the specified `index`, or an empty `Dictionary` if
 # none was found.
 func get_behavior_at(index: int) -> Dictionary:

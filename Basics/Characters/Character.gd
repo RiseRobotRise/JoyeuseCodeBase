@@ -33,7 +33,7 @@ var hspeed : float = 0.0
 
 
 ##Weapons and Object Handling
-var inventory : Inventory # inventory to store the objects we are currently holding
+var inventory  # inventory to store the objects we are currently holding
 
 
 #### Movement and physics variables ####
@@ -89,7 +89,8 @@ func adjust_facing(p_facing, p_target, p_step, p_adjust_rate, current_gn):
 	return (n*cos(ang) + t*sin(ang))*p_facing.length()
 
 func _ready():
-	inventory = Inventory.new()
+#	inventory = Inventory.new()
+	pass
 
 func _physics_process(delta):
 	step_sound_intensity = (weight*(gravity/9.8) * linear_velocity).length()

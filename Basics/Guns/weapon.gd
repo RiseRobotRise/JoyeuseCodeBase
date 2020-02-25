@@ -3,7 +3,7 @@
 # for example: the fusion pistol is a projectile weapon that has overload events, the pistol can be dual wielded.
 
 extends JOYObject
-class_name Weapon
+class_name JOYWeapon
 
 # sets the readiness of the weapon to fire
 var reloading : bool = false
@@ -28,7 +28,7 @@ var secondary_magazine_size = 0 # how much ammo the secondary magazine canhold.
 
 
 
-var wielder : JOYCharacter
+var wielder : Node
 
 export var dual_wieldable = false
 var dual_wielding = false

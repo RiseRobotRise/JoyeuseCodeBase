@@ -1,11 +1,11 @@
-extends Node
-func map(x, in_min, in_max, out_min, out_max):
+class_name RAD
+static func map(x, in_min, in_max, out_min, out_max):
 	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 #Usage:  val = map(val, 0, 1023, 0, 255)
 
 
 
-func randv(vector:Vector3):
+static func randv(vector:Vector3):
 	return Vector3(
 		rand_range(-vector.x,vector.x),
 		rand_range(-vector.y,vector.y),
@@ -13,7 +13,7 @@ func randv(vector:Vector3):
 		)
 
 
-func rotation_from_to(A,B):
+static func rotation_from_to(A,B):
 	var output=Vector3()
 	output.x=rad2deg(atan2((B.y-A.y),(B.z-A.z)))
 	output.y=rad2deg(atan2((B.z-A.z),(B.x-A.x)))
@@ -23,7 +23,7 @@ func rotation_from_to(A,B):
 #Both Coordinates must be the same type (either local or global)
 
 
-func adjust_facing(p_facing, p_target, p_step, p_adjust_rate, current_gn):
+static func adjust_facing(p_facing, p_target, p_step, p_adjust_rate, current_gn):
 	var n = p_target # Normal
 	var t = n.cross(current_gn).normalized()
 
@@ -48,7 +48,7 @@ func adjust_facing(p_facing, p_target, p_step, p_adjust_rate, current_gn):
 	return (n*cos(ang) + t*sin(ang))*p_facing.length()
 	
 
-func _get_object_info(object:Node):
+static func _get_object_info(object:Node):
 	var propetries = {}
 	if object.has_method("get_global_transform"):
 		if object is StaticBody:
@@ -61,5 +61,6 @@ func _get_object_info(object:Node):
 				"team" : object.team
 				 }
 			return propetries.values()
-func debug_print(what):
+			
+static func debug_print(what):
 	print(what)

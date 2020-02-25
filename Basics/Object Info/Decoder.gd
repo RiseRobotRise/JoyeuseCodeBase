@@ -1,4 +1,10 @@
 extends Node
+class_name Decoder
+"""
+Takes nodes and returns structured static information, useful to use as 
+networked packages. 
+"""
+
 enum OBJECT_TYPE {
 	NULL = -1,
 	CHARACTER = 0,
@@ -13,3 +19,5 @@ var projectile_structure_template : Dictionary = {
 	"rotation" : Vector3(),
 	"damage" : 1
 }
+static func get_object_info(object : Node):
+	pass

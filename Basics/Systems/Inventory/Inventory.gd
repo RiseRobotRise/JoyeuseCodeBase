@@ -13,7 +13,7 @@ func add_ammo(id : int, amount : int): #Ammo works by cartidges, ammo has their 
 func reload_weapon(id : int, secondary : bool = false): #reloads the weapon with "id" 
 	var ammo_id : int = 0
 	if weapons.has(id):
-		var weapon : Weapon = weapons[id].node_ref
+		var weapon : JOYWeapon = weapons[id].node_ref
 		ammo_id = weapons[id]["primary_ammo_id"]
 		if secondary:
 			ammo_id = weapons[id]["secondary_ammo_id"]
@@ -30,7 +30,7 @@ func use_item(id, uses) -> bool: #Returns the success of the action.
 		return true
 	return false
 
-func _register_weapon(node : Weapon):
+func _register_weapon(node : JOYWeapon):
 	if weapons.has(node.id):
 		if weapons[node.id].amount < 2 and weapons[node.id].dual == true:
 			weapons[node.id].amount = 2
@@ -64,7 +64,7 @@ func _register_misc(node : JOYObject) -> void:
 		new_object["node_ref"] = node
 
 func register_object(node : JOYObject) -> void:
-	if node is Weapon:
+	if node is JOYWeapon:
 		_register_weapon(node)
 		
 	elif node is JOYObject:

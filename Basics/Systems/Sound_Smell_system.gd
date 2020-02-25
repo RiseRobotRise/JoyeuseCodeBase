@@ -1,7 +1,7 @@
 extends Spatial
-class_name Sound_Smell_Manager, "../../icons/SH_SYSTEM.png"
+class_name SoundSmellManager, "../../icons/SH_SYSTEM.png"
 
-var Active_AI_Actors = []
+var active_ai_actors : Array =  []
 signal smell_emitted(where, intensity, soundfile)
 signal sound_emitted(where, intensity)
 
@@ -17,25 +17,23 @@ func _is_valid_character(node:Node):
 	if not (node.has_user_signal("smell_smothing") and node._get("smelling_capability")!=null):
 		return true
 
-func _register_AI_Actor(node):
+func _register_ai_actor(node):
 	if _is_valid_character(node):
-		Active_AI_Actors.append(node)
-		Active_AI_Actors.sort()
+		active_ai_actors.append(node)
+		active_ai_actors.sort()
 	else:
 		print("Error registering Actor, please verify")
 
-
-func _unregister_AI_Actor(node):
-	var key = Active_AI_Actors.find(node)
+func _unregister_ai_actor(node):
+	var key = active_ai_actors.find(node)
 	if key != -1:
-		Active_AI_Actors.remove(key)
+		active_ai_actors.remove(key)
 	
-
 func get_aprox_pos(position, intensity, property, signal_name):
 	var final_intensity
 	var pos_aprox
 	var distance
-	for AI_Actor in Active_AI_Actors:
+	for AI_Actor in active_ai_actors:
 		distance = (AI_Actor.translation-position).length()
 		if distance >= 0.2:
 			final_intensity = intensity / pow(distance,2)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Basics/Characters/AI.gd" type="Script" id=1]
-[ext_resource path="res://Basics/Characters/Eyes.gd" type="Script" id=2]
+[ext_resource path="res://joyeuse/Basics/AI/AI_Individual.gd" type="Script" id=1]
+[ext_resource path="res://joyeuse/Basics/AI/Eyes.gd" type="Script" id=2]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.679838
