@@ -14,7 +14,7 @@ export(float) var hit_sound_intensity : float = 1.2
 export (projectile_types) var type : int
 # determines initial speed of weapon
 export(float) var speed  : float = 25
-
+var pos
 # sets whether the weapon constantly exerts thrust (like a rocket propelled weapon) or not.
 export var propelled : bool = false
 

@@ -55,15 +55,15 @@ func _ready():
 	m.albedo_color = Color(1.0, 1.0, 1.0, 1.0)
 	#calculate_nav_mesh()
 
-func _input(event):
+#func _input(event):
+##	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
 #	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
-	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
-		var from = get_node("cambase/Camera").project_ray_origin(event.position)
-		var to = from + get_node("cambase/Camera").project_ray_normal(event.position)*100
-		var p = get_closest_point_to_segment(from, to)
-		
-		var PATH = get_node("SoundSmellManager/AI_Character").update_path(p)
-		get_node("SoundSmellManager/AI_Character").has_destination = true
+#		var from = get_node("cambase/Camera").project_ray_origin(event.position)
+#		var to = from + get_node("cambase/Camera").project_ray_normal(event.position)*100
+#		var p = get_closest_point_to_segment(from, to)
+#
+#		var PATH = get_node("SoundSmellManager/AI_Character").update_path(p)
+#		get_node("SoundSmellManager/AI_Character").has_destination = true
 
 
 #		var im = get_node("draw")
@@ -78,13 +78,13 @@ func _input(event):
 #			im.add_vertex(x)
 #		im.end()
 #	pass
-	if event is InputEventMouseMotion:
-		if event.button_mask&(BUTTON_MASK_MIDDLE+BUTTON_MASK_RIGHT):
-			camrot += event.relative.x * 0.005
-			camrot2 += event.relative.y * 0.005
-			get_node("cambase").set_rotation(Vector3(camrot2, camrot, 0))
-			print("camrot ", camrot)
-			
+#	if event is InputEventMouseMotion:
+#		if event.button_mask&(BUTTON_MASK_MIDDLE+BUTTON_MASK_RIGHT):
+#			camrot += event.relative.x * 0.005
+#			camrot2 += event.relative.y * 0.005
+#			get_node("cambase").set_rotation(Vector3(camrot2, camrot, 0))
+#			print("camrot ", camrot)
+#
 
 func find_shortest_path(from: Vector3, to : Vector3):
 	var absoulut = get_absolute_path(from, to)

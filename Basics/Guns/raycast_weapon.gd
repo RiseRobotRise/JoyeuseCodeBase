@@ -1,4 +1,4 @@
-extends Weapon
+extends JOYWeapon
 class_name RaycastWeapon
 
 # class member variables go here, for example:

@@ -1,4 +1,4 @@
-extends Character
+extends JOYCharacter
 class_name Player, "../../icons/player.png"
 
 var current_state = 0 
@@ -40,10 +40,10 @@ func _physics_process(delta):
 		get_parent().Camera_Node.make_current()
 		
 		if Input.is_action_pressed("shoot"):
-			primary_fire() 
+			primary_use() 
 			
 		if Input.is_action_pressed("shoot_secondary"):
-			secondary_fire()
+			secondary_use()
 		
 		if Input.is_action_just_released("shoot_secondary"):
 			secondary_release()
@@ -71,9 +71,9 @@ func _physics_process(delta):
 			rset("slave_translation", translation)
 			rset("slave_transform", get_parent().get_node("Player/Model").transform)
 	else:
-		get_parent().get_node("Player/Model").transform = slave_transform
-		translation = slave_translation
-		linear_velocity = slave_linear_vel
+		get_parent().get_node("Player/Model").transform = puppet_transform
+		translation = puppet_translation
+		linear_velocity = puppet_linear_vel
 		
 	jump_attempt = Input.is_action_pressed("jump")
 	shoot_attempt = Input.is_action_pressed("shoot")
@@ -90,11 +90,14 @@ func _physics_process(delta):
 func update_inventory():
 	for gun in weapon_point.get_children():
 		gun.setup(self)
-		register_gun(gun)
+		
+		inventory.register_object(gun)
 	next_weapon()
-	holding()
+	update_visibility()
 	
 func next_weapon(attempts = 0):
+	pass
+"""
 	if inventory.weapons[current_gun] != -1:
 		print("Current gun, index: ", current_gun, " exists, setting it to 0")
 		inventory.weapons[current_gun] = 0
@@ -123,7 +126,10 @@ func next_weapon(attempts = 0):
 		return -1
 		
 		
+"""
 func last_weapon(attempts = 0):
+	pass
+"""
 	if inventory.weapons[current_gun] != -1:
 		inventory.weapons[current_gun] = 0
 	if attempts < inventory.weapons.size():
@@ -141,3 +147,4 @@ func last_weapon(attempts = 0):
 			holding()
 	else:
 		return -1
+"""

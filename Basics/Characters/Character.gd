@@ -33,7 +33,7 @@ var hspeed : float = 0.0
 
 
 ##Weapons and Object Handling
-var inventory  # inventory to store the objects we are currently holding
+var inventory : Inventory = Inventory.new() # inventory to store the objects we are currently holding
 
 
 #### Movement and physics variables ####
@@ -187,6 +187,7 @@ func add_health(mnt, FillsShield):
 	
 	
 func update_visibility():
+	return
 	for i in range(inventory.weapons.size()):
 		if inventory.weapons[i] == 0:
 			inventory.arsenal_links[i].set_visible(false)
@@ -197,35 +198,10 @@ func update_visibility():
 			pass #Handle dual handling here
 
 func pick_up(object, kind = "default", id = 0, dual_pickable=false):
-	if kind == "ammo":
-		if id >= inventory.ammo.size():
-			inventory.ammo.resize(id)
-		inventory.add_ammo(object, 1)
-		return true
-	elif kind == "weapon":
-		if id >= inventory.weapons.size():
-			inventory.weapons.resize(id)
-		# does the player have this item yet? 
-		# checks the player arsenal to see if it is already there.
-		if inventory.weapons[id] == -1: #no
-			# increment this item inventory id
-			inventory.weapons[id] += 1
-			# add object to update_visibility node
-			var pickup = object.instance()
+	inventory.register_object(object)
+	return
+	
 
-			# tell the weapon who we are (to account for who hit who, etc).
-			pickup.setup(self)
-			print(pickup)
-			inventory.arsenal_links[id] = pickup
-			
-			weapon_point.add_child(pickup)
-			pickup.set_visible(false)
-			return true
-		else:
-			if dual_pickable and inventory.weapons[id] == 0:
-				var pickup = object.instance() 
-				inventory.arsenal_links[id].dual_wield()
-			return false
 			
 func secondary_use():
 	if active_object != null:

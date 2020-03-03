@@ -27,7 +27,7 @@ func _ready():
 
 func _on_body_entered(object):
 	print("Entered")
-	if object is Character:
+	if object is JOYCharacter:
 		var obj_ID = object.get_instance_id()
 		if storage.size() <= obj_ID:
 			storage.resize(obj_ID)
@@ -36,7 +36,7 @@ func _on_body_entered(object):
 		object.gravity = c_grav
 		
 func _on_body_exited(object):
-	if object is Character:
+	if object is JOYCharacter:
 		var ext_ID = object.get_instance_id()
 		object.gravity = storage[ext_ID] #Sets gravity to it's original default
 		
