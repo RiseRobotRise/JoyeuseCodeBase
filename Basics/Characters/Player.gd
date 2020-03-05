@@ -89,9 +89,9 @@ func _physics_process(delta):
 	
 func update_inventory():
 	for gun in weapon_point.get_children():
-		gun.setup(self)
-		
-		inventory.register_object(gun)
+		if gun is JOYObject:
+			gun.setup(self)
+			inventory.register_object(gun)
 	next_weapon()
 	update_visibility()
 	

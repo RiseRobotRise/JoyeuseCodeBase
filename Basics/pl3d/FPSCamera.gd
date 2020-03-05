@@ -13,11 +13,15 @@ var Znoice = 0.0
 var Zholder = 0.0
 var v_off = 0.0
 
+
+
+
+
+
 func _ready():
 	set_process_input(true)
 	originaltranslation = Vector3(translation.x,translation.y,translation.z)
 	originalrotation = Vector3(rotation_degrees.x,rotation_degrees.y,rotation_degrees.z)
-
 func bobbing_effect(time, speed, delta):
 	if speed == null:
 		speed = 0
@@ -52,7 +56,10 @@ func _input(ev):
 			pitch = clamp(pitch - ev.relative.y * view_sensitivity,-89,89)
 		rotation_degrees.x = pitch
 		rotation_degrees.y = yaw
+		
 func _process(delta):
+	
+
 	pass
 	#time += delta
 	#bobbing_effect(time, get_parent().Player_Node.hspeed, delta)

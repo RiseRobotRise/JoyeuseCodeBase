@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Joyeuse/Basics/Player_prefab/Player.gd" type="Script" id=1]
 [ext_resource path="res://Joyeuse/Basics/Characters/Player.gd" type="Script" id=2]
 [ext_resource path="res://weapons/fusion_pistol.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Joyeuse/Basics/pl3d/FPSCamera.gd" type="Script" id=4]
+[ext_resource path="res://assets/Characters/Models/M1 Officer/M1 Officer.tscn" type="PackedScene" id=5]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.372914
@@ -27,30 +28,43 @@ script = ExtResource( 1 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.98842, 0 )
 script = ExtResource( 2 )
 weight = 2.0
+max_speed = 20.0
+deaccel = 18.0
 JumpHeight = 0.0
 speedfactor = 1.0
 
 [node name="CollisionShape" type="CollisionShape" parent="Player"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
 shape = SubResource( 1 )
 
 [node name="Model" type="MeshInstance" parent="Player"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, -0.0123878, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.0123878, 0 )
+layers = 4
 material_override = SubResource( 2 )
 mesh = SubResource( 3 )
 material/0 = null
 
+[node name="M1 Officer" parent="Player/Model" instance=ExtResource( 5 )]
+transform = Transform( -4.37114e-08, 1.06581e-14, -1, -1, -4.37114e-08, 4.37114e-08, -4.37114e-08, 1, 1.25688e-14, 0, 5.21581e-08, -1.19324 )
+
 [node name="CamPos" type="Position3D" parent="Player"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.122, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0067, 0 )
 
 [node name="weapons" type="Position3D" parent="Player"]
-transform = Transform( -4.37114e-008, 0, 1, 0, 1, 0, -1, 0, -4.37114e-008, -0.266434, 0.597619, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0067, 0 )
 
-[node name="fusion_pistol" parent="Player/weapons" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.295859, 0 )
+[node name="Local" type="Position3D" parent="Player/weapons"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.655925, -0.764668, -1.57663 )
+
+[node name="r_hand" type="Position3D" parent="Player/weapons"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.442478, -0.43995, -1.34255 )
+
+[node name="fusion_pistol" parent="Player/weapons/r_hand" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0509567, 0.449252 )
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.93279, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.99512, 0 )
+cull_mask = 1048571
 current = true
 near = 0.1
 script = ExtResource( 4 )
