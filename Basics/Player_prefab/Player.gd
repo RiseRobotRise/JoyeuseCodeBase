@@ -10,8 +10,8 @@ func _ready():
 	Cam = $Camera.translation
 	Player_Node = $Player
 	Camera_Node = $Camera
-	$"Player/Model/M1 Officer".set_L_Hand_Target($Player/weapons/Local)
-	$"Player/Model/M1 Officer".set_R_Hand_Target($Player/weapons/r_hand/fusion_pistol)
+	$"Player/Model/M1 Officer".set_L_Hand_Target($"Player/Model/M1 Officer/Local")
+	$"Player/Model/M1 Officer".set_R_Hand_Target($Player/weapons/Objective)
 
 
 func _process(delta):

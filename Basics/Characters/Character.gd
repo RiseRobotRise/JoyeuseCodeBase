@@ -120,7 +120,6 @@ func spatial_move_to(vector,delta,locked=true):
 
 	if (is_on_floor() or not locked): #Only lets the character change it's facing direction when it's on the floor.
 		var sharp_turn = hspeed > 0.1 and rad2deg(acos(target_dir.dot(hdir))) > sharp_turn_threshold
-
 		if (vector.length() > 0.1 and !sharp_turn):
 			if (hspeed > 0.001):
 				#linear_dir = linear_h_velocity/linear_vel
