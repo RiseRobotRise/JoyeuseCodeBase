@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://Joyeuse/Basics/Animation/HelperSkeleton.gd" type="Script" id=1]
-[ext_resource path="res://Joyeuse/Basics/AutoIK/HandlerCopy.gd" type="Script" id=2]
 
 [node name="Skeleton2" type="Skeleton"]
 bones/0/name = "pelvis"
@@ -261,19 +260,15 @@ L_Hand_Magnet = NodePath("LHand_Magnet")
 R_Hand_Magnet = NodePath("RHand_Magnet")
 
 [node name="L_bicep" type="BoneAttachment" parent="."]
-transform = Transform( 0.999992, 1.51992e-06, -2.33762e-07, 1.93715e-07, 0.999995, -8.45932e-07, 1.21072e-07, 1.15577e-06, 0.99999, 0.179015, -0.934213, 1.21575 )
+transform = Transform( 0.0701033, 0.717047, -0.693491, 0.0553826, 0.691332, 0.720413, 0.996001, -0.0889107, 0.00875278, 0.265552, 2.71778, -0.0513586 )
 bone_name = "L_bicep"
 
-[node name="Copier" type="Position3D" parent="L_bicep"]
-transform = Transform( 0.999992, 1.51992e-06, -2.33762e-07, 1.93715e-07, 0.999995, -8.45932e-07, 1.21072e-07, 1.15577e-06, 0.99999, 0.179015, -0.934213, 1.21575 )
-script = ExtResource( 2 )
-
 [node name="L_forearm" type="BoneAttachment" parent="."]
-transform = Transform( 0.942032, 0.00641782, -0.335436, 0.0134765, 0.998282, 0.056942, 0.335226, -0.0581617, 0.940331, 0.179015, -0.934212, 0.695558 )
+transform = Transform( -0.156775, 0.756604, -0.634801, 0.302993, 0.648601, 0.698222, 0.940009, -0.0828768, -0.33093, 0.626303, 2.34303, -0.0559117 )
 bone_name = "L_forearn"
 
 [node name="L_Hand" type="BoneAttachment" parent="."]
-transform = Transform( 0.942905, 0.14691, -0.298882, -0.0577446, 0.955969, 0.287713, 0.327991, -0.254028, 0.909875, 0.370764, -0.966763, 0.158026 )
+transform = Transform( -0.202765, 0.871946, -0.445643, 0.248591, 0.486023, 0.837846, 0.947147, 0.0591028, -0.315307, 0.989181, 1.9439, 0.133262 )
 bone_name = "L_hand"
 
 [node name="R_bicep" type="BoneAttachment" parent="."]
@@ -307,5 +302,3 @@ process_priority = 1
 root_bone = "R_bicep"
 tip_bone = "R_hand"
 max_iterations = 30
-
-[node name="Bones" type="Spatial" parent="."]
