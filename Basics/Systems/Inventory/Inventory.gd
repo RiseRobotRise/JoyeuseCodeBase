@@ -2,6 +2,7 @@ class_name Inventory
 var weapons : Dictionary = {}
 var ammo : Dictionary = {}
 var misc : Dictionary = {}
+var weilder_ref : Spatial
 
 
 func add_ammo(id : int, amount : int): #Ammo works by cartidges, ammo has their own id's
@@ -31,8 +32,9 @@ func use_item(id, uses) -> bool: #Returns the success of the action.
 	return false
 
 func _register_weapon(node : JOYWeapon):
+	print("registering a gun! ")
 	if weapons.has(node.id):
-		if weapons[node.id].amount < 2 and weapons[node.id].dual == true:
+		if weapons[node.id].amount < 2 and weapons[node.id].dual_weildable == true:
 			weapons[node.id].amount = 2
 			return
 		else: 
@@ -44,6 +46,7 @@ func _register_weapon(node : JOYWeapon):
 			node.secondary_initial_ammo = 0
 			return
 	else:
+		node.setup(weilder_ref)
 		var new_weapon : Dictionary
 		new_weapon["id"] = node.id
 		new_weapon["amount"] = 1
@@ -54,7 +57,9 @@ func _register_weapon(node : JOYWeapon):
 		add_ammo(node.primary_ammo_id, node.primary_initial_ammo)
 		add_ammo(node.secondary_ammo_id, node.secondary_initial_ammo)
 		
+		
 func _register_misc(node : JOYObject) -> void:
+	print("Registering something I don't quite know!'")
 	if misc.has(node.id):
 			misc[node.id].amount += 1
 	else:
@@ -71,3 +76,5 @@ func register_object(node : JOYObject) -> void:
 		_register_misc(node)
 	elif node is JOYAmmo:
 		add_ammo(node.id, node.amout)
+	else:
+		print("object is none! ", node)

@@ -82,10 +82,6 @@ func _physics_process(delta):
 	spatial_move_to(dir, delta, false)
 	
 #	$Model.transform = ModelTransform
-
-
-
-
 	
 func update_inventory():
 	for gun in weapon_point.get_children():
@@ -95,7 +91,22 @@ func update_inventory():
 	next_weapon()
 	update_visibility()
 	
+func select_weapon(id = -1):
+	print("id is: ", id)
+	if id != -1:
+		inventory.weapons[id].node_ref.visible = true
+		active_object = inventory.weapons[id].node_ref
+	
 func next_weapon(attempts = 0):
+	print(inventory.weapons)
+	for weapon in inventory.weapons:
+		print(weapon)
+		if inventory.weapons[weapon].node_ref.visible == true:
+			inventory.weapons[weapon].node_ref.visible = false
+		else:
+			print("found the gun")
+			select_weapon(inventory.weapons[weapon].id)
+			return
 	pass
 """
 	if inventory.weapons[current_gun] != -1:

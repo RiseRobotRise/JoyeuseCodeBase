@@ -89,8 +89,7 @@ func adjust_facing(p_facing, p_target, p_step, p_adjust_rate, current_gn):
 	return (n*cos(ang) + t*sin(ang))*p_facing.length()
 
 func _ready():
-#	inventory = Inventory.new()
-	pass
+	inventory.weilder_ref = self
 
 func _physics_process(delta):
 	step_sound_intensity = (weight*(gravity/9.8) * linear_velocity).length()
@@ -187,18 +186,18 @@ func add_health(mnt, FillsShield):
 	
 func update_visibility():
 	return
-	for i in range(inventory.weapons.size()):
-		if inventory.weapons[i] == 0:
-			inventory.arsenal_links[i].set_visible(false)
-		if inventory.weapons[i] == 1:
-			inventory.arsenal_links[i].set_visible(true)
-			active_object = inventory.arsenal_links[i]
-		if inventory.weapons[i] == 2:
-			pass #Handle dual handling here
+#	for i in range(inventory.weapons.size()):
+#		if inventory.weapons[i].amount == 1:
+#			inventory.arsenal_links[i].set_visible(false)
+#		if inventory.weapons[i] == 1:
+#			inventory.arsenal_links[i].set_visible(true)
+#			active_object = inventory.arsenal_links[i]
+#		if inventory.weapons[i] == 2:
+#			pass #Handle dual handling here
 
 func pick_up(object, kind = "default", id = 0, dual_pickable=false):
-	inventory.register_object(object)
-	return
+	inventory.register_object(object.instance())
+	return true
 	
 
 			

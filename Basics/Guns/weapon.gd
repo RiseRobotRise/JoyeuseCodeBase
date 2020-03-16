@@ -34,9 +34,13 @@ export var dual_wieldable = false
 var dual_wielding = false
 
 
-func setup(wieldee):
+func setup(wieldee : Spatial) -> void:
 	wielder = wieldee
-
+	if get_parent() == null:
+		wielder.add_child(self)
+	elif get_parent()!=wieldee:
+		get_parent().remove_child(self)
+		wielder.add_child(self)
 
 
 func primary_use(_use : int = 0):
@@ -53,12 +57,12 @@ func primary_release():
 # Reloads the weapon from the wielders inventory when called.
 func reload_primary():
 	if wielder.inventory.weapons.has(id):
-		wielder.inventory.reload(id, false) #id = weapon id, secondary = false
+		wielder.inventory.reload_weapon(id, false) #id = weapon id, secondary = false
 		return
 
 func reload_secondary():
 	if wielder.inventory.weapons.has(id):
-		wielder.inventory.reload(id, true) #id = weapon id, secondary = true
+		wielder.inventory.reload_weapon(id, true) #id = weapon id, secondary = true
 		return
 
 

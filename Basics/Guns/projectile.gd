@@ -18,9 +18,9 @@ var pos
 # sets whether the weapon constantly exerts thrust (like a rocket propelled weapon) or not.
 export var propelled : bool = false
 
-export(PackedScene) var explosion : PackedScene = preload("../../Basics/Guns/explosion.tscn")
+export(PackedScene) var explosion : PackedScene = preload("explosion.tscn")
 
-export(PackedScene) var splash : PackedScene = preload("../..//Basics/Guns/explosion.tscn")
+export(PackedScene) var splash : PackedScene = preload("explosion.tscn")
 
 export var damage : float = 10
 
@@ -58,7 +58,7 @@ func _ready():
 # when the hitbox collides with something:
 func _on_Area_body_entered(body):
 	# if its a character or object (wall, etc)
-	if body is StaticBody or body is RigidBody or body is KinematicBody or body is GridMap:
+	if body is PhysicsBody or body is GridMap and not body is Area:
 				# so long as the object is NOT the bolt itself (since the bolt is a rigid body)
 		if body == wielder:
 			pass
