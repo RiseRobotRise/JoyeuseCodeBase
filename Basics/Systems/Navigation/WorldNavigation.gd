@@ -41,6 +41,8 @@ func calculate_nav_mesh():
 	
 
 func _ready():
+	if name != "World":
+		name = "World"
 	if not has_node("AI_SH_SYSTEM"):
 		var newnode = Spatial.new()
 		newnode.name = "AI_SH_SYSTEM"
