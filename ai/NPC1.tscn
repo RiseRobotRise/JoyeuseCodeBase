@@ -1,0 +1,34 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://addons/NPCMovement.gd" type="Script" id=1]
+[ext_resource path="res://addons/JxAI.gd" type="Script" id=2]
+[ext_resource path="res://joyeuse/ai/components/Eyes.tscn" type="PackedScene" id=3]
+[ext_resource path="res://joyeuse/ai/components/AwakeArea.gd" type="Script" id=4]
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.416147
+height = 1.74176
+
+[sub_resource type="SphereShape" id=2]
+radius = 4.43012
+
+[node name="AI" type="KinematicBody"]
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.30227, 0 )
+shape = SubResource( 1 )
+
+[node name="MovementIntegrator" type="Spatial" parent="."]
+script = ExtResource( 1 )
+
+[node name="Eyes" parent="." instance=ExtResource( 3 )]
+transform = Transform( -1.2358e-06, 0, 1, 0, 1, 0, -1, 0, -1.2358e-06, -1.05526, 2.30971, 0 )
+
+[node name="AreaAwake" type="Area" parent="."]
+script = ExtResource( 4 )
+
+[node name="CollisionShape" type="CollisionShape" parent="AreaAwake"]
+shape = SubResource( 2 )
+[connection signal="body_entered" from="AreaAwake" to="AreaAwake" method="_on_Area_body_entered"]
+[connection signal="body_exited" from="AreaAwake" to="AreaAwake" method="_on_Area_body_exited"]
