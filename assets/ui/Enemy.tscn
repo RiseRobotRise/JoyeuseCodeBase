@@ -1,7 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
 [sub_resource type="GDScript" id=1]
-
 script/source = "extends Polygon2D
 
 var represents = null
@@ -13,25 +12,13 @@ func _ready():
 
 func _process(delta):
 	var rep = represents.translation - parentarea.translation 
-	position = get_parent().position + (Vector2(rep.x, rep.z)/25)"
+	position = get_parent().position + (Vector2(rep.x, rep.z)/25)
+"
 
 [node name="Polygon2D" type="Polygon2D"]
-
 position = Vector2( 0, 4.64218 )
 scale = Vector2( 0.467832, 0.42772 )
-polygon = PoolVector2Array( 0, -30, -10, 0, 10, 0 )
-uv = PoolVector2Array(  )
 color = Color( 1, 0, 0, 1 )
-vertex_colors = PoolColorArray(  )
-offset = Vector2( 0, 0 )
 antialiased = true
-texture = null
-texture_offset = Vector2( 0, 0 )
-texture_scale = Vector2( 1, 1 )
-texture_rotation_degrees = 0.0
-invert_enable = false
-invert_border = 100.0
+polygon = PoolVector2Array( 0, -30, -10, 0, 10, 0 )
 script = SubResource( 1 )
-_sections_unfolded = [ "Texture", "Transform" ]
-
-
