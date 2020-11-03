@@ -3,9 +3,5 @@
 [ext_resource path="res://assets/Shaders/Blur.shader" type="Shader" id=1]
 
 [resource]
-
-render_priority = 0
 shader = ExtResource( 1 )
 shader_param/blurSize = 10
-_sections_unfolded = [ "shader_param" ]
-

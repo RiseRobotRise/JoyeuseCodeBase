@@ -1,158 +1,118 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://assets/User_Interface/Player_HUD.gd" type="Script" id=1]
-[ext_resource path="res://assets/User_Interface/Player_GUI.gd" type="Script" id=2]
-[ext_resource path="res://assets/User_Interface/Player_Radar.gd" type="Script" id=3]
-[ext_resource path="res://assets/ui/Blur.tres" type="Material" id=4]
-[ext_resource path="res://assets/User_Interface/Player_Weapon.gd" type="Script" id=5]
+[ext_resource path="res://joyeuse/assets/radar/Player_HUD.gd" type="Script" id=1]
+[ext_resource path="res://joyeuse/assets/radar/Player_GUI.gd" type="Script" id=2]
+[ext_resource path="res://joyeuse/assets/radar/Player_Radar.gd" type="Script" id=3]
+[ext_resource path="res://joyeuse/assets/ui/Blur.tres" type="Material" id=4]
+[ext_resource path="res://joyeuse/assets/radar/Player_Weapon.gd" type="Script" id=5]
 
-
-[node name="HUD" type="CanvasLayer"]
-
-layer = 1
-offset = Vector2( 0, 0 )
-rotation = 0.0
-scale = Vector2( 1, 1 )
-transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+[node name="HUD" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource( 1 )
-radarpath = null
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Health|Radar" type="Node2D" parent="." index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-position = Vector2( 146.982, 924.361 )
-_sections_unfolded = [ "Material", "Transform" ]
+[node name="Control" type="Control" parent="VBoxContainer"]
+margin_right = 1024.0
+margin_bottom = 146.0
+size_flags_vertical = 3
 
-[node name="x1" type="Control" parent="Health|Radar" index="0"]
+[node name="Control2" type="Control" parent="VBoxContainer"]
+margin_top = 150.0
+margin_right = 1024.0
+margin_bottom = 297.0
+size_flags_vertical = 3
 
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -50.0
-margin_top = -50.0
-margin_right = 50.0
-margin_bottom = 50.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
+[node name="Control3" type="Control" parent="VBoxContainer"]
+margin_top = 301.0
+margin_right = 1024.0
+margin_bottom = 448.0
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 452.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_vertical = 3
+
+[node name="HealthRadar" type="Control" parent="VBoxContainer/HBoxContainer"]
+margin_right = 120.0
+margin_bottom = 148.0
+rect_min_size = Vector2( 120, 148 )
+
+[node name="Container" type="Node2D" parent="VBoxContainer/HBoxContainer/HealthRadar"]
+position = Vector2( 60, 60 )
+
+[node name="x1" type="Control" parent="VBoxContainer/HBoxContainer/HealthRadar/Container"]
+margin_left = -15.7676
+margin_top = -24.6559
+margin_right = 54.2324
+margin_bottom = 45.3441
 script = ExtResource( 2 )
-_sections_unfolded = [ "Anchor", "Margin", "Material", "Rect", "Visibility" ]
-rotary_min_angle = -180
+__meta__ = {
+"_edit_use_anchors_": false
+}
 rotary_max_angle = 0.0
 radius = 200.0
 indicator_value = 1.0
 indicator_line = 0.0
-indicator_line_width = 2.0
 fill_post_line_color = Color( 1, 0, 0, 1 )
 base_post_line_color = Color( 0, 0, 0, 0.2 )
 fill_color = Color( 0, 0, 0, 0 )
 
-[node name="T_health" type="Tween" parent="Health|Radar/x1" index="0"]
+[node name="T_health" type="Tween" parent="VBoxContainer/HBoxContainer/HealthRadar/Container/x1"]
 
-repeat = false
-playback_process_mode = 1
-playback_speed = 1.0
-playback/active = false
-playback/repeat = false
-playback/speed = 1.0
-
-[node name="x2" type="Control" parent="Health|Radar" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -50.0
-margin_top = -50.0
-margin_right = 50.0
-margin_bottom = 50.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
+[node name="x2" type="Control" parent="VBoxContainer/HBoxContainer/HealthRadar/Container"]
+margin_left = -15.7676
+margin_top = -24.6559
+margin_right = 54.2324
+margin_bottom = 45.3441
 script = ExtResource( 2 )
-_sections_unfolded = [ "Rect", "Visibility" ]
-__meta__ = {
-"_edit_lock_": true
-}
-rotary_min_angle = -180
 rotary_max_angle = 0.0
 radius = 200.0
 indicator_value = 1.0
 indicator_line = 0.0
-indicator_line_width = 2.0
 fill_post_line_color = Color( 1, 0.726563, 0, 1 )
 base_post_line_color = Color( 0, 0, 0, 0 )
 fill_color = Color( 0, 0, 0, 0.0663137 )
 
-[node name="T_health" type="Tween" parent="Health|Radar/x2" index="0"]
+[node name="T_health" type="Tween" parent="VBoxContainer/HBoxContainer/HealthRadar/Container/x2"]
 
-repeat = false
-playback_process_mode = 1
-playback_speed = 1.0
-playback/active = false
-playback/repeat = false
-playback/speed = 1.0
-
-[node name="x3" type="Control" parent="Health|Radar" index="2"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -50.0
-margin_top = -50.0
-margin_right = 50.0
-margin_bottom = 50.0
+[node name="x3" type="Control" parent="VBoxContainer/HBoxContainer/HealthRadar/Container"]
+margin_left = -15.7676
+margin_top = -24.6559
+margin_right = 54.2324
+margin_bottom = 45.3441
 rect_pivot_offset = Vector2( 50, 50 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
 script = ExtResource( 2 )
-_sections_unfolded = [ "Material", "Rect" ]
 __meta__ = {
-"_edit_lock_": true
+"_edit_use_anchors_": false
 }
-rotary_min_angle = -180
 rotary_max_angle = 0.0
 radius = 200.0
 indicator_value = 1.0
 indicator_line = 0.0
-indicator_line_width = 2.0
 fill_post_line_color = Color( 0.768066, 0, 0.8125, 1 )
 base_post_line_color = Color( 0, 0, 0, 0 )
 fill_color = Color( 0, 0, 0, 0.0663137 )
 
-[node name="Oxygen" type="Control" parent="Health|Radar" index="3"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -50.0
-margin_top = -50.0
-margin_right = 50.0
-margin_bottom = 50.0
+[node name="Oxygen" type="Control" parent="VBoxContainer/HBoxContainer/HealthRadar/Container"]
+margin_left = -27.3589
+margin_top = -36.3948
+margin_right = 42.6411
+margin_bottom = 33.6052
 rect_scale = Vector2( 0.25, 0.25 )
 rect_pivot_offset = Vector2( 50, 50 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
 script = ExtResource( 2 )
-_sections_unfolded = [ "Rect" ]
-__meta__ = {
-"_edit_lock_": true
-}
-rotary_min_angle = -180
 rotary_max_angle = 0.0
 radius = 900.0
 indicator_value = 1.0
@@ -162,106 +122,57 @@ fill_post_line_color = Color( 0, 1, 0.953125, 1 )
 base_post_line_color = Color( 0, 0, 0, 0.2 )
 fill_color = Color( 0, 0, 0, 0.0663137 )
 
-[node name="Radar" type="Control" parent="Health|Radar" index="4"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -80.0
-margin_top = -80.0
-margin_right = 80.0
-margin_bottom = 80.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
+[node name="Radar" type="Control" parent="VBoxContainer/HBoxContainer/HealthRadar/Container"]
+margin_left = -29.2345
+margin_top = -36.6128
+margin_right = 70.7655
+margin_bottom = 63.3872
 script = ExtResource( 3 )
-_sections_unfolded = [ "Material", "Rect" ]
 __meta__ = {
-"_edit_lock_": true
+"_edit_use_anchors_": false
 }
 Ppath = null
 
-[node name="Blur" type="Control" parent="Health|Radar/Radar" index="0"]
-
+[node name="Blur" type="Control" parent="VBoxContainer/HBoxContainer/HealthRadar/Container/Radar"]
 modulate = Color( 1, 1, 1, 0.784314 )
 material = ExtResource( 4 )
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_left = -32.0
 margin_top = -28.0
 margin_right = 183.0
 margin_bottom = 194.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-_sections_unfolded = [ "Material", "Rect", "Visibility" ]
-
-[node name="Weapon|Ammo" type="Node2D" parent="." index="1"]
-
-position = Vector2( 1612.46, 945.77 )
-
-[node name="Weapon" type="Control" parent="Weapon|Ammo" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -250.0
-margin_top = -80.0
-margin_right = 250.0
-margin_bottom = 80.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-script = ExtResource( 5 )
-_sections_unfolded = [ "Rect" ]
 __meta__ = {
-"_edit_lock_": true
+"_edit_use_anchors_": false
 }
 
-[node name="Blur" type="ColorRect" parent="Weapon|Ammo" index="1"]
+[node name="Control2" type="CenterContainer" parent="VBoxContainer/HBoxContainer"]
+margin_left = 124.0
+margin_right = 1024.0
+margin_bottom = 148.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
+[node name="Weapon" type="Control" parent="VBoxContainer/HBoxContainer/Control2"]
+margin_left = 450.0
+margin_top = 74.0
+margin_right = 450.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 5 )
+
+[node name="Blur" type="ColorRect" parent="VBoxContainer/HBoxContainer/Control2"]
 modulate = Color( 1, 1, 1, 0.784314 )
 material = ExtResource( 4 )
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -253.46
-margin_top = -84.77
-margin_right = 250.54
-margin_bottom = 82.23
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
+margin_left = 450.0
+margin_top = 74.0
+margin_right = 450.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 color = Color( 0, 0, 0, 0 )
-_sections_unfolded = [ "Material", "Visibility" ]
 
-[node name="T_oxygen" type="Tween" parent="." index="2"]
+[node name="Weapon|Ammo" type="Node2D" parent="."]
+position = Vector2( 1612.46, 945.77 )
 
-repeat = false
-playback_process_mode = 1
-playback_speed = 1.0
-playback/active = false
-playback/repeat = false
-playback/speed = 1.0
-_sections_unfolded = [ "playback" ]
-
-[connection signal="item_rect_changed" from="Health|Radar/Radar" to="Health|Radar/Radar" method="_on_Radar_item_rect_changed"]
-
-
+[node name="T_oxygen" type="Tween" parent="."]
+[connection signal="item_rect_changed" from="VBoxContainer/HBoxContainer/HealthRadar/Container/Radar" to="VBoxContainer/HBoxContainer/HealthRadar/Container/Radar" method="_on_Radar_item_rect_changed"]
