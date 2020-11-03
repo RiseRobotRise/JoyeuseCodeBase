@@ -1,6 +1,8 @@
 extends Component
 signal sight(sight_info)
 
+export(bool) var is_debug : bool = false
+
 var colliders : Array = []
 
 func _ready():
@@ -20,7 +22,7 @@ func _get_collision_info():
 	sight["objects"] = objects
 	sight["points"] = points
 	sight["normals"] = normals
-	emit_signal("sight", sight)
+	actor.BehaviorTree.emit_signal("sight", sight)
 
 func _is_any_colliding():
 	var collides = false
@@ -30,6 +32,16 @@ func _is_any_colliding():
 			return collides
 	return collides
 
+func _setup():
+	actor.BehaviorTree._create_signal("sight")
+	if not is_debug:
+		$DebugShapes.queue_free()
+
 func _process(delta):
 	if _is_any_colliding():
 		_get_collision_info()
+
+func set_lenght(length : float):
+	for child in get_children():
+		if child is RayCast:
+			child.cast_to = child.cast_to.normalized() * length
