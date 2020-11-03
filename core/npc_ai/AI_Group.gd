@@ -3,7 +3,7 @@ class_name JOYAIAbstraction
 
 """
 This class is an abstraction of AI, must be used for controlling groups of AI or 
-a signle AI character, this can also be extended to allow various behaviors and 
+a single AI character, this can also be extended to allow various behaviors and 
 routes. Currently extends an existing steering framework. 
 """
 var coordinated_agents : Array = []

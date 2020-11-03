@@ -25,7 +25,6 @@ var has_destination : bool = false
 var has_target : bool = false
 
 onready var world : Node = get_node("root/world")
-onready var SSM : SoundSmellManager
 #### Properties ####
 export(float) var attack_min_range = 10
 export(float) var attack_max_range = 50
@@ -46,7 +45,8 @@ func update_path(to):
 	has_destination = true
 	print(AI_PATH)
 	return AI_PATH
-	
+
+"""
 func setup_world():
 	if get_parent() is SoundSmellManager:
 		SSM = get_parent()
@@ -54,8 +54,10 @@ func setup_world():
 		SSM = get_parent().get_parent()
 	else:
 		return 
+"""
+
 func _ready():
-	setup_world()
+#	setup_world()
 	for node in get_children():
 		if node is JOYCharacter:
 			node.type = "AI_Character"

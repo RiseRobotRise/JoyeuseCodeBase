@@ -1,4 +1,4 @@
-extends Spatial
+extends Node
 class_name JOYObject
 
 signal empty #emmited when emptied and not broken
@@ -12,7 +12,7 @@ var remain_use_percent : float = 100
 
 
 # the folloiwing variables handle basic naming and flavor.
-var identity : String= "default weapon"
+var identity : String = "default weapon"
 var description : String = "Default description, none has provided yet."
 
 var breaks : bool = false
