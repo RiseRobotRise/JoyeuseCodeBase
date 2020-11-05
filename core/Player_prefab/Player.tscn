@@ -1,10 +1,11 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Joyeuse/Basics/Player_prefab/Player.gd" type="Script" id=1]
-[ext_resource path="res://Joyeuse/Basics/Characters/Player.gd" type="Script" id=2]
+[ext_resource path="res://Joyeuse/core/Player_prefab/Player.gd" type="Script" id=1]
+[ext_resource path="res://Joyeuse/core/Player_prefab/Player.gd" type="Script" id=2]
 [ext_resource path="res://weapons/fusion_pistol.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Joyeuse/Basics/pl3d/FPSCamera.gd" type="Script" id=4]
+[ext_resource path="res://Joyeuse/pl3d/FPSCamera.gd" type="Script" id=4]
 [ext_resource path="res://assets/Characters/Models/M1 Officer/M1 Officer.tscn" type="PackedScene" id=5]
+
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.372914
