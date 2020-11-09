@@ -80,7 +80,7 @@ func _physics_process(delta):
 
 	
 	spatial_move_to(dir, delta, false)
-	
+	$"Model/animatedglb".linear_speed = linear_velocity.length()
 #	$Model.transform = ModelTransform
 	
 func update_inventory():

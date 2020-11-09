@@ -1,23 +1,17 @@
-tool
 extends Spatial
-var Cam
+onready var Cam = $Camera.translation
 var Player = Transform()
-var Player_Node
-var Camera_Node
+onready var Player_Node = $Player
+onready var Camera_Node = $Camera
+onready var target = $"Player/Model/animatedglb/Character/Riggus Universalis/Skeleton/BoneAttachment/Aim_Target"
 
-func _ready():
-	
-	Cam = $Camera.translation
-	Player_Node = $Player
-	Camera_Node = $Camera
-	$"Player/Model/M1 Officer".set_L_Hand_Target($"Player/Model/M1 Officer/Local")
-	$"Player/Model/M1 Officer".set_R_Hand_Target($Player/weapons/Objective)
 
 
 func _process(delta):
-	Player.origin = $Player/CamPos.get_global_transform().origin
-	Player.basis = $Player/CamPos.get_global_transform().basis
-	$Camera.global_transform.origin = (lerp(Player.origin, $Camera.get_global_transform().origin, delta))
+	target.global_transform.origin = Camera_Node.project_position(get_tree().root.get_visible_rect().size/2, 1)
+	Player.origin = $"Player/Model/animatedglb/Character/Riggus Universalis/Skeleton/Head/Camera".get_global_transform().origin
+	Player.basis = $"Player/Model/animatedglb/Character/Riggus Universalis/Skeleton/Head/Camera".get_global_transform().basis
+	Camera_Node.global_transform.origin = (lerp(Player.origin, $Camera.get_global_transform().origin, delta))
 	$Player/weapons.global_transform = Transform($Camera.global_transform.basis,  $Camera.global_transform.origin)
 #	$Camera.global_transform.basis.x = (lerp($Camera.get_global_transform().basis.x, Player.basis.x, 0.5))
 #	$Camera.global_transform.basis.y = (lerp($Camera.get_global_transform().basis.y, Player.basis.y, 0.5))

@@ -1,4 +1,4 @@
-extends Node
+extends Spatial
 class_name JOYObject
 
 signal empty #emmited when emptied and not broken

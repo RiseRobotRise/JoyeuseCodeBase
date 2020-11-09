@@ -1,55 +1,47 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Joyeuse/core/Player_prefab/Player.gd" type="Script" id=1]
+[ext_resource path="res://assets/Characters/Models/M2 Officer/animated.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Joyeuse/core/Player_prefab/Player.gd" type="Script" id=2]
 [ext_resource path="res://weapons/fusion_pistol.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Joyeuse/pl3d/FPSCamera.gd" type="Script" id=4]
-[ext_resource path="res://assets/Characters/Models/M1 Officer/M1 Officer.tscn" type="PackedScene" id=5]
-
+[ext_resource path="res://Joyeuse/core/actors/Player.gd" type="Script" id=5]
 
 [sub_resource type="CapsuleShape" id=1]
-radius = 0.372914
-height = 1.7
-
-[sub_resource type="SpatialMaterial" id=2]
-emission_enabled = true
-emission = Color( 0.623529, 0.623529, 0.623529, 1 )
-emission_energy = 1.0
-emission_operator = 0
-emission_on_uv2 = false
-
-[sub_resource type="CapsuleMesh" id=3]
-radius = 0.35
-mid_height = 1.7
+radius = 0.694511
+height = 2.06866
 
 [node name="Player" type="Spatial"]
-script = ExtResource( 1 )
+script = ExtResource( 2 )
 
 [node name="Player" type="KinematicBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.98842, 0 )
-script = ExtResource( 2 )
-weight = 2.0
+script = ExtResource( 5 )
 max_speed = 20.0
-deaccel = 18.0
-JumpHeight = 0.0
 speedfactor = 1.0
 
 [node name="CollisionShape" type="CollisionShape" parent="Player"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.672802, 0 )
 shape = SubResource( 1 )
 
-[node name="Model" type="MeshInstance" parent="Player"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.0123878, 0 )
-layers = 4
-material_override = SubResource( 2 )
-mesh = SubResource( 3 )
-material/0 = null
+[node name="Model" type="Position3D" parent="Player"]
 
-[node name="M1 Officer" parent="Player/Model" instance=ExtResource( 5 )]
-transform = Transform( -4.37114e-08, 1.06581e-14, -1, -1, -4.37114e-08, 4.37114e-08, -4.37114e-08, 1, 1.25688e-14, 0, 5.21581e-08, -1.19324 )
+[node name="animatedglb" parent="Player/Model" instance=ExtResource( 1 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, -1.10455, 0 )
 
-[node name="Local" type="Position3D" parent="Player/Model/M1 Officer"]
-transform = Transform( -4.37114e-08, 4.65882e-22, 1, 1.06581e-14, 1, 4.65882e-22, -1, 1.06581e-14, -4.37114e-08, 0.77896, 1.6562, 0.655925 )
+[node name="BoneAttachment" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton" index="18"]
+transform = Transform( 0.999975, 0.0043924, -0.00512469, -0.00417123, 0.999094, 0.042359, 0.00530676, -0.0423371, 0.999088, -0.00362554, 1.50089, 0.113322 )
+
+[node name="L_hand" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton" index="19"]
+transform = Transform( -0.382409, 0.101122, 0.918451, 0.908988, -0.137213, 0.393571, 0.165827, 0.985354, -0.0394565, -0.248107, 1.58324, 0.497505 )
+
+[node name="R_hand" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton" index="20"]
+transform = Transform( -0.382409, 0.101122, 0.918451, 0.908988, -0.137213, 0.393571, 0.165827, 0.985354, -0.0394565, -0.248107, 1.58324, 0.497505 )
+
+[node name="LightArm" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton" index="21"]
+transform = Transform( -0.971781, -0.0027346, -0.235858, -0.235867, 0.0187429, 0.971604, 0.00176269, 0.999819, -0.0188597, 0.243458, 2.16126, -0.120131 )
+
+[node name="Head" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton" index="22"]
+transform = Transform( 0.999926, 0.00317167, 0.0117645, -0.00107731, 0.984759, -0.173921, -0.0121368, 0.173896, 0.984689, -0.000170856, 2.18981, 0.142704 )
 
 [node name="CamPos" type="Position3D" parent="Player"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.85774, 0 )
@@ -66,7 +58,10 @@ transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, -
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.84616, 0 )
 cull_mask = 1048571
 current = true
+fov = 90.0
 near = 0.1
 script = ExtResource( 4 )
+
+[editable path="Player/Model/animatedglb"]
 
 [editable path="Player/weapons/fusion_pistol"]
