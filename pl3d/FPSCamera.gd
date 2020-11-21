@@ -4,8 +4,8 @@ extends Camera
 # var a = 2
 var yaw = 0.0
 var pitch = 0.0
-var view_sensitivity = 0.5
-var restrictaxis = false
+export(float) var view_sensitivity = 0.5
+export(bool) var restrictaxis = false
 var originaltranslation = Vector3()
 var originalrotation = Vector3()
 var time = 0.0
@@ -50,19 +50,23 @@ func _input(ev):
 	#view_sensitivity = get_parent().Player_Node.view_sensitivity
 	if (ev is InputEventMouseMotion):
 		yaw = yaw - ev.relative.x * view_sensitivity
-		if restrictaxis:
-			pitch = clamp(pitch - ev.relative.y * view_sensitivity,0,0)
-		else:
-			pitch = clamp(pitch - ev.relative.y * view_sensitivity,-89,89)
-		rotation_degrees.x = pitch
-		rotation_degrees.y = yaw
+		pitch =  restrict(pitch - ev.relative.y * view_sensitivity)
 		
-func _process(delta):
+		
+		
+
 	
 
-	pass
-	#time += delta
-	#bobbing_effect(time, get_parent().Player_Node.hspeed, delta)
+func _process(delta):
+	yaw = yaw - (Input.get_action_strength("look_right")-Input.get_action_strength("look_left"))* view_sensitivity*3
+	pitch = restrict(pitch - (Input.get_action_strength("look_down")-Input.get_action_strength("look_up")) * view_sensitivity*3)
+	rotation_degrees.x = pitch
+	rotation_degrees.y = yaw
+
+func restrict(axis : float):
+	if restrictaxis:
+		return clamp(axis,-0.5,0.5)
+	return clamp(axis, -70, 70)
 	
 func calculate_z_rotation(Oscc, delta):
 	

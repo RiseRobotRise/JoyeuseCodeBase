@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/Characters/Models/M2 Officer/animated.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Joyeuse/core/Player_prefab/Player.gd" type="Script" id=2]
@@ -9,6 +9,26 @@
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.694511
 height = 2.06866
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends RayCast
+
+export(NodePath) var exclude : String = \"\"
+onready var node_exclude = get_node(exclude)
+
+func _ready():
+	add_exception(node_exclude)
+"
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends RayCast
+
+export(NodePath) var exclude : String = \"\"
+onready var node_exclude = get_node(exclude)
+
+func _ready():
+	add_exception(node_exclude)
+"
 
 [node name="Player" type="Spatial"]
 script = ExtResource( 2 )
@@ -28,20 +48,40 @@ shape = SubResource( 1 )
 [node name="animatedglb" parent="Player/Model" instance=ExtResource( 1 )]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, -1.10455, 0 )
 
+[node name="Skeleton" parent="Player/Model/animatedglb/Character/Riggus Universalis" index="0"]
+bones/2/bound_children = [ NodePath("BoneAttachment") ]
+bones/4/bound_children = [ NodePath("Head") ]
+bones/26/bound_children = [ NodePath("L_hand"), NodePath("R_hand") ]
+bones/42/bound_children = [ NodePath("LightArm") ]
+
 [node name="BoneAttachment" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton" index="18"]
-transform = Transform( 0.999975, 0.0043924, -0.00512469, -0.00417123, 0.999094, 0.042359, 0.00530676, -0.0423371, 0.999088, -0.00362554, 1.50089, 0.113322 )
+transform = Transform( 0.999976, 0.00438881, -0.0051186, -0.00387218, 0.995289, 0.0968697, 0.00552029, -0.0968481, 0.995283, -0.00362554, 1.5025, 0.110831 )
 
 [node name="L_hand" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton" index="19"]
-transform = Transform( -0.382409, 0.101122, 0.918451, 0.908988, -0.137213, 0.393571, 0.165827, 0.985354, -0.0394565, -0.248107, 1.58324, 0.497505 )
+transform = Transform( -0.383209, 0.101262, 0.918103, 0.91628, -0.0837066, 0.391675, 0.116518, 0.991319, -0.0607154, -0.24767, 1.60649, 0.515035 )
 
 [node name="R_hand" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton" index="20"]
-transform = Transform( -0.382409, 0.101122, 0.918451, 0.908988, -0.137213, 0.393571, 0.165827, 0.985354, -0.0394565, -0.248107, 1.58324, 0.497505 )
+transform = Transform( -0.383209, 0.101262, 0.918103, 0.91628, -0.0837066, 0.391675, 0.116518, 0.991319, -0.0607154, -0.24767, 1.60649, 0.515035 )
 
 [node name="LightArm" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton" index="21"]
-transform = Transform( -0.971781, -0.0027346, -0.235858, -0.235867, 0.0187429, 0.971604, 0.00176269, 0.999819, -0.0188597, 0.243458, 2.16126, -0.120131 )
+transform = Transform( -0.974875, 0.0108176, -0.222479, -0.221649, 0.0516879, 0.973755, 0.0220321, 0.998603, -0.0479923, 0.228593, 2.15761, -0.194052 )
 
 [node name="Head" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton" index="22"]
-transform = Transform( 0.999926, 0.00317167, 0.0117645, -0.00107731, 0.984759, -0.173921, -0.0121368, 0.173896, 0.984689, -0.000170856, 2.18981, 0.142704 )
+transform = Transform( 0.999927, 0.00245134, 0.0118179, -0.000978012, 0.992394, -0.123098, -0.0120298, 0.123077, 0.992324, -0.000164937, 2.19141, 0.121292 )
+
+[node name="Floor_target_L" parent="Player/Model/animatedglb/Character/Foot_Height_L" index="0"]
+transform = Transform( 0.999598, -0.0283578, 0, 0.0283578, 0.999598, 0, 0, 0, 1, 0.393544, 0.16871, -0.0393329 )
+
+[node name="Left" parent="Player/Model/animatedglb/Character/Foot_Height_L/Floor_target_L" index="1"]
+script = SubResource( 2 )
+exclude = NodePath("../../../../../..")
+
+[node name="Floor_target_R" parent="Player/Model/animatedglb/Character/Foot_Height_R" index="0"]
+transform = Transform( 0.999598, -0.0283578, 0, 0.0283578, 0.999598, 0, 0, 0, 1, -0.436975, 0.170461, 0.17387 )
+
+[node name="Right" parent="Player/Model/animatedglb/Character/Foot_Height_R/Floor_target_R" index="1"]
+script = SubResource( 3 )
+exclude = NodePath("../../../../../..")
 
 [node name="CamPos" type="Position3D" parent="Player"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.85774, 0 )
@@ -61,6 +101,7 @@ current = true
 fov = 90.0
 near = 0.1
 script = ExtResource( 4 )
+view_sensitivity = 1.0
 
 [editable path="Player/Model/animatedglb"]
 
