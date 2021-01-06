@@ -34,40 +34,54 @@ func _ready():
 script = ExtResource( 2 )
 
 [node name="Player" type="KinematicBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.98842, 0 )
 script = ExtResource( 5 )
-max_speed = 20.0
+max_speed = 14.0
+accel = 10.0
+deaccel = 9.0
 speedfactor = 1.0
 
 [node name="CollisionShape" type="CollisionShape" parent="Player"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.672802, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.70857, 0 )
 shape = SubResource( 1 )
 
 [node name="Model" type="Position3D" parent="Player"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.09797, 0 )
 
 [node name="animatedglb" parent="Player/Model" instance=ExtResource( 1 )]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, -1.10455, 0 )
 
-[node name="Skeleton" parent="Player/Model/animatedglb/Character/Riggus Universalis" index="0"]
-bones/2/bound_children = [ NodePath("BoneAttachment") ]
-bones/4/bound_children = [ NodePath("Head") ]
-bones/26/bound_children = [ NodePath("L_hand"), NodePath("R_hand") ]
-bones/42/bound_children = [ NodePath("LightArm") ]
+[node name="Arm_IK_L" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton" index="17"]
+magnet = Vector3( 1.072, -0.7145, 0.4949 )
 
-[node name="BoneAttachment" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton" index="18"]
-transform = Transform( 0.999976, 0.00438881, -0.0051186, -0.00387218, 0.995289, 0.0968697, 0.00552029, -0.0968481, 0.995283, -0.00362554, 1.5025, 0.110831 )
+[node name="Arm_IK_R" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton" index="18"]
+magnet = Vector3( -1.08787, -0.917614, 0.496171 )
 
-[node name="L_hand" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton" index="19"]
-transform = Transform( -0.383209, 0.101262, 0.918103, 0.91628, -0.0837066, 0.391675, 0.116518, 0.991319, -0.0607154, -0.24767, 1.60649, 0.515035 )
+[node name="BoneAttachment" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton" index="19"]
+transform = Transform( 0.999975, 0.00434626, -0.00515679, -0.00401404, 0.998022, 0.0627332, 0.00541991, -0.0627115, 0.998016, -0.00362554, 1.50189, 0.111137 )
 
-[node name="R_hand" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton" index="20"]
-transform = Transform( -0.383209, 0.101262, 0.918103, 0.91628, -0.0837066, 0.391675, 0.116518, 0.991319, -0.0607154, -0.24767, 1.60649, 0.515035 )
+[node name="L_hand" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton" index="20"]
+transform = Transform( -0.171693, 0.230204, -0.957876, -0.984321, -0.000224453, 0.176379, 0.0403883, 0.97314, 0.226633, 0.717302, 1.86407, 0.997763 )
 
-[node name="LightArm" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton" index="21"]
-transform = Transform( -0.974875, 0.0108176, -0.222479, -0.221649, 0.0516879, 0.973755, 0.0220321, 0.998603, -0.0479923, 0.228593, 2.15761, -0.194052 )
+[node name="R_hand" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton" index="21"]
+transform = Transform( -0.318973, -0.401576, 0.858471, 0.919795, 0.0872567, 0.382576, -0.228544, 0.911662, 0.34154, -0.665023, 1.8466, 1.04375 )
 
-[node name="Head" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton" index="22"]
-transform = Transform( 0.999927, 0.00245134, 0.0118179, -0.000978012, 0.992394, -0.123098, -0.0120298, 0.123077, 0.992324, -0.000164937, 2.19141, 0.121292 )
+[node name="Position3D" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton/R_hand/Weapons" index="0"]
+transform = Transform( -0.0552248, 0.59502, -0.801861, -0.996985, -0.0762917, 0.0120584, -0.0539949, 0.800109, 0.597473, 1.24843, 0.228105, -0.556549 )
+
+[node name="LightArm" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton" index="22"]
+transform = Transform( -0.974006, 0.00715169, -0.226401, -0.226184, 0.0232304, 0.973807, 0.0122226, 0.999703, -0.0210097, 0.232817, 2.16483, -0.161519 )
+
+[node name="Head" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton" index="23"]
+transform = Transform( 0.999956, 0.000840086, 0.00932748, -0.000908935, 0.999972, 0.0073796, -0.00932102, -0.00738775, 0.999929, -0.000240401, 2.18796, 0.163155 )
+
+[node name="R_Hand_Pos" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton/Head" index="1"]
+transform = Transform( -0.317668, -0.410141, 0.854911, 0.921194, 0.0801687, 0.380758, -0.224702, 0.908493, 0.352352, -0.705423, -0.348313, 0.952479 )
+
+[node name="IKMagnet" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton/Head" index="2"]
+transform = Transform( 0.970892, -0.00147721, -0.239521, 0.0499409, 0.979252, 0.196396, 0.234262, -0.20264, 0.950821, 1.072, -0.7145, 0.4949 )
+
+[node name="IKMagnet2" parent="Player/Model/animatedglb/Character/Riggus Universalis/Skeleton/Head" index="3"]
+transform = Transform( 0.970892, -0.00147722, -0.239521, 0.049941, 0.979254, 0.196395, 0.234261, -0.20264, 0.950822, -1.08787, -0.917614, 0.496171 )
 
 [node name="Floor_target_L" parent="Player/Model/animatedglb/Character/Foot_Height_L" index="0"]
 transform = Transform( 0.999598, -0.0283578, 0, 0.0283578, 0.999598, 0, 0, 0, 1, 0.393544, 0.16871, -0.0393329 )
@@ -82,6 +96,9 @@ transform = Transform( 0.999598, -0.0283578, 0, 0.0283578, 0.999598, 0, 0, 0, 1,
 [node name="Right" parent="Player/Model/animatedglb/Character/Foot_Height_R/Floor_target_R" index="1"]
 script = SubResource( 3 )
 exclude = NodePath("../../../../../..")
+
+[node name="AnimationTree" parent="Player/Model/animatedglb" index="2"]
+parameters/Shotgun/Single/blend_amount = 0
 
 [node name="CamPos" type="Position3D" parent="Player"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.85774, 0 )

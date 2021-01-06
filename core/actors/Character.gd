@@ -19,7 +19,7 @@ var health : int = 100
 var shield : int = 0
 var maxhealth : int = 100
 var maxshield : int = 100
-var jumping : bool = false
+export(bool) var jumping : bool = false
 var hearing_capability : int = 1
 var smelling_capablity : int = 1
 var bleeds : bool = true
@@ -31,7 +31,7 @@ var active_object : Object
 var weapon_point : Node
 var hspeed : float = 0.0
 
-
+var camera_dir : Vector3 = Vector3.ZERO
 ##Weapons and Object Handling
 var inventory : Inventory = Inventory.new() # inventory to store the objects we are currently holding
 
@@ -47,6 +47,7 @@ export(float) var accel = 19.0
 export(float) var deaccel = 14.0
 export(bool) var keep_jump_inertia = true
 export(bool) var air_idle_deaccel = false
+export(bool) var gravity_increase = true
 export(float) var JumpHeight = 7.0
 var jump_attempt : bool = false
 var shoot_attempt : bool = false
@@ -87,6 +88,27 @@ func adjust_facing(p_facing, p_target, p_step, p_adjust_rate, current_gn):
 		a = turn
 	ang = (ang - a)*s
 	return (n*cos(ang) + t*sin(ang))*p_facing.length()
+	
+func turn_character(delta, target_dir):
+	var mesh_xform = $Model.get_transform()
+	var facing_mesh = -mesh_xform.basis[0].normalized()
+	facing_mesh = (facing_mesh - up*facing_mesh.dot(up)).normalized()
+	if (hspeed>0):
+		facing_mesh = adjust_facing(facing_mesh, target_dir, delta, 1.0/hspeed*turn_speed, up)
+	var m3 = Basis(-facing_mesh, up, -facing_mesh.cross(up).normalized()).scaled(scale)
+	var ModelTransform = Transform(m3, mesh_xform.origin)
+	$Model.set_transform(ModelTransform)
+
+func turn_transform(look_dir : Vector3):
+	$Model.rotation_degrees.y = look_dir.y - 90
+#	var o = global_transform.origin
+#	var t = look_dir
+#	var theta = atan2(o.x - t.x, o.z - t.z)
+#	$Model.set_rotation(Vector3(0, theta, 0))
+	
+#	$Model.global_transform.basis.rotated(Vector3(0,1,0),$Model.global_transform.basis.z.angle_to(camera_basis.z))
+#	$Model.global_transform.origin =  global_transform.origin
+#	pass
 
 func _ready():
 	inventory.weilder_ref = self
@@ -100,8 +122,11 @@ func apply_impulse(position, direction):
 func spatial_move_to(vector,delta,locked=true):
 	
 	if not flies:
-		linear_velocity += gravity*delta/weight
-
+		if linear_velocity.length() > 0.1:
+			linear_velocity += gravity*2*delta/linear_velocity.length()
+		else: 
+			linear_velocity += gravity*delta
+			
 	if fixed_up:
 		up = Vector3(0,1,0) # (up is against gravity)
 	else:
@@ -116,18 +141,19 @@ func spatial_move_to(vector,delta,locked=true):
 	var target_dir = (vector - up*vector.dot(up)).normalized()
 	if vector.length() <= 0:
 		target_dir = (linear_velocity - up*vector.dot(up)).normalized()
-
-	if (is_on_floor() or not locked): #Only lets the character change it's facing direction when it's on the floor.
+	
+	if (is_on_floor()): #Only lets the character change it's facing direction when it's on the floor.
+		gravity = Vector3(0,-grav,0)
 		var sharp_turn = hspeed > 0.1 and rad2deg(acos(target_dir.dot(hdir))) > sharp_turn_threshold
 		if (vector.length() > 0.1 and !sharp_turn):
-			if (hspeed > 0.001):
+#			if (hspeed > 0.001):
 				#linear_dir = linear_h_velocity/linear_vel
 				#if (linear_vel > brake_velocity_limit and linear_dir.dot(ctarget_dir) < -cos(Math::deg2rad(brake_angular_limit)))
 				#	brake = true
 				#else
-				hdir = adjust_facing(hdir, target_dir, delta, 1.0/hspeed*turn_speed, up)
-			else:
-				hdir = target_dir
+#				hdir = adjust_facing(hdir, target_dir, delta, 1.0/hspeed*turn_speed, up)
+#			else:
+			hdir = target_dir
 			if (hspeed < max_speed):
 				hspeed += accel*delta
 		else:
@@ -135,20 +161,14 @@ func spatial_move_to(vector,delta,locked=true):
 			if (hspeed < 0):
 				hspeed = 0
 		horizontal_velocity = hdir*hspeed
-		var mesh_xform = get_transform()
-		var facing_mesh = -mesh_xform.basis[0].normalized()
-		facing_mesh = (facing_mesh - up*facing_mesh.dot(up)).normalized()
-
-		if (hspeed>0):
-			facing_mesh = adjust_facing(facing_mesh, target_dir, delta, 1.0/hspeed*turn_speed, up)
-		var m3 = Basis(-facing_mesh, up, -facing_mesh.cross(up).normalized()).scaled(scale)
-		var ModelTransform = Transform(m3, mesh_xform.origin)
-		set_transform(ModelTransform)
+		
 		if (not jumping and jump_attempt) and is_on_floor():
 			vertical_velocity = JumpHeight
 			jumping = true
 			#get_node("sound_jump").play()
 	else:
+		if gravity_increase:
+			gravity += gravity/2*delta
 		if (vector.length() > 0.1):
 			horizontal_velocity += target_dir*accel*delta
 			if (horizontal_velocity.length() > max_speed):
@@ -167,6 +187,7 @@ func spatial_move_to(vector,delta,locked=true):
 		linear_velocity = horizontal_velocity
 	if (is_on_floor()):
 		var movement_dir = linear_velocity
+	#turn_character(delta, camera_dir)
 	linear_velocity = move_and_slide(linear_velocity, up)
 
 func hit(damage):

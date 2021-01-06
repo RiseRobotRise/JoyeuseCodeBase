@@ -11,7 +11,7 @@ enum {
 }
 export(bool) var AlowCameraChange
 export(PackedScene) var Gun
-
+onready var cam = get_parent().get_node("Camera")
 func _ready():
 	set_process_input(true)
 	weapon_point = $weapons
@@ -35,7 +35,7 @@ func _ready():
 func _physics_process(delta):
 	var dir = Vector3()
 	#THIS BLOCK IS INTENDED FOR FPS CONTROLLER USE ONLY
-	var aim = get_parent().get_node("Camera").get_global_transform().basis
+	var aim = cam.get_global_transform().basis
 	if ( not get_tree().has_network_peer()):
 		get_parent().Camera_Node.make_current()
 		
